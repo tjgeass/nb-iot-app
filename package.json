@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
+    "render": "webpack-dev-server --hot --colors --config .electron-vue/webpack.renderer.config.js --port 9080 --content-base app/dist",
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
@@ -60,6 +61,7 @@
     "request": "^2.88.0",
     "url-parse": "^1.4.3",
     "vue": "2.5.10",
+    "vue-cli": "^2.9.6",
     "vue-electron": "^1.0.6",
     "vue-router": "3.0.1",
     "vue2-better-scroll": "^1.0.7",
