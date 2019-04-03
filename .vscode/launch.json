@@ -7,15 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Attach",
-            "program": "${workspaceFolder}\\dist\\electron\\main.js",
+            "name": "Electron Main",
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "program": "${workspaceFolder}\\dist\\electron\\main.js",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
-            },
-            "args" : ["."],
-            "outputCapture": "std"
+            }
+            
         }
     ]   
 }

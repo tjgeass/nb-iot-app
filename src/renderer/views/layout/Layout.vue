@@ -1,49 +1,47 @@
 <template>
-  <div class="app-wrapper" :class="classObj">
-    <sidebar class="sidebar-container"></sidebar>
-    <div class="main-container">
-      <navbar></navbar>
-      <app-main></app-main>
-    </div>
+  <div>
+    <el-container class="container" id="main">
+      <el-container style="position: relative;">
+        <el-container>
+          <el-header class="header" height="50px" style="-webkit-app-region: drag">
+            <header-view height="80px"/>
+          </el-header>
+          <app-main></app-main>
+        </el-container>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
+import AppMain from "./components/AppMain";
+import HeaderView from "./components/Header/";
 
 export default {
-  name: 'layout',
+  name: "layout",
   components: {
-    Navbar,
-    Sidebar,
+    HeaderView,
     AppMain
-  },
-  mixins: [ResizeMixin],
-  computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar
-    },
-    device() {
-      return this.$store.state.app.device
-    },
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
-    }
   }
-}
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "../../styles/mixin.scss";
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
+.container {
+    height: 100vh;
+}
+
+.header {
+    background: #fafafa;
+}
+
+.main {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex: 1;
+    flex-shrink: 0;
+}
+
 </style>
