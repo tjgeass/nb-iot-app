@@ -1,8 +1,11 @@
 'use strict'
 
-import electron from 'electron'
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+import {
+  app,
+  BrowserWindow,
+  ipcMain
+} from 'electron'
+
 
 // import { app, BrowserWindow } from 'electron'
 
@@ -54,6 +57,13 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+ipcMain.on('close', e => {
+  mainWindow.close()
+})
+ipcMain.on('minimize', e => {
+  mainWindow.minimize()
 })
 
 /**

@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Attach",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/dist/electron/main.js",
+            "program": "${workspaceRoot}//dist//electron//main.js",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"

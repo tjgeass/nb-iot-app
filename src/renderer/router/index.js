@@ -28,15 +28,15 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
+    props: { class: 'home' },
     redirect: '/home',
     name: 'Home',
     hidden: true,
     children: [{
       path: 'home',
-      component: () => import('@/views/home/index')
+      component: () => import('@/views/home/index'),
     }]
   },
-
   {
     path: '/example',
     component: Layout,
