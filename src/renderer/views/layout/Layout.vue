@@ -3,8 +3,8 @@
     <el-container class="container" id="main" style="">
       <el-container style="position: relative;">
         <el-container>
-          <el-header class="header" height="50px" style="-webkit-app-region: drag">
-            <header-view height="80px"/>
+          <el-header class="header" height="70px" style="-webkit-app-region: drag">
+            <header-view height="70px"/>
           </el-header>
           <el-main class="main">
             <keep-alive>
@@ -35,9 +35,6 @@ export default {
     height: 100vh;
 }
 
-.header {
-    background: #fafafa;
-}
 
 .main {
     padding: 0;

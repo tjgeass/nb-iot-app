@@ -4,7 +4,7 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
-import './assets/styles/theme.scss'; // 主题
+import './assets/styles/themes/default.scss'; // 主题
 Vue.use(ElementUI, { locale })
 
 
