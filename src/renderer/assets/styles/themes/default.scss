@@ -4,11 +4,13 @@ $--color-primary: teal;
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
-@import "~element-ui/packages/theme-chalk/src/index";
 
 
 
-.home{
+
+.home-bg{
    background: url('../../images/green/bg.jpg') no-repeat center top;
-
+}
+.report-bg{
+   background: url('../../images/green/bg.jpg') no-repeat center top;
 }

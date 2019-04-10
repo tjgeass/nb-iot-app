@@ -145,3 +145,15 @@
 
 .icon-shoucang2:before { content: "\e622"; }
 
+.icon-shebei:before {
+  content: "\e600";
+}
+.icon-lingdang:before {
+  content: "\e605";
+}
+.icon-zhuanjiaxuanpin:before {
+  content: "\e6be";
+}
+.icon-tubiao1:before {
+  content: "\e602";
+}

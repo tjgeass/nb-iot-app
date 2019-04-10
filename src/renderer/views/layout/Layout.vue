@@ -1,8 +1,6 @@
 <template>
   <div>
-    <el-container class="container" id="main" style="">
-      <el-container style="position: relative;">
-        <el-container>
+    <el-container class="container" id="main" style="position: relative;">
           <el-header class="header" height="70px" style="-webkit-app-region: drag">
             <header-view height="70px"/>
           </el-header>
@@ -11,8 +9,6 @@
               <router-view></router-view>
              </keep-alive>
           </el-main>
-        </el-container>
-      </el-container>
     </el-container>
   </div>
 </template>
