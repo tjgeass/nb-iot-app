@@ -46,14 +46,23 @@
 
 <script>
 // import { mapGetters } from "vuex";
+import { getOrgInfo } from '@/api/home'
 
 export default {
   name: "home",
   computed: {
   },
+  created() {
+    this.fetchData()
+  },
   methods: {
     handleReport() {
       this.$router.push({ path: "/report" });
+    },
+    fetchData() {
+      getOrgInfo(this.listQuery).then(response => {
+        this.list = response.data.items
+      })
     }
   }
 };

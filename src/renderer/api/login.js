@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(username, password) {
   return request({
-    url: '/auth/login',
+    url: '/auth/login?XDEBUG_SESSION_START=15228',
     method: 'post',
     data: {
       username,
