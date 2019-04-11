@@ -61,7 +61,8 @@ export default {
     },
     fetchData() {
       getOrgInfo(this.listQuery).then(response => {
-        this.list = response.data.items
+        console.log(response);
+        this.list = response.item
       })
     }
   }
