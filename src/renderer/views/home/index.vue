@@ -3,8 +3,7 @@
     <el-row type="flex" class="status" justify="center">
       <div class="score">
         <div class="circle">
-          100
-          <span>分</span>
+          {{animatedScore}}<span>分</span>
         </div>
       </div>
     </el-row>
@@ -47,22 +46,39 @@
 <script>
 // import { mapGetters } from "vuex";
 import { getOrgInfo } from '@/api/home'
+import {TweenLite} from "gsap";
 
 export default {
   name: "home",
+  data() {
+    return {
+      score:100,
+      tweenedScore:100
+    }
+  },
   computed: {
+      animatedScore: function() {
+        return this.tweenedScore.toFixed(0);
+      }
+  },
+  watch: {
+    score: function(newValue) {
+      console.log(this.$data);
+      TweenLite.to(this.$data, 5, { tweenedScore: newValue});
+    }
   },
   created() {
-    this.fetchData()
+    this.fetchData();
+  
   },
   methods: {
     handleReport() {
       this.$router.push({ path: "/report" });
     },
     fetchData() {
-      getOrgInfo(this.listQuery).then(response => {
-        console.log(response);
-        this.list = response.item
+      getOrgInfo().then(response => {
+        this.score = response.item.score;
+        console.log(response.item);
       })
     }
   }
