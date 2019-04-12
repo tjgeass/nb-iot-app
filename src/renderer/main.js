@@ -13,6 +13,11 @@ Vue.use(ElementUI)
 import App from './App'
 import router from './router'
 import store from './store'
+import filters from './filters'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+});
+
 
 import '@/icons' // icon
 import '@/permission' // permission control
