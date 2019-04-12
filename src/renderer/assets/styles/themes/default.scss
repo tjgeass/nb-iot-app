@@ -4,7 +4,7 @@ $--color-primary: teal;
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
-
+$--img-path: 'green';
 
 
 
@@ -12,5 +12,5 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
    background: url('../../images/green/bg.jpg') no-repeat center top;
 }
 .report-bg{
-   background: url('../../images/green/bg.jpg') no-repeat center top;
+   background: url('../../images/green/bg2.jpg') no-repeat center top;
 }
