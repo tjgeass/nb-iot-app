@@ -1,15 +1,22 @@
 <template>
   <div class="report-container">
-    <el-container class="container" id="main" style="position: relative;">
+    <el-container class="container" id="main" style="position: relative;height:100%">
       <el-aside>
         <div class="block">
+          <el-progress
+            type="circle"
+            :percentage="80"
+            :width="126"
+            :stroke-width="1"
+            :show-text="false"
+          ></el-progress>
           <el-timeline>
             <transition-group name="list" tag="div">
               <el-timeline-item
                 class="list-item"
+                size="large"
                 v-for="(activity, index) in activities"
                 :key="index"
-                size="large"
                 :icon="activity.status|formatIconStatus"
                 :type="activity.status|formatTypeStatus"
                 :color="activity.status|formatColorStatus"
@@ -35,10 +42,10 @@
 </template>
 
 <script>
-import { getOrgConsInfo } from "@/api/report";
+import { getOrgConsInfo } from "@/api/device";
 
 export default {
-  name: "home",
+  name: "Report",
   data() {
     return {
       activities: [],
@@ -87,7 +94,7 @@ export default {
   }
   .list-enter-active,
   .list-leave-active {
-    transition: all 1s;
+    transition: all 2s;
   }
   .list-enter, .list-leave-to
 /* .list-leave-active for below version 2.1.8 */ {

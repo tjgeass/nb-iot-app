@@ -148,7 +148,9 @@ img {
 }
 
 
-
+.el-main{
+  
+}
 
 //main-container全局样式
 .app-main{
@@ -157,4 +159,12 @@ img {
 
 .app-container {
   padding: 20px;
+}
+.main-left {
+   float: left;
+   width: 33%;
+}
+.main-right {
+   float: right;
+   width: 66%;
 }

@@ -22,9 +22,6 @@ const app = {
       state.sidebar.opened = false
       state.sidebar.withoutAnimation = withoutAnimation
     },
-    TOGGLE_DEVICE: (state, device) => {
-      state.device = device
-    }
   },
   actions: {
     ToggleSideBar: ({ commit }) => {
@@ -32,9 +29,6 @@ const app = {
     },
     CloseSideBar({ commit }, { withoutAnimation }) {
       commit('CLOSE_SIDEBAR', withoutAnimation)
-    },
-    ToggleDevice({ commit }, device) {
-      commit('TOGGLE_DEVICE', device)
     }
   }
 }

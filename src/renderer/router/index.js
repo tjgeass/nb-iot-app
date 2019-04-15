@@ -28,7 +28,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    props: { class: 'home-bg' },
+    props: { class: 'home' },
     redirect: '/home',
     name: 'Home',
     hidden: true,
@@ -40,12 +40,23 @@ export const constantRouterMap = [
   {
     path: '/report',
     component: Layout,
-    props: { class: 'report-bg' },
+    props: { class: 'report' },
     redirect: '/report/index',
     name: 'Report',
     children: [{
       path: 'index',
       component: () => import('@/views/report/index'),
+    }]
+  },
+  {
+    path: '/device',
+    component: Layout,
+    props: { class: 'device' },
+    redirect: '/device/index',
+    name: 'Device',
+    children: [{
+      path: 'index',
+      component: () => import('@/views/device/index'),
     }]
   },
   {

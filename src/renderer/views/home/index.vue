@@ -3,7 +3,8 @@
     <el-row type="flex" class="status" justify="center">
       <div class="score">
         <div class="circle">
-          {{animatedScore}}<span>分</span>
+          {{animatedScore}}
+          <span>分</span>
         </div>
       </div>
     </el-row>
@@ -12,32 +13,32 @@
       <p class="p2">良好的定期体检习惯，会让文物遗址的健康状态持续时间更久</p>
     </el-row>
     <el-row type="flex" class="report" justify="center">
-      <el-button type="warning" class="btn-report" round  @click.native.prevent="handleReport">智能检测</el-button>
+      <el-button type="warning" class="btn-report" round @click.native.prevent="handleReport">智能检测</el-button>
     </el-row>
     <el-row class="home-btns" type="flex" justify="center">
       <el-col :span="2">
-        <div class="btn-1">
+        <div class="btn-1" @click="handleDeice">
           <i class="iconfont icon-shebei"></i>
           <span>设备分布</span>
-          </div>
+        </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-2">
           <i class="iconfont icon-lingdang"></i>
           <span>异常指标</span>
-          </div>
+        </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-3">
           <i class="iconfont icon-zhuanjiaxuanpin"></i>
           <span>专家服务</span>
-          </div>
+        </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-4">
           <i class="iconfont icon-tubiao1"></i>
           <span>监控报告</span>
-          </div>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -45,41 +46,42 @@
 
 <script>
 // import { mapGetters } from "vuex";
-import { getOrgInfo } from '@/api/home'
-import {TweenLite} from "gsap";
+import { getOrgInfo } from "@/api/device";
+import { TweenLite } from "gsap";
 
 export default {
   name: "home",
   data() {
     return {
-      score:100,
-      tweenedScore:100
-    }
+      score: 100,
+      tweenedScore: 100
+    };
   },
   computed: {
-      animatedScore: function() {
-        return this.tweenedScore.toFixed(0);
-      }
+    animatedScore: function() {
+      return this.tweenedScore.toFixed(0);
+    }
   },
   watch: {
+    // 定义缓动动画
     score: function(newValue) {
-      console.log(this.$data);
-      TweenLite.to(this.$data, 5, { tweenedScore: newValue});
+      TweenLite.to(this.$data, 5, { tweenedScore: newValue });
     }
   },
   created() {
     this.fetchData();
-  
   },
   methods: {
     handleReport() {
       this.$router.push({ path: "/report" });
     },
+    handleDeice() {
+      this.$router.push({ path: "/device" });
+    },
     fetchData() {
-      getOrgInfo().then(response => {
+      this.$store.dispatch("GetOrgInfo").then(response => {
         this.score = response.item.score;
-        console.log(response.item);
-      })
+      });
     }
   }
 };
@@ -137,14 +139,13 @@ export default {
   }
   .home-btns {
     margin-top: 50px;
-    .el-col{
+    .el-col {
       text-align: center;
-      i{
+      i {
         display: block;
-            color: #31c878;
-            font-size: 67px;
+        color: #31c878;
+        font-size: 67px;
       }
-
     }
   }
 }
