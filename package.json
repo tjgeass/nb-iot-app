@@ -54,6 +54,7 @@
   "dependencies": {
     "apicache": "^1.2.3",
     "axios": "0.17.1",
+    "echarts": "^4.2.1",
     "element-ui": "2.7.0",
     "gsap": "^2.1.2",
     "js-cookie": "^2.2.0",
@@ -63,6 +64,7 @@
     "url-parse": "^1.4.3",
     "vue": "2.5.10",
     "vue-cli": "^2.9.6",
+    "vue-echarts": "^4.0.1",
     "vue-electron": "^1.0.6",
     "vue-router": "3.0.1",
     "vue2-better-scroll": "^1.0.7",

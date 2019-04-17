@@ -5,24 +5,23 @@
         <header-view height="70px"/>
       </el-header>
       <el-main class="main">
-        <keep-alive>
+        <transition name="fade" mode="out-in">
           <router-view></router-view>
-        </keep-alive>
+        </transition>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import AppMain from "./components/AppMain";
 import HeaderView from "./components/Header/";
 
 export default {
   name: "layout",
   components: {
-    HeaderView,
-    AppMain
-  }
+    HeaderView
+  },
+  props: {}
 };
 </script>
 

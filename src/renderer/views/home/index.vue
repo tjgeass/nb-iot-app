@@ -17,7 +17,7 @@
     </el-row>
     <el-row class="home-btns" type="flex" justify="center">
       <el-col :span="2">
-        <div class="btn-1" @click="handleDeice">
+        <div class="btn-1" @click="handleDevice">
           <i class="iconfont icon-shebei"></i>
           <span>设备分布</span>
         </div>
@@ -75,7 +75,7 @@ export default {
     handleReport() {
       this.$router.push({ path: "/report" });
     },
-    handleDeice() {
+    handleDevice() {
       this.$router.push({ path: "/device" });
     },
     fetchData() {

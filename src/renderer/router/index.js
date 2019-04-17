@@ -21,6 +21,8 @@ import Layout from '../views/layout/Layout'
     icon: 'svg-name'             the icon show in the sidebar,
   }
 **/
+
+const headerNav = { template: '<div>Posts</div>' }
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
@@ -55,9 +57,15 @@ export const constantRouterMap = [
     redirect: '/device/index',
     name: 'Device',
     children: [{
+      name: 'deviceIndex',
       path: 'index',
       component: () => import('@/views/device/index'),
-    }]
+    }, {
+      name: 'deviceView',
+      path: 'view',
+      component: () => import('@/views/device/view'),
+    }
+    ]
   },
   {
     path: '/example',

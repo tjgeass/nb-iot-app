@@ -8,7 +8,12 @@
             <el-row class="title">{{item.name}}</el-row>
             <el-row style="height:400px">sdfsdf</el-row>
             <el-row style="height:200px">
-              <el-button v-for="(device, index) in item.devices" :key="index">{{device.name}}</el-button>
+              <el-button
+                v-for="(device, index) in item.devices"
+                :key="index"
+                :dev_id="device.dev_id"
+                @click="handleDevice(device.dev_id)"
+              >{{device.name}}</el-button>
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -39,6 +44,14 @@ export default {
       this.$store.dispatch("GetOrgConstInfo").then(response => {
         this.consItems = response.items;
         console.log(response.item);
+      });
+    },
+    handleDevice(dev_id) {
+      this.$router.push({
+        path: "/device/view",
+        query: {
+          dev_id: dev_id
+        }
       });
     }
   }
