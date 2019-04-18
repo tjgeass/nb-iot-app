@@ -21,3 +21,13 @@ export function getOrgConstInfo() {
   })
 }
 
+/**
+ * 获取设备数据年月日
+ */
+export function getDeviceData(params) {
+  return request({
+    url: '/device/data',
+    method: 'get',
+    params
+  })
+}

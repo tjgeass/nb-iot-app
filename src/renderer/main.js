@@ -5,7 +5,7 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
-import ECharts from 'vue-echarts'
+
 import "element-ui/lib/theme-chalk/index.css";
 import './assets/styles/themes/default.scss'; // 主题
 
@@ -22,9 +22,12 @@ Object.keys(filters).forEach(key => {
 
 
 // 手动引入 ECharts 各模块来减小打包体积
-import 'echarts/lib/chart/line'
+import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/polar'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/grid'
+import 'echarts/lib/component/dataZoom'
+import 'echarts/lib/component/tooltip'
 Vue.component('v-chart', ECharts)
 
 import '@/icons' // icon

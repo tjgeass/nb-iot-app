@@ -1,4 +1,4 @@
-import { getOrgInfo, getOrgConstInfo } from '@/api/device'
+import { getOrgInfo, getOrgConstInfo, getDeviceData } from '@/api/device'
 
 const device = {
   state: {
@@ -37,7 +37,19 @@ const device = {
       return new Promise((resolve, reject) => {
         getOrgConstInfo(state.token).then(response => {
           const contsInfo = response.item
-          commit('SET_ORGAN', contsInfo)
+          commit('SET_CONST', contsInfo)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取设备数据列表
+    GetDeviceData({ commit, state }, dataQuery) {
+      return new Promise((resolve, reject) => {
+        getDeviceData(dataQuery).then(response => {
+          const contsInfo = response.item
+          //commit('SET_ORGAN', contsInfo)
           resolve(response)
         }).catch(error => {
           reject(error)

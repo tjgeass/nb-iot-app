@@ -3,138 +3,229 @@
   <div class="main">
     <div class="main-left"></div>
     <div class="main-right">
-      <el-tabs value="first" type="card">
-        <el-tab-pane label="用户管理" name="first" style="height:100%;width:100%">
-          <div style="height:100%;width:100%">
-            <v-chart :options="option"/>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-      </el-tabs>
+      <div style="height:100%;width:100%">
+        <v-chart :options="option"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { getOrgConsInfo } from "@/api/device";
+import { getDeviceData } from "@/api/device";
+import { fail } from "assert";
 
 export default {
   name: "deviceView",
 
   data() {
-    let data = [];
-
-    for (let i = 0; i <= 360; i++) {
-      let t = (i / 180) * Math.PI;
-      let r = Math.sin(2 * t) * Math.cos(2 * t);
-      data.push([r, i]);
-    }
     return {
+      dataQuery: {
+        dev_id: 514578933,
+        dateCate: 1
+      },
       option: {
-        title: {
-          text: "动态数据",
-          subtext: "纯属虚构"
-        },
+        legend: {},
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#283b56"
+            type: "cross"
+          }
+        },
+        axisPointer: {
+          link: { xAxisIndex: "all" },
+          label: {
+            backgroundColor: "#777"
+          }
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: false
+            },
+            brush: {
+              type: ["lineX", "clear"]
             }
           }
         },
-        legend: {
-          data: ["最新成交价", "预购队列"]
+        dataset: {
+          // 提供一份数据。
+          dimensions: [
+            "uplink_at",
+            "temp",
+            "humi",
+            "illu",
+            "alti",
+            "perc",
+            "dire_0",
+            "dire_1"
+          ],
+          source: []
         },
-        toolbox: {
-          show: true,
-          feature: {
-            dataView: { readOnly: false },
-            restore: {},
-            saveAsImage: {}
+        grid: [
+          {
+            left: "10%",
+            right: "8%",
+            height: "20%"
+          },
+          {
+            left: "10%",
+            right: "8%",
+            top: "36%",
+            height: "16%"
+          },
+          {
+            left: "10%",
+            right: "8%",
+            top: "62%",
+            height: "16%"
           }
-        },
-        dataZoom: {
-          show: false,
-          start: 0,
-          end: 100
-        },
+        ],
+        // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
         xAxis: [
           {
+            gridIndex: 0,
+            show: false,
             type: "category",
-            boundaryGap: true,
-            data: (function() {
-              var now = new Date();
-              var res = [];
-              var len = 10;
-              while (len--) {
-                res.unshift(now.toLocaleTimeString().replace(/^\D*/, ""));
-                now = new Date(now - 2000);
+            axisPointer: {
+              label: {
+                show: false
               }
-              return res;
-            })()
+            }
           },
           {
+            gridIndex: 1,
+            scale: true,
             type: "category",
-            boundaryGap: true,
-            data: (function() {
-              var res = [];
-              var len = 10;
-              while (len--) {
-                res.push(10 - len - 1);
+            axisPointer: {
+              label: {
+                show: false
               }
-              return res;
-            })()
+            }
+          },
+          {
+            gridIndex: 2,
+            scale: true,
+            type: "category"
           }
         ],
+        // 声明一个 Y 轴，数值轴。
         yAxis: [
           {
-            type: "value",
+            name: "温度°C",
             scale: true,
-            name: "价格",
-            max: 30,
-            min: 0,
-            boundaryGap: [0.2, 0.2]
+            position: "left",
+            gridIndex: 0,
+            axisLabel: {
+              formatter: "{value} °C"
+            }
           },
           {
-            type: "value",
+            name: "湿度%Rh",
+            position: "right",
             scale: true,
-            name: "预购量",
-            max: 1200,
-            min: 0,
-            boundaryGap: [0.2, 0.2]
+            gridIndex: 0,
+            axisLabel: {
+              formatter: "{value} %Rh"
+            }
+          },
+          {
+            name: "倾角",
+            scale: true,
+            gridIndex: 1,
+            splitNumber: 2,
+            axisLabel: {
+              formatter: "{value} °"
+            }
+          },
+          {
+            name: "裂隙",
+            scale: true,
+            gridIndex: 2,
+            splitNumber: 2,
+            axisLabel: {
+              formatter: "{value} mm"
+            }
           }
         ],
-        series: [
+        dataZoom: [
           {
-            name: "预购队列",
-            type: "bar",
-            xAxisIndex: 1,
-            yAxisIndex: 1,
-            data: (function() {
-              var res = [];
-              var len = 10;
-              while (len--) {
-                res.push(Math.round(Math.random() * 1000));
-              }
-              return res;
-            })()
+            type: "inside",
+            xAxisIndex: [0, 1, 2],
+            start: 50,
+            end: 100
           },
           {
-            name: "最新成交价",
+            show: true,
+            xAxisIndex: [0, 1, 2],
+            type: "slider",
+            top: "85%",
+            start: 50,
+            end: 100
+          }
+        ],
+        // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
+        series: [
+          {
+            name: "温度",
             type: "line",
-            data: (function() {
-              var res = [];
-              var len = 0;
-              while (len < 10) {
-                res.push((Math.random() * 10 + 5).toFixed(1) - 0);
-                len++;
-              }
-              return res;
-            })()
+            smooth: true,
+            encode: {
+              y: ["temp"]
+            },
+            smooth: true,
+            label: {
+              show: true
+            },
+            showAllSymbol: false
+          },
+          {
+            name: "湿度",
+            type: "bar",
+            large: true,
+            barMaxWidth: 10,
+            encode: {
+              y: ["humi"]
+            },
+            yAxisIndex: 1
+          },
+          {
+            name: "前后倾角",
+            type: "line",
+            encode: {
+              y: ["dire_0"]
+            },
+            xAxisIndex: 1,
+            yAxisIndex: 2,
+            label: {
+              show: true
+            },
+            showAllSymbol: false
+          },
+          {
+            name: "左右倾角",
+            type: "line",
+            encode: {
+              y: ["dire_1"]
+            },
+            xAxisIndex: 1,
+            yAxisIndex: 2,
+            label: {
+              show: true
+            },
+            showAllSymbol: false
+          },
+          {
+            name: "裂隙",
+            type: "line",
+            encode: {
+              y: ["perc"]
+            },
+            xAxisIndex: 2,
+            yAxisIndex: 3,
+            label: {
+              show: true
+            },
+            showAllSymbol: false
           }
         ]
       }
@@ -145,7 +236,16 @@ export default {
   },
   methods: {},
   created() {
-    console.log(this.$parent);
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      console.log(11);
+      this.$store.dispatch("GetDeviceData", this.dataQuery).then(response => {
+        this.consItems = response.items;
+        this.option.dataset.source = this.consItems;
+      });
+    }
   }
 };
 </script>
@@ -153,7 +253,7 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .echarts {
   width: 100%;
-  height: 500px;
+  height: 100%;
 }
 .report-container {
   flex: 1;

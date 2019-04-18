@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { getOrgConsInfo } from "@/api/device";
+import { getOrgConstInfo } from "@/api/device";
 
 export default {
   name: "Report",
