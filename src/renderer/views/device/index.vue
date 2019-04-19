@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import { getOrgConsInfo } from "@/api/device";
-
 export default {
   name: "home",
   data() {
@@ -43,7 +41,6 @@ export default {
     fetchData() {
       this.$store.dispatch("GetOrgConstInfo").then(response => {
         this.consItems = response.items;
-        console.log(response.item);
       });
     },
     handleDevice(dev_id) {

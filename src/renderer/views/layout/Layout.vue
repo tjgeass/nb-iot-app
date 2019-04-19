@@ -5,9 +5,10 @@
         <header-view height="70px"/>
       </el-header>
       <el-main class="main">
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -37,5 +38,8 @@ export default {
   display: flex;
   flex: 1;
   flex-shrink: 0;
+}
+.el-header {
+  background: #22bb6a;
 }
 </style>

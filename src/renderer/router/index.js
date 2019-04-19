@@ -30,7 +30,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    props: { class: 'home' },
+    props: { class: 'home-page' },
     redirect: '/home',
     name: 'Home',
     hidden: true,
@@ -42,7 +42,7 @@ export const constantRouterMap = [
   {
     path: '/report',
     component: Layout,
-    props: { class: 'report' },
+    props: { class: 'report-page' },
     redirect: '/report/index',
     name: 'Report',
     children: [{
@@ -53,16 +53,22 @@ export const constantRouterMap = [
   {
     path: '/device',
     component: Layout,
-    props: { class: 'device' },
+    props: { class: 'device-page' },
     redirect: '/device/index',
     name: 'Device',
     children: [{
       name: 'deviceIndex',
       path: 'index',
+      meta: {
+        keepAlive: true // 需要被缓存
+      },
       component: () => import('@/views/device/index'),
     }, {
       name: 'deviceView',
       path: 'view',
+      meta: {
+        keepAlive: false
+      },
       component: () => import('@/views/device/view'),
     }
     ]

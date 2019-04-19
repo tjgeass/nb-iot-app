@@ -1,27 +1,40 @@
 
 <template>
-  <div class="main">
-    <div class="main-left"></div>
-    <div class="main-right">
-      <div style="height:100%;width:100%">
-        <v-chart :options="option"/>
-      </div>
+  <div class="main-container">
+    <el-row class="top">
+      <el-col :span="3">
+        <el-button @click="handleIndex">设备列表</el-button>
+      </el-col>
+      <el-col :span="6">
+        <span class="name">设备名称:{{device.name}}</span>
+      </el-col>
+      <el-col :span="3">
+        <el-switch v-show="dataQuery.dateCate==3" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+      </el-col>
+      <el-col :span="12">
+        <el-radio-group v-model="dataQuery.dateCate" :change="fetchData()">
+          <el-radio :label="3">一天</el-radio>
+          <el-radio :label="2">一月</el-radio>
+          <el-radio :label="1">一年</el-radio>
+        </el-radio-group>
+      </el-col>
+    </el-row>
+    <div class="main-chart" style="d">
+      <v-chart :options="option"/>
     </div>
   </div>
 </template>
 
 <script>
 import { getDeviceData } from "@/api/device";
-import { fail } from "assert";
 
 export default {
   name: "deviceView",
-
   data() {
     return {
       dataQuery: {
-        dev_id: 514578933,
-        dateCate: 1
+        dev_id: this.$route.query.dev_id,
+        dateCate: 3
       },
       option: {
         legend: {},
@@ -234,42 +247,48 @@ export default {
   props: {
     megs: String
   },
-  methods: {},
+  computed: {
+    device: function() {
+      return this.$store.getters.getDeviceById(this.dataQuery.dev_id);
+    }
+  },
   created() {
     this.fetchData();
   },
   methods: {
+    handleIndex() {
+      this.$router.push({ path: "/device/index" });
+    },
     fetchData() {
-      console.log(11);
       this.$store.dispatch("GetDeviceData", this.dataQuery).then(response => {
         this.consItems = response.items;
         this.option.dataset.source = this.consItems;
       });
+    },
+    handleChange() {
+      this.$router.push({ path: "/device/index" });
     }
   }
 };
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.echarts {
-  width: 100%;
-  height: 100%;
-}
-.report-container {
+.main-container {
+  display: flex;
   flex: 1;
-  margin: 10px;
-  .list-item {
+  flex-direction: column;
+  .top {
+    height: 50px;
+    line-height: 50px;
+  }
+  .main-chart {
     display: block;
-    margin-right: 10px;
-  }
-  .list-enter-active,
-  .list-leave-active {
-    transition: all 2s;
-  }
-  .list-enter, .list-leave-to
-/* .list-leave-active for below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateY(30px);
+    flex: 1;
+    overflow: hidden;
+    .echarts {
+      width: 100vw;
+      height: 100%;
+    }
   }
 }
 </style>

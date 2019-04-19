@@ -4,7 +4,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
   state: {
     token: getToken(),
-    name: '',
+    username: '',
     avatar: ''
   },
 
@@ -12,8 +12,8 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
-    SET_NAME: (state, name) => {
-      state.name = name
+    SET_NAME: (state, username) => {
+      state.username = username
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -32,6 +32,8 @@ const user = {
           const user = response.user
           setToken(user.access_token)
           commit('SET_TOKEN', user.access_token)
+          commit('SET_NAME', user.username)
+          commit('SET_AVATAR', user.avatar)
           resolve()
         }).catch(error => {
           reject(error)

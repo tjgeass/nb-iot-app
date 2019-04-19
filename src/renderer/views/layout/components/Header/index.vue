@@ -19,7 +19,6 @@
 
 <script>
 import logo from "@/assets/images/logo.png";
-import SidebarItem from "./SidebarItem";
 const { BrowserWindow } = require("electron");
 export default {
   data() {
@@ -72,7 +71,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /deep/ .left {
+  .left {
     .btn {
       font-size: 17px;
       color: #999;

@@ -1,9 +1,9 @@
 import { getOrgInfo, getOrgConstInfo, getDeviceData } from '@/api/device'
-
+import locs from '../../utils/locs'
 const device = {
   state: {
     organization: {},
-    construction: [],
+    constructions: [],
     devices: []
   },
 
@@ -11,8 +11,8 @@ const device = {
     SET_ORGAN: (state, organization) => {
       state.organization = organization
     },
-    SET_CONST: (state, construction) => {
-      state.construction = construction
+    SET_CONST: (state, constructions) => {
+      state.constructions = constructions
     },
     SET_DEVICE: (state, devices) => {
       state.devices = devices
@@ -23,7 +23,7 @@ const device = {
     // 获取机构信息
     GetOrgInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getOrgInfo(state.token).then(response => {
+        getOrgInfo().then(response => {
           const orgInfo = response.item
           commit('SET_ORGAN', orgInfo)
           resolve(response)
@@ -35,9 +35,16 @@ const device = {
     // 获取机构房屋列表
     GetOrgConstInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getOrgConstInfo(state.token).then(response => {
-          const contsInfo = response.item
+        getOrgConstInfo().then(response => {
+          var devices = [];
+          const contsInfo = response.items
+          //locs.set('constructions', contsInfo)
           commit('SET_CONST', contsInfo)
+          for (var i = 0; i < contsInfo.length; i++) {
+            devices = devices.concat(contsInfo[i].devices)
+          }
+          //locs.set('constructions', contsInfo)
+          commit('SET_DEVICE', devices)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -48,7 +55,7 @@ const device = {
     GetDeviceData({ commit, state }, dataQuery) {
       return new Promise((resolve, reject) => {
         getDeviceData(dataQuery).then(response => {
-          const contsInfo = response.item
+          const contsInfo = response.items
           //commit('SET_ORGAN', contsInfo)
           resolve(response)
         }).catch(error => {
@@ -56,6 +63,12 @@ const device = {
         })
       })
     },
+  },
+  getters: {
+    getDeviceById: (state) => (id) => {
+      console.log(state);
+      return state.devices.find(devices => devices.dev_id === id)
+    }
   }
 }
 
