@@ -59,7 +59,8 @@ export default {
     handleStart() {
       this.reporting = true;
       this.activities = [];
-      getOrgConsInfo()
+      this.$store
+        .dispatch("GetOrgConstInfo")
         .then(response => {
           this.list = response.items;
           console.log(this.list);

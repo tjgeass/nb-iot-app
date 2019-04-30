@@ -6,9 +6,16 @@ const app = {
       opened: !+Cookies.get('sidebarStatus'),
       withoutAnimation: false
     },
+    topbar: {
+      title: "首页",
+      path: '/'
+    },
     device: 'desktop'
   },
   mutations: {
+    SET_TOPBAR: (state, item) => {
+      state.topbar = item
+    },
     TOGGLE_SIDEBAR: state => {
       if (state.sidebar.opened) {
         Cookies.set('sidebarStatus', 1)

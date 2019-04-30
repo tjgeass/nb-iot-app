@@ -3,6 +3,9 @@
     <div class="left flex-c-l">
       <img class="logo" :src="logo">
     </div>
+    <div>
+      <router-link to="/home">{{topbar.title}}</router-link>
+    </div>
     <div class="right flex-c-l">
       <el-button class="no-drag hover-color" size="mini" type="text" @click="refresh">
         <i class="btn el-icon-refresh"></i>
@@ -18,8 +21,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import logo from "@/assets/images/logo.png";
 const { BrowserWindow } = require("electron");
+
 export default {
   data() {
     return {
@@ -27,7 +32,6 @@ export default {
     };
   },
   props: {
-    devices: {},
     height: {
       type: String,
       default: "40px"
@@ -40,6 +44,9 @@ export default {
         // something
       }
     }
+  },
+  computed: {
+    ...mapGetters(["topbar"])
   },
   methods: {
     close() {

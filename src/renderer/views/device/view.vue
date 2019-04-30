@@ -1,7 +1,7 @@
 
 <template>
   <div class="main-container">
-    <el-row class="top">
+    <el-row class="top s-justify-space-between el-row--flex">
       <el-col :span="3">
         <el-button @click="handleIndex">设备列表</el-button>
       </el-col>
@@ -9,10 +9,15 @@
         <span class="name">设备名称:{{device.name}}</span>
       </el-col>
       <el-col :span="3">
-        <el-switch v-show="dataQuery.dateCate==3" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        <el-switch
+          v-model="autoRefresh"
+          v-show="dataQuery.dateCate==3"
+          active-color="#13ce66"
+          active-text="自动刷新"
+        ></el-switch>
       </el-col>
       <el-col :span="12">
-        <el-radio-group v-model="dataQuery.dateCate" :change="fetchData()">
+        <el-radio-group v-model="dataQuery.dateCate" @change="handleRadio">
           <el-radio :label="3">一天</el-radio>
           <el-radio :label="2">一月</el-radio>
           <el-radio :label="1">一年</el-radio>
@@ -27,11 +32,14 @@
 
 <script>
 import { getDeviceData } from "@/api/device";
+import { fips } from "crypto";
 
 export default {
   name: "deviceView",
   data() {
     return {
+      autoRefresh: false,
+      timer: null, // 定时器
       dataQuery: {
         dev_id: this.$route.query.dev_id,
         dateCate: 3
@@ -247,26 +255,48 @@ export default {
   props: {
     megs: String
   },
+  created() {
+    this.fetchData();
+  },
   computed: {
     device: function() {
       return this.$store.getters.getDeviceById(this.dataQuery.dev_id);
     }
   },
-  created() {
-    this.fetchData();
+  watch: {
+    // 监控自动刷新状态
+    autoRefresh(val) {
+      if (this.autoRefresh) {
+        console.log("开始自动刷新");
+        this.timer = setInterval(this.fetchData(), 8000);
+      } else {
+        if (this.timer) {
+          //如果定时器在运行则关闭
+          clearInterval(this.timer);
+        }
+      }
+    }
   },
   methods: {
     handleIndex() {
       this.$router.push({ path: "/device/index" });
     },
     fetchData() {
+      console.log("查询数据");
       this.$store.dispatch("GetDeviceData", this.dataQuery).then(response => {
         this.consItems = response.items;
         this.option.dataset.source = this.consItems;
       });
     },
-    handleChange() {
-      this.$router.push({ path: "/device/index" });
+    handleRadio() {
+      this.autoRefresh = false;
+      this.fetchData();
+    }
+  },
+  destroyed() {
+    if (this.timer) {
+      //如果定时器在运行则关闭
+      clearInterval(this.timer);
     }
   }
 };

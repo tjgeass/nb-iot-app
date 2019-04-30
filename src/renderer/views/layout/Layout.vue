@@ -1,14 +1,18 @@
 <template>
   <div>
     <el-container class="container" id="main" style="position: relative;">
-      <el-header class="header" height="70px" style="-webkit-app-region: drag">
-        <header-view height="70px"/>
+      <el-header class="header" height="70px">
+        <header-view height="70px"></header-view>
       </el-header>
       <el-main class="main">
-        <keep-alive>
-          <router-view v-if="$route.meta.keepAlive"></router-view>
-        </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive"></router-view>
+        <transition name="fade" mode="out-in">
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+        </transition>
+        <transition name="fade" mode="out-in">
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
+        </transition>
       </el-main>
     </el-container>
   </div>

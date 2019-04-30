@@ -1,10 +1,11 @@
 import { getOrgInfo, getOrgConstInfo, getDeviceData } from '@/api/device'
-import locs from '../../utils/locs'
+import sess from '../../utils/sess'
+
 const device = {
   state: {
-    organization: {},
-    constructions: [],
-    devices: []
+    organization: sess.get('organization'),
+    constructions: sess.get('constructions'),
+    devices: sess.get('devices')
   },
 
   mutations: {
@@ -25,6 +26,7 @@ const device = {
       return new Promise((resolve, reject) => {
         getOrgInfo().then(response => {
           const orgInfo = response.item
+          sess.set('organization', orgInfo)
           commit('SET_ORGAN', orgInfo)
           resolve(response)
         }).catch(error => {
@@ -38,12 +40,12 @@ const device = {
         getOrgConstInfo().then(response => {
           var devices = [];
           const contsInfo = response.items
-          //locs.set('constructions', contsInfo)
+          sess.set('constructions', contsInfo)
           commit('SET_CONST', contsInfo)
           for (var i = 0; i < contsInfo.length; i++) {
             devices = devices.concat(contsInfo[i].devices)
           }
-          //locs.set('constructions', contsInfo)
+          sess.set('devices', devices)
           commit('SET_DEVICE', devices)
           resolve(response)
         }).catch(error => {
@@ -65,9 +67,8 @@ const device = {
     },
   },
   getters: {
-    getDeviceById: (state) => (id) => {
-      console.log(state);
-      return state.devices.find(devices => devices.dev_id === id)
+    getDeviceById: (state) => (dev_id) => {
+      return state.devices.find(device => device.dev_id == dev_id)
     }
   }
 }
