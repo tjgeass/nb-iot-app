@@ -25,8 +25,7 @@ export default {
   name: "layout",
   components: {
     HeaderView
-  },
-  props: {}
+  }
 };
 </script>
 

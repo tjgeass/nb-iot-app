@@ -2,10 +2,19 @@
   <div class="home-container">
     <el-row type="flex" class="status" justify="center">
       <div class="score">
-        <div class="circle">
-          {{animatedScore}}
-          <span>分</span>
-        </div>
+        <el-progress
+          type="circle"
+          :percentage="animatedScore"
+          :width="160"
+          :stroke-width="10"
+          :show-text="true"
+          status="text"
+          :color="color"
+        >
+          <p :style="{ color: color}">
+            <b>{{animatedScore}}</b>分
+          </p>
+        </el-progress>
       </div>
     </el-row>
     <el-row class="status-text">
@@ -18,25 +27,25 @@
     <el-row class="home-btns" type="flex" justify="center">
       <el-col :span="2">
         <div class="btn-1" @click="handleDevice">
-          <i class="iconfont icon-shebei"></i>
+          <i class="el-icon-s-platform"></i>
           <span>设备分布</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
-        <div class="btn-2">
-          <i class="iconfont icon-lingdang"></i>
-          <span>异常指标</span>
+        <div class="btn-2" @click="handleStatus">
+          <i class="el-icon-s-help"></i>
+          <span>运行状态</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-3">
-          <i class="iconfont icon-zhuanjiaxuanpin"></i>
+          <i class="el-icon-s-custom"></i>
           <span>专家服务</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-4">
-          <i class="iconfont icon-tubiao1"></i>
+          <i class="el-icon-s-data"></i>
           <span>监控报告</span>
         </div>
       </el-col>
@@ -54,18 +63,27 @@ export default {
   data() {
     return {
       score: 100,
-      tweenedScore: 100
+      tweenedScore: 100,
+      color: ""
     };
   },
   computed: {
     animatedScore: function() {
-      return this.tweenedScore.toFixed(0);
+      return Number(this.tweenedScore.toFixed(0));
     }
   },
   watch: {
     // 定义缓动动画
     score: function(newValue) {
       TweenLite.to(this.$data, 5, { tweenedScore: newValue });
+    },
+    animatedScore: function(newValue) {
+      if (newValue < 90 && newValue >= 80) {
+        this.color = "#E6A23C";
+      }
+      if (newValue < 80) {
+        this.color = "#F56C6C";
+      }
     }
   },
   created() {
@@ -77,6 +95,9 @@ export default {
     },
     handleDevice() {
       this.$router.push({ path: "/device" });
+    },
+    handleStatus() {
+      this.$router.push({ path: "/status" });
     },
     fetchData() {
       this.$store.dispatch("GetOrgInfo").then(response => {
@@ -94,25 +115,22 @@ export default {
   .status {
     height: 160px;
     .score {
-      background: url(../../assets/images/green/circle-w.png);
+      background: #fff;
       background-size: 100%;
-      width: 155px;
-      height: 155px;
+      width: 160px;
+      height: 160px;
       margin: 0px auto;
-      padding: 11px 0px;
+      border-radius: 50%;
+      position: relative;
+      .dot {
+        position: absolute;
+      }
     }
-    .circle {
-      font-size: 50px;
+    p {
       color: #35b172;
-      background: url(../../assets/images/green/circle.png);
-      background-size: 100%;
-      width: 135px;
-      height: 135px;
-      line-height: 135px;
       text-align: center;
-      margin: 0px auto;
-      span {
-        font-size: 14px;
+      b {
+        font-size: 50px;
       }
     }
   }
@@ -135,12 +153,14 @@ export default {
       font-size: 28px;
       padding: 15px 44px;
       border-radius: 30px;
+      box-shadow: 1px 1px 5px #acacac;
     }
   }
   .home-btns {
     margin-top: 50px;
     .el-col {
       text-align: center;
+      cursor: pointer;
       i {
         display: block;
         color: #31c878;

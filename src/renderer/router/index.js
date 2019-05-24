@@ -25,7 +25,6 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
@@ -35,7 +34,21 @@ export const constantRouterMap = [
     hidden: true,
     children: [{
       path: 'home',
+      meta: {
+        keepAlive: true // 需要被缓存
+      },
       component: () => import('@/views/home/index'),
+    }]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    props: { class: 'user-page' },
+    redirect: '/user/index',
+    name: 'User',
+    children: [{
+      path: 'index',
+      component: () => import('@/views/User/index'),
     }]
   },
   {
@@ -47,6 +60,17 @@ export const constantRouterMap = [
     children: [{
       path: 'index',
       component: () => import('@/views/report/index'),
+    }]
+  },
+  {
+    path: '/status',
+    component: Layout,
+    props: { class: 'status-page' },
+    redirect: '/status/index',
+    name: 'Status',
+    children: [{
+      path: 'index',
+      component: () => import('@/views/status/index'),
     }]
   },
   {
@@ -62,6 +86,13 @@ export const constantRouterMap = [
         keepAlive: true // 需要被缓存
       },
       component: () => import('@/views/device/index'),
+    }, {
+      name: 'deviceChart',
+      path: 'chart',
+      meta: {
+        keepAlive: false
+      },
+      component: () => import('@/views/device/chart'),
     }, {
       name: 'deviceView',
       path: 'view',

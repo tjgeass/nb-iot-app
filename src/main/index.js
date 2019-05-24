@@ -34,7 +34,7 @@ function createWindow() {
     resizable: false,
     skipTaskbar: false,
     transparent: false,
-    title:"小土狗音乐",
+    title:"遗址检测",
     autoHideMenuBar:true,
   })
 

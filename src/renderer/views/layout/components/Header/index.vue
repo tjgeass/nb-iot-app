@@ -1,15 +1,45 @@
 <template>
   <div class="header-view" :style="{height: height}">
     <div class="left flex-c-l">
-      <img class="logo" :src="logo">
+      <img class="logo" :src="logo" style="-webkit-app-region: drag">
     </div>
     <div>
       <router-link to="/home">{{topbar.title}}</router-link>
     </div>
     <div class="right flex-c-l">
-      <el-button class="no-drag hover-color" size="mini" type="text" @click="refresh">
-        <i class="btn el-icon-refresh"></i>
-      </el-button>
+      <el-dropdown class="avatar-container" trigger="click">
+        <div class="avatar-wrapper">
+          <img class="user-avatar" :src="avatar">
+          <span>{{username}}</span>
+          <i class="el-icon-caret-bottom"></i>
+        </div>
+        <el-dropdown-menu class="user-dropdown" slot="dropdown">
+          <el-dropdown-item>
+            <p @click="userInfo">
+              <img class="user-avatar" :src="avatar">
+              {{username}}
+            </p>
+          </el-dropdown-item>
+          <el-dropdown-item class="item-device" :divided="true">
+            <el-row>
+              <el-col :span="8">
+                <span class="num">{{organization.c_num}}</span>
+                <span class="tit">建筑数量</span>
+              </el-col>
+              <el-col :span="8">
+                <span class="num">{{organization.d_num}}</span>
+                <span class="tit">设备数量</span>
+              </el-col>
+            </el-row>
+          </el-dropdown-item>
+          <el-dropdown-item :divided="true" icon="el-icon-setting">
+            <span @click="userInfo">个人信息设置</span>
+          </el-dropdown-item>
+          <el-dropdown-item :divided="true" icon="el-icon-switch-button">
+            <span @click="logout">退出登录</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-button @click="minimize" class="no-drag" size="mini" type="text">
         <i class="btn el-icon-minus"></i>
       </el-button>
@@ -46,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["topbar"])
+    ...mapGetters(["topbar", "sidebar", "avatar", "username", "organization"])
   },
   methods: {
     close() {
@@ -60,6 +90,11 @@ export default {
         })
         .catch(() => {});
     },
+    userInfo() {
+      this.$router.push({
+        path: "/user/index"
+      });
+    },
     minimize() {
       this.$electron.ipcRenderer.send("minimize");
     },
@@ -68,6 +103,11 @@ export default {
     },
     refresh() {
       this.$bus.$emit("page-refresh", this.$route.name);
+    },
+    logout() {
+      this.$store.dispatch("LogOut").then(() => {
+        location.reload(); // 为了重新实例化vue-router对象 避免bug
+      });
     }
   }
 };
@@ -108,6 +148,48 @@ export default {
     .btn:hover {
       color: #31c27c;
     }
+    .avatar-wrapper {
+      padding: 0 10px;
+      color: #eee;
+      span {
+        padding: 0 3px;
+      }
+      &:hover {
+        color: #fff;
+        cursor: pointer;
+      }
+    }
   }
+}
+.user-dropdown {
+  width: 280px;
+  .item-device {
+    .el-col {
+      border-left: 1px solid #ebeef5;
+      &:first-child {
+        border-left: none;
+      }
+      span {
+        text-align: center;
+        line-height: 20px;
+      }
+      .tit {
+        display: block;
+      }
+      .num {
+        display: block;
+      }
+    }
+  }
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.user-dropdown .user-avatar {
+  width: 40px;
+  height: 40px;
 }
 </style>

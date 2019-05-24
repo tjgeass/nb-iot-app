@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/login'
+import { login, logout, getInfo, upSelf } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -54,7 +54,16 @@ const user = {
         })
       })
     },
-
+    // 获取用户信息
+    UpSelf({ commit, state }, userInfo) {
+      return new Promise((resolve, reject) => {
+        upSelf(userInfo).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

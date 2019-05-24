@@ -57,7 +57,7 @@ const device = {
     GetDeviceData({ commit, state }, dataQuery) {
       return new Promise((resolve, reject) => {
         getDeviceData(dataQuery).then(response => {
-          const contsInfo = response.items
+          //const contsInfo = response.items
           //commit('SET_ORGAN', contsInfo)
           resolve(response)
         }).catch(error => {

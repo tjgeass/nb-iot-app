@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(username, password) {
   return request({
-    url: '/auth/login?XDEBUG_SESSION_START=15228',
+    url: '/auth/login',
     method: 'post',
     data: {
       username,
@@ -10,7 +10,13 @@ export function login(username, password) {
     }
   })
 }
-
+export function upSelf(userInfo) {
+  return request({
+    url: '/user/update-self?XDEBUG_SESSION_START=17470',
+    method: 'post',
+    data: userInfo
+  })
+}
 export function getInfo(access_token) {
   return request({
     url: '/user/info',
@@ -21,7 +27,7 @@ export function getInfo(access_token) {
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/auth/logout',
     method: 'post'
   })
 }

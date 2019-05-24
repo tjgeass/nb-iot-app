@@ -7,13 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Attach",
+            "name": "Debug Main Process",
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}//dist//electron//main.js",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
+            "protocol": "inspector",
             "args" : ["."],
             "outputCapture": "std"
         }

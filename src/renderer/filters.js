@@ -71,6 +71,21 @@ const filters = {
 
         }
 
+    },
+    formatNameStatus(num) {
+        switch (num) {
+            case 1:
+                return '正常';
+                break;
+            case 2:
+                return '警告';
+                break;
+            case 3:
+                return '危险';
+                break;
+
+        }
+
     }
 
 };

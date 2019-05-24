@@ -1,324 +1,97 @@
-
 <template>
   <div class="main-container">
-    <el-row class="top s-justify-space-between el-row--flex">
-      <el-col :span="3">
-        <el-button @click="handleIndex">设备列表</el-button>
-      </el-col>
-      <el-col :span="6">
-        <span class="name">设备名称:{{device.name}}</span>
-      </el-col>
-      <el-col :span="3">
-        <el-switch
-          v-model="autoRefresh"
-          v-show="dataQuery.dateCate==3"
-          active-color="#13ce66"
-          active-text="自动刷新"
-        ></el-switch>
-      </el-col>
-      <el-col :span="12">
-        <el-radio-group v-model="dataQuery.dateCate" @change="handleRadio">
-          <el-radio :label="3">一天</el-radio>
-          <el-radio :label="2">一月</el-radio>
-          <el-radio :label="1">一年</el-radio>
-        </el-radio-group>
-      </el-col>
-    </el-row>
-    <div class="main-chart" style="d">
-      <v-chart :options="option"/>
-    </div>
+    <el-card class="box-card" :body-style="{ padding: '10px' }" shadow="hover">
+      <div slot="header" class="clearfix">
+        <span>设备属性</span>
+      </div>
+      <el-form
+        label-position="left"
+        :model="device"
+        size="mini"
+        label-width="100px"
+        class="demo-table-expand"
+      >
+        <el-form-item label="设备名称">
+          <span>{{ device.name }}</span>
+        </el-form-item>
+        <el-form-item label="设备简介">
+          <span>{{ device.desc }}</span>
+        </el-form-item>
+        <el-form-item label="设备状态">
+          <span>{{ device.status }}</span>
+        </el-form-item>
+        <el-form-item label="设备类型">
+          <span>{{ device.type_id }}</span>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    {{device.name}}
   </div>
 </template>
 
 <script>
-import { getDeviceData } from "@/api/device";
-import { fips } from "crypto";
+import { mapGetters } from "vuex";
+import Vue from "vue";
 
 export default {
   name: "deviceView",
   data() {
     return {
-      autoRefresh: false,
-      timer: null, // 定时器
-      dataQuery: {
-        dev_id: this.$route.query.dev_id,
-        dateCate: 3
+      padding: {
+        padding: "10px"
       },
-      option: {
-        legend: {},
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross"
-          }
-        },
-        axisPointer: {
-          link: { xAxisIndex: "all" },
-          label: {
-            backgroundColor: "#777"
-          }
-        },
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: false
-            },
-            brush: {
-              type: ["lineX", "clear"]
-            }
-          }
-        },
-        dataset: {
-          // 提供一份数据。
-          dimensions: [
-            "uplink_at",
-            "temp",
-            "humi",
-            "illu",
-            "alti",
-            "perc",
-            "dire_0",
-            "dire_1"
-          ],
-          source: []
-        },
-        grid: [
-          {
-            left: "10%",
-            right: "8%",
-            height: "20%"
-          },
-          {
-            left: "10%",
-            right: "8%",
-            top: "36%",
-            height: "16%"
-          },
-          {
-            left: "10%",
-            right: "8%",
-            top: "62%",
-            height: "16%"
-          }
-        ],
-        // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
-        xAxis: [
-          {
-            gridIndex: 0,
-            show: false,
-            type: "category",
-            axisPointer: {
-              label: {
-                show: false
-              }
-            }
-          },
-          {
-            gridIndex: 1,
-            scale: true,
-            type: "category",
-            axisPointer: {
-              label: {
-                show: false
-              }
-            }
-          },
-          {
-            gridIndex: 2,
-            scale: true,
-            type: "category"
-          }
-        ],
-        // 声明一个 Y 轴，数值轴。
-        yAxis: [
-          {
-            name: "温度°C",
-            scale: true,
-            position: "left",
-            gridIndex: 0,
-            axisLabel: {
-              formatter: "{value} °C"
-            }
-          },
-          {
-            name: "湿度%Rh",
-            position: "right",
-            scale: true,
-            gridIndex: 0,
-            axisLabel: {
-              formatter: "{value} %Rh"
-            }
-          },
-          {
-            name: "倾角",
-            scale: true,
-            gridIndex: 1,
-            splitNumber: 2,
-            axisLabel: {
-              formatter: "{value} °"
-            }
-          },
-          {
-            name: "裂隙",
-            scale: true,
-            gridIndex: 2,
-            splitNumber: 2,
-            axisLabel: {
-              formatter: "{value} mm"
-            }
-          }
-        ],
-        dataZoom: [
-          {
-            type: "inside",
-            xAxisIndex: [0, 1, 2],
-            start: 50,
-            end: 100
-          },
-          {
-            show: true,
-            xAxisIndex: [0, 1, 2],
-            type: "slider",
-            top: "85%",
-            start: 50,
-            end: 100
-          }
-        ],
-        // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
-        series: [
-          {
-            name: "温度",
-            type: "line",
-            smooth: true,
-            encode: {
-              y: ["temp"]
-            },
-            smooth: true,
-            label: {
-              show: true
-            },
-            showAllSymbol: false
-          },
-          {
-            name: "湿度",
-            type: "bar",
-            large: true,
-            barMaxWidth: 10,
-            encode: {
-              y: ["humi"]
-            },
-            yAxisIndex: 1
-          },
-          {
-            name: "前后倾角",
-            type: "line",
-            encode: {
-              y: ["dire_0"]
-            },
-            xAxisIndex: 1,
-            yAxisIndex: 2,
-            label: {
-              show: true
-            },
-            showAllSymbol: false
-          },
-          {
-            name: "左右倾角",
-            type: "line",
-            encode: {
-              y: ["dire_1"]
-            },
-            xAxisIndex: 1,
-            yAxisIndex: 2,
-            label: {
-              show: true
-            },
-            showAllSymbol: false
-          },
-          {
-            name: "裂隙",
-            type: "line",
-            encode: {
-              y: ["perc"]
-            },
-            xAxisIndex: 2,
-            yAxisIndex: 3,
-            label: {
-              show: true
-            },
-            showAllSymbol: false
-          }
-        ]
-      }
+      dev_id: this.$route.query.dev_id
     };
   },
-  props: {
-    megs: String
-  },
+  watch: {},
   created() {
+    var item = {
+      title: "首页",
+      path: "/home"
+    };
+    this.$store.commit("SET_TOPBAR", item);
     this.fetchData();
   },
+  mounted() {},
   computed: {
     device: function() {
-      return this.$store.getters.getDeviceById(this.dataQuery.dev_id);
-    }
-  },
-  watch: {
-    // 监控自动刷新状态
-    autoRefresh(val) {
-      if (this.autoRefresh) {
-        console.log("开始自动刷新");
-        this.timer = setInterval(this.fetchData(), 8000);
-      } else {
-        if (this.timer) {
-          //如果定时器在运行则关闭
-          clearInterval(this.timer);
-        }
-      }
+      return this.$store.getters.getDeviceById(this.dev_id);
     }
   },
   methods: {
-    handleIndex() {
-      this.$router.push({ path: "/device/index" });
-    },
-    fetchData() {
-      console.log("查询数据");
-      this.$store.dispatch("GetDeviceData", this.dataQuery).then(response => {
-        this.consItems = response.items;
-        this.option.dataset.source = this.consItems;
-      });
-    },
-    handleRadio() {
-      this.autoRefresh = false;
-      this.fetchData();
-    }
-  },
-  destroyed() {
-    if (this.timer) {
-      //如果定时器在运行则关闭
-      clearInterval(this.timer);
-    }
+    fetchData() {}
   }
 };
 </script>
 
+
+
 <style rel="stylesheet/scss" lang="scss" scoped>
 .main-container {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  .top {
-    height: 50px;
-    line-height: 50px;
+  margin: 10px;
+  .box-card {
   }
-  .main-chart {
-    display: block;
-    flex: 1;
-    overflow: hidden;
-    .echarts {
-      width: 100vw;
-      height: 100%;
-    }
+}
+@keyframes breath-danger {
+  0% {
+    box-shadow: 0 2px 12px 0 rgba(245, 108, 108, 0.2);
+  }
+  70% {
+    box-shadow: 0 2px 12px 0 rgba(245, 108, 108, 0.9);
+  }
+  to {
+    box-shadow: 0 2px 12px 0 rgba(245, 108, 108, 0.2);
+  }
+}
+@keyframes breath-warning {
+  0% {
+    box-shadow: 0 2px 12px 0 rgba(230, 162, 60, 0.2);
+  }
+  70% {
+    box-shadow: 0 2px 12px 0 rgba(230, 162, 60, 0.9);
+  }
+  to {
+    box-shadow: 0 2px 12px 0 rgba(230, 162, 60, 0.2);
   }
 }
 </style>

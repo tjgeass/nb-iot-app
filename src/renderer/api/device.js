@@ -16,7 +16,7 @@ export function getOrgInfo() {
  */
 export function getOrgConstInfo() {
   return request({
-    url: '/organization/const-info',
+    url: '/construction/const-info',
     method: 'get',
   })
 }

@@ -5,11 +5,12 @@
         <div class="block">
           <el-progress
             type="circle"
-            :percentage="80"
+            :percentage="100"
             :width="126"
             :stroke-width="1"
-            :show-text="false"
-          ></el-progress>
+            :show-text="true"
+            status="text"
+          >11</el-progress>
           <el-timeline>
             <transition-group name="list" tag="div">
               <el-timeline-item

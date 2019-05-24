@@ -19,7 +19,7 @@
       ref="loginForm"
       label-position="left"
     >
-      <h3 class="title">vue-element-admin</h3>
+      <h3 class="title">物联网智能检测平台</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user"/>
@@ -85,6 +85,7 @@ export default {
       }
     };
     return {
+      activeName: "first",
       loginForm: {
         username: "demo",
         password: "123456"
@@ -145,7 +146,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg: #2d3a4b;
+$bg: #c0c9d4;
 $light_gray: #eee;
 $dark_gray: #889aa4;
 
@@ -153,7 +154,7 @@ $dark_gray: #889aa4;
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $bg;
+  background: url("../../assets/images/login-bg.jpg");
   .el-input {
     display: inline-block;
     height: 47px;
@@ -167,7 +168,7 @@ $dark_gray: #889aa4;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: #fff !important;
       }
     }
