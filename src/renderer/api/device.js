@@ -9,7 +9,16 @@ export function getOrgInfo() {
     method: 'get',
   })
 }
-
+/**
+ * 更新机构信息
+ */
+export function updateOrgInfo(orgInfo) {
+  return request({
+    url: '/organization/update',
+    method: 'post',
+    data: orgInfo
+  })
+}
 
 /**
  * 获取机构建筑列表

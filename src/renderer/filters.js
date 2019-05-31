@@ -86,6 +86,43 @@ const filters = {
 
         }
 
+    },
+    formatNameType(tit) {
+        switch (tit) {
+            case "3303_0":
+            case "temp":
+                return '温度';
+                break;
+            case "3304_0":
+            case "humi":
+                return '湿度';
+                break;
+            case "3301_0":
+            case "illu":
+                return '光照';
+                break;
+            case "3316_0":
+            case "volt":
+                return '电量';
+                break;
+            case "3320_0":
+            case "perc":
+                return '裂隙';
+                break;
+            case "3321_0":
+            case "alti":
+                return '海拔';
+                break;
+            case "3332_0":
+            case "dire_0":
+                return '前后倾角';
+                break;
+            case "3332_1":
+            case "dire_1":
+                return '左右倾角';
+                break;
+        }
+
     }
 
 };

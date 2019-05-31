@@ -6,8 +6,9 @@ import ElementUI from 'element-ui'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 
-import "element-ui/lib/theme-chalk/index.css";
-import './assets/styles/themes/default.scss'; // 主题
+import './assets/styles/themes/themes.scss'; // 主题
+// import "element-ui/lib/theme-chalk/index.css";
+
 
 Vue.use(ElementUI)
 

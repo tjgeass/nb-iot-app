@@ -1,6 +1,11 @@
 <template>
   <div class="main-container">
-    <div class="main-left"></div>
+    <div class="main-left">
+      <div class="box">
+        <i class="el-icon-s-platform"></i>
+        <el-tag color="#FFF">设备分布</el-tag>
+      </div>
+    </div>
     <div class="main-right">
       <el-tabs tab-position="left" v-model="tab" style="height: 100%;">
         <el-tab-pane v-for="(cons, c_index) in consLists" :key="c_index">
@@ -148,6 +153,28 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: row;
+  background-color: #f7fff9;
+  .main-left {
+    background: url("../../assets/images/z1.png") no-repeat;
+    background-size: cover;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .box {
+      text-align: center;
+
+      i {
+        font-size: 96px;
+        display: block;
+        color: #fff;
+      }
+      span {
+        font-size: 24px;
+        color: #31c27c;
+      }
+    }
+  }
   .main-right {
     .title-top {
       height: 40px;
@@ -172,6 +199,7 @@ export default {
       text-align: center;
       i {
         font-size: 34px;
+        animation: marker 1s infinite ease-in-out alternate;
       }
       span {
         display: block;
@@ -191,6 +219,17 @@ export default {
 /* .list-leave-active for below version 2.1.8 */ {
     opacity: 0;
     transform: translateY(30px);
+  }
+}
+@keyframes marker {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 0.5;
   }
 }
 </style>

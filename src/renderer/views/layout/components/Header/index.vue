@@ -3,8 +3,8 @@
     <div class="left flex-c-l">
       <img class="logo" :src="logo" style="-webkit-app-region: drag">
     </div>
-    <div>
-      <router-link to="/home">{{topbar.title}}</router-link>
+    <div class="flex-c-l">
+      <router-link to="/">{{topbar.title}}</router-link>
     </div>
     <div class="right flex-c-l">
       <el-dropdown class="avatar-container" trigger="click">
@@ -23,11 +23,11 @@
           <el-dropdown-item class="item-device" :divided="true">
             <el-row>
               <el-col :span="8">
-                <span class="num">{{organization.c_num}}</span>
+                <span class="num">{{c_num}}</span>
                 <span class="tit">建筑数量</span>
               </el-col>
               <el-col :span="8">
-                <span class="num">{{organization.d_num}}</span>
+                <span class="num">{{d_num}}</span>
                 <span class="tit">设备数量</span>
               </el-col>
             </el-row>
@@ -76,7 +76,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["topbar", "sidebar", "avatar", "username", "organization"])
+    ...mapGetters(["topbar", "sidebar", "avatar", "username", "organization"]),
+    c_num() {
+      return this.organization ? this.organization.c_num : 0;
+    },
+    d_num() {
+      return this.organization ? this.organization.d_num : 0;
+    }
   },
   methods: {
     close() {
@@ -116,7 +122,8 @@ export default {
 <style lang="scss" scoped>
 .header-view {
   display: flex;
-  align-items: center;
+  flex: 1;
+  flex-direction: row;
   justify-content: space-between;
   .left {
     .btn {

@@ -25,32 +25,24 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+  { path: '*', redirect: '/404', hidden: true },
   {
     path: '/',
     component: Layout,
     props: { class: 'home-page' },
-    redirect: '/home',
     name: 'Home',
-    hidden: true,
     children: [{
-      path: 'home',
+      name: 'HomeIndex',
+      path: '',
       meta: {
+        title: '主界面',
+        icon: 'el-icon-s-home',
         keepAlive: true // 需要被缓存
       },
       component: () => import('@/views/home/index'),
     }]
   },
-  {
-    path: '/user',
-    component: Layout,
-    props: { class: 'user-page' },
-    redirect: '/user/index',
-    name: 'User',
-    children: [{
-      path: 'index',
-      component: () => import('@/views/User/index'),
-    }]
-  },
+
   {
     path: '/report',
     component: Layout,
@@ -58,7 +50,9 @@ export const constantRouterMap = [
     redirect: '/report/index',
     name: 'Report',
     children: [{
+      name: 'ReportIndex',
       path: 'index',
+      meta: { title: '智能检测', icon: 'el-icon-s-marketing' },
       component: () => import('@/views/report/index'),
     }]
   },
@@ -70,6 +64,8 @@ export const constantRouterMap = [
     name: 'Status',
     children: [{
       path: 'index',
+      name: 'StatusIndex',
+      meta: { title: '运行状态', icon: 'el-icon-s-help' },
       component: () => import('@/views/status/index'),
     }]
   },
@@ -83,7 +79,9 @@ export const constantRouterMap = [
       name: 'deviceIndex',
       path: 'index',
       meta: {
-        keepAlive: true // 需要被缓存
+        keepAlive: true, // 需要被缓存
+        title: '设备分布',
+        icon: 'el-icon-s-platform'
       },
       component: () => import('@/views/device/index'),
     }, {
@@ -93,6 +91,7 @@ export const constantRouterMap = [
         keepAlive: false
       },
       component: () => import('@/views/device/chart'),
+      hidden: true
     }, {
       name: 'deviceView',
       path: 'view',
@@ -100,45 +99,25 @@ export const constantRouterMap = [
         keepAlive: false
       },
       component: () => import('@/views/device/view'),
+      hidden: true
     }
     ]
   },
   {
-    path: '/example',
+    path: '/user',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+    props: { class: 'user-page' },
+    redirect: '/user/index',
+    name: 'User',
+    children: [{
+      path: 'index',
+      meta: {
+        title: '用户设置', icon: 'el-icon-s-tools'
       },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
+      component: () => import('@/views/User/index'),
+    }]
   },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({

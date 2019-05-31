@@ -13,6 +13,7 @@
         <transition name="fade" mode="out-in">
           <router-view v-if="!$route.meta.keepAlive"></router-view>
         </transition>
+        <side-bar class="sidebar-container"></side-bar>
       </el-main>
     </el-container>
   </div>
@@ -20,11 +21,17 @@
 
 <script>
 import HeaderView from "./components/Header/";
-
+import SideBar from "./components/Sidebar";
 export default {
   name: "layout",
   components: {
-    HeaderView
+    HeaderView,
+    SideBar
+  },
+  computed: {
+    sidebar() {
+      return this.$store.state.app.sidebar;
+    }
   }
 };
 </script>
@@ -41,6 +48,7 @@ export default {
   display: flex;
   flex: 1;
   flex-shrink: 0;
+  position: relative;
 }
 .el-header {
   background: #22bb6a;

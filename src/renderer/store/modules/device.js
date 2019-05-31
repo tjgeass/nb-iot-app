@@ -1,11 +1,12 @@
-import { getOrgInfo, getOrgConstInfo, getDeviceData } from '@/api/device'
+import { getOrgInfo, getOrgConstInfo, getDeviceData, updateOrgInfo } from '@/api/device'
 import sess from '../../utils/sess'
 
 const device = {
   state: {
     organization: sess.get('organization'),
     constructions: sess.get('constructions'),
-    devices: sess.get('devices')
+    devices: sess.get('devices'),
+    type: sess.get("types")
   },
 
   mutations: {
@@ -25,6 +26,19 @@ const device = {
     GetOrgInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getOrgInfo().then(response => {
+          const orgInfo = response.item
+          sess.set('organization', orgInfo)
+          commit('SET_ORGAN', orgInfo)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取机构信息
+    UpdateOrgInfo({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        updateOrgInfo(state.organization).then(response => {
           const orgInfo = response.item
           sess.set('organization', orgInfo)
           commit('SET_ORGAN', orgInfo)

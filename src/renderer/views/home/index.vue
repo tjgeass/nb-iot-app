@@ -1,21 +1,7 @@
 <template>
   <div class="home-container">
     <el-row type="flex" class="status" justify="center">
-      <div class="score">
-        <el-progress
-          type="circle"
-          :percentage="animatedScore"
-          :width="160"
-          :stroke-width="10"
-          :show-text="true"
-          status="text"
-          :color="color"
-        >
-          <p :style="{ color: color}">
-            <b>{{animatedScore}}</b>分
-          </p>
-        </el-progress>
-      </div>
+      <progress-view :score="score" :width="160"></progress-view>
     </el-row>
     <el-row class="status-text">
       <p class="p1">您管理的文物遗址很健康，继续保持</p>
@@ -57,35 +43,18 @@
 // import { mapGetters } from "vuex";
 import { getOrgInfo } from "@/api/device";
 import { TweenLite } from "gsap";
+import ProgressView from "@/components/progress";
 
 export default {
   name: "home",
+  components: { ProgressView },
   data() {
     return {
-      score: 100,
-      tweenedScore: 100,
-      color: ""
+      score: 100
     };
   },
-  computed: {
-    animatedScore: function() {
-      return Number(this.tweenedScore.toFixed(0));
-    }
-  },
-  watch: {
-    // 定义缓动动画
-    score: function(newValue) {
-      TweenLite.to(this.$data, 5, { tweenedScore: newValue });
-    },
-    animatedScore: function(newValue) {
-      if (newValue < 90 && newValue >= 80) {
-        this.color = "#E6A23C";
-      }
-      if (newValue < 80) {
-        this.color = "#F56C6C";
-      }
-    }
-  },
+  computed: {},
+  watch: {},
   created() {
     this.fetchData();
   },
@@ -114,25 +83,6 @@ export default {
   margin: 10px;
   .status {
     height: 160px;
-    .score {
-      background: #fff;
-      background-size: 100%;
-      width: 160px;
-      height: 160px;
-      margin: 0px auto;
-      border-radius: 50%;
-      position: relative;
-      .dot {
-        position: absolute;
-      }
-    }
-    p {
-      color: #35b172;
-      text-align: center;
-      b {
-        font-size: 50px;
-      }
-    }
   }
   .status-text {
     height: 100px;

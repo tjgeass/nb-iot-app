@@ -10,9 +10,17 @@ export function login(username, password) {
     }
   })
 }
-export function upSelf(userInfo) {
+export function updateSelf(userInfo) {
   return request({
-    url: '/user/update-self?XDEBUG_SESSION_START=17470',
+    url: '/user/update-self?XDEBUG_SESSION_START=11211',
+    method: 'post',
+    data: userInfo
+  })
+}
+
+export function updateAvatar(userInfo) {
+  return request({
+    url: '/user/update-avatar?XDEBUG_SESSION_START=15097',
     method: 'post',
     data: userInfo
   })

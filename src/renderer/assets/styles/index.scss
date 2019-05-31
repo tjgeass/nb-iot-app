@@ -1,6 +1,7 @@
-@import url('./iconfont/iconfont.css');
-
 @import url('./transition.scss');
+@import url('./element-ui.scss');
+
+
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -148,10 +149,7 @@ img {
   padding: 0;
 }
 
-
-.el-main{
-  
-}
+.el-main{}
 
 //main-container全局样式
 .app-main{
@@ -168,4 +166,14 @@ img {
 .main-right {
    float: right;
    width: 66%;
+}
+
+.home-page{
+   background: url('../images/green/bg.jpg') no-repeat center top;
+}
+.report-page{
+   background: url('../images/green/bg2.jpg') no-repeat center top;
+}
+.device-page{
+   background: none;
 }

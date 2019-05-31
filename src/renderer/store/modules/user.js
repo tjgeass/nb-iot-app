@@ -1,11 +1,12 @@
-import { login, logout, getInfo, upSelf } from '@/api/login'
+import { login, logout, getInfo, updateAvatar, updateSelf } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     username: '',
-    avatar: ''
+    avatar: '',
+    phone: null
   },
 
   mutations: {
@@ -54,10 +55,22 @@ const user = {
         })
       })
     },
-    // 获取用户信息
-    UpSelf({ commit, state }, userInfo) {
+    //修改用户信息
+    UpdateSelf({ commit, state }, userInfo) {
       return new Promise((resolve, reject) => {
-        upSelf(userInfo).then(response => {
+        updateSelf(userInfo).then(response => {
+          commit('SET_AVATAR', response.user.avatar)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    //修改用户头像
+    UpdateAvatar({ commit, state }, userInfo) {
+      return new Promise((resolve, reject) => {
+        updateAvatar(userInfo).then(response => {
+          commit('SET_AVATAR', response.user.avatar)
           resolve(response)
         }).catch(error => {
           reject(error)
