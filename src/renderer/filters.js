@@ -37,10 +37,9 @@ const filters = {
             case 3:
                 return 'el-icon-error';
                 break;
-
         }
-
     },
+
     formatTypeStatus(num) {
         switch (num) {
             case 1:
@@ -52,11 +51,10 @@ const filters = {
             case 3:
                 return 'danger';
                 break;
-
         }
 
-    }
-    ,
+    },
+
     formatColorStatus(num) {
         switch (num) {
             case 1:

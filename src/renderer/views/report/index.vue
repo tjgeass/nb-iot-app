@@ -47,28 +47,40 @@
     </div>
     <div class="main-right">
       <div class="err-info">
-        <transition-group name="fade">
-          <el-card class="box-card" v-for="(errInfo, err_index) in errInfos" :key="err_index">
-            <div slot="header" class="clearfix">
-              <el-tag
-                :type="errInfo.status|formatTypeStatus"
-                size="mini"
-              >{{errInfo.status|formatNameStatus}}</el-tag>
-              <span>{{errInfo.name}}</span>
-              <el-divider direction="vertical"></el-divider>
-              <span>{{errInfo.newData.uplink_at}}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">查看详情</el-button>
-            </div>
-            <div v-if="errInfo.newData.abnormal" class="text item">
-              <p v-for="(abnormal, abn_index) in errInfo.newData.abnormal" :key="abn_index">
-                <i :class="abnormal|formatIconStatus"></i>
-                <b>{{abn_index|formatNameType}}传感器数值:{{errInfo.newData[abn_index]}}</b>
-              </p>
-            </div>
-          </el-card>
-        </transition-group>
+        <el-scrollbar
+          ref="myScrollbar"
+          wrap-class
+          wrap-style="color: red;overflow-x: hidden;max-height: 500px;"
+          view-style="font-weight: bold;"
+          view-class="view-box"
+          :native="false"
+        >
+          <transition-group name="fade">
+            <el-card class="box-card" v-for="(errInfo, err_index) in errInfos" :key="err_index">
+              <div slot="header" class="clearfix">
+                <el-tag
+                  :type="errInfo.status|formatTypeStatus"
+                  size="mini"
+                >{{errInfo.status|formatNameStatus}}</el-tag>
+                <span>{{errInfo.name}}</span>
+                <el-divider direction="vertical"></el-divider>
+                <span>{{errInfo.newData.uplink_at}}</span>
+                <el-button style="float: right; padding: 3px 0" type="text">查看详情</el-button>
+              </div>
+              <div v-if="errInfo.newData.abnormal" class="text item">
+                <p
+                  v-for="(abnormal, abn_index) in errInfo.newData.abnormal"
+                  :key="abn_index"
+                  class="line"
+                >
+                  <i :class="abnormal|formatIconStatus"></i>
+                  <b>{{abn_index|formatNameType}}传感器当前采集数值:{{errInfo.newData[abn_index]}}对比标定值:{{errInfo.initial_data[abn_index]}}。变化异常请注意观察!</b>
+                </p>
+              </div>
+            </el-card>
+          </transition-group>
+        </el-scrollbar>
       </div>
-
       <el-row type="flex" class="report" justify="center">
         <el-button
           type="warning"
@@ -116,6 +128,7 @@ export default {
       if (contsItems.length > 0) {
         this.contsItem = contsItems.shift(); // 获取数值第一元素,并移除数组
         this.contsItem.show = false;
+        this.contsItem.score = 100;
         this.activities.push(this.contsItem);
         this.explain.splice(
           this.contsKey,
@@ -126,7 +139,7 @@ export default {
       } else {
         console.log("检测完成");
         this.organization.score = this.score.toFixed(0);
-        this.updateOrgScore();
+        this.updateOrgScore(); //更新机构评分
         this.reporting = false;
         this.restart = 1;
       }
@@ -140,6 +153,12 @@ export default {
         let item = items.shift(); //获取数值第一元素,并移除数组
         var title = "正在检测设备" + item.name + "各项设备参数";
         this.explain.splice(this.contsKey, 1, title);
+        if (item.status == 2) {
+          this.contsItem.score = this.contsItem.score - 15;
+        }
+        if (item.status == 3) {
+          this.contsItem.score = this.contsItem.score - 30;
+        }
         this.addErrInfo(item);
       } else {
         clearInterval(this.timer);
@@ -154,7 +173,7 @@ export default {
         );
         this.score =
           this.score - (100 - this.contsItem.score) / this.organization.c_num; //更新分数
-        this.activities[this.contsKey].show = true;
+        this.activities[this.contsKey].show = true; //显示建筑评分
         this.contsKey++;
         this.addContsItem();
       }
@@ -162,6 +181,7 @@ export default {
     addErrInfo(item) {
       if (item.status != 1) {
         this.errInfos.push(item);
+        this.scrollDown();
       }
     },
     handleStart() {
@@ -189,6 +209,13 @@ export default {
     updateOrgScore() {
       this.$store.dispatch("UpdateOrgInfo").then(response => {
         console.log("更新机构信息成功");
+      });
+    },
+    scrollDown() {
+      console.log(this.$refs["myScrollbar"].wrap.scrollTop);
+      this.$nextTick(() => {
+        console.log(this.$refs["myScrollbar"].wrap.scrollTop);
+        this.$refs["myScrollbar"].wrap.scrollTop = 100;
       });
     }
   },
@@ -248,7 +275,13 @@ export default {
       height: 500px;
       color: #31c27c;
       .el-card {
+        margin-bottom: 10px;
         font-size: 13px;
+        .text {
+          .line {
+            line-height: 150%;
+          }
+        }
       }
     }
   }
@@ -269,5 +302,14 @@ export default {
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
+}
+.el-icon-success {
+  color: #67c23a;
+}
+.el-icon-warning {
+  color: #e6a23c;
+}
+.el-icon-error {
+  color: #f56c6c;
 }
 </style>
