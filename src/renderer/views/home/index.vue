@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <el-row type="flex" class="status" justify="center">
-      <progress-view :score="score" :width="160"></progress-view>
+      <progress-view :score="localSocre" :width="160"></progress-view>
     </el-row>
     <el-row class="status-text">
       <p class="p1">您管理的文物遗址很健康，继续保持</p>
@@ -40,8 +40,7 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
-import { getOrgInfo } from "@/api/device";
+import { mapGetters } from "vuex";
 import { TweenLite } from "gsap";
 import ProgressView from "@/components/progress";
 
@@ -53,7 +52,19 @@ export default {
       score: 100
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["topbar", "organization"]),
+    localSocre() {
+      if (this.$store.getters.organization) {
+        return this.$store.getters.organization.score;
+      } else {
+        return 100;
+      }
+    },
+    currentTime() {
+      return new Date().getTime();
+    }
+  },
   watch: {},
   created() {
     this.fetchData();
@@ -70,10 +81,15 @@ export default {
     },
     fetchData() {
       this.$store.dispatch("GetOrgInfo").then(response => {
-        this.score = response.item.score;
+        if (this.currentTime - this.organization.updated_at > 1) {
+          this.$message(
+            "已经很长时间没有进行智能检测,请点击智能检测分析遗址状态!"
+          );
+        }
       });
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 

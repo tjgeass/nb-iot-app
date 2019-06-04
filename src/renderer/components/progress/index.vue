@@ -23,7 +23,7 @@ export default {
   props: {
     score: {
       type: Number,
-      default: null
+      default: 100
     },
     width: {
       type: Number,

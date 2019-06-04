@@ -40,6 +40,23 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-dropdown class="notice-container" trigger="click">
+        <el-badge :value="200" :max="99" class="notice">
+          <el-button
+            class="notice-btn no-drag"
+            icon="el-icon-message-solid"
+            size="medium"
+            type="text"
+          ></el-button>
+        </el-badge>
+        <el-dropdown-menu class="notice-dropdown" slot="dropdown">
+          <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check-outline">蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-button @click="minimize" class="no-drag" size="mini" type="text">
         <i class="btn el-icon-minus"></i>
       </el-button>
@@ -198,5 +215,13 @@ export default {
 .user-dropdown .user-avatar {
   width: 40px;
   height: 40px;
+}
+.notice-container {
+  .notice {
+    margin-right: 30px;
+  }
+  .notice-btn {
+    color: #fff;
+  }
 }
 </style>

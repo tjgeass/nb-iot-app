@@ -55,7 +55,7 @@
           view-class="view-box"
           :native="false"
         >
-          <transition-group name="fade">
+          <transition-group name="fade" tag="div">
             <el-card class="box-card" v-for="(errInfo, err_index) in errInfos" :key="err_index">
               <div slot="header" class="clearfix">
                 <el-tag
@@ -162,6 +162,12 @@ export default {
         this.addErrInfo(item);
       } else {
         clearInterval(this.timer);
+        if (this.contsItem.score <= 90) {
+          this.contsItem.status = 2;
+        } else if (this.contsItem.score <= 70) {
+          this.contsItem.status = 3;
+        }
+        this.updateContsScore();
         var format = Vue.filter("formatNameStatus");
         this.explain.splice(
           this.contsKey,
@@ -210,6 +216,20 @@ export default {
       this.$store.dispatch("UpdateOrgInfo").then(response => {
         console.log("更新机构信息成功");
       });
+    },
+    updateContsScore() {
+      let query = {
+        id: this.contsItem.id
+      };
+      let data = {
+        status: this.contsItem.status,
+        score: this.contsItem.score
+      };
+      this.$store
+        .dispatch("UpdateContsInfo", { query, data })
+        .then(response => {
+          console.log("更新建筑信息成功");
+        });
     },
     scrollDown() {
       console.log(this.$refs["myScrollbar"].wrap.scrollTop);

@@ -19,7 +19,17 @@ export function updateOrgInfo(orgInfo) {
     data: orgInfo
   })
 }
-
+/**
+ * 更新建筑信息
+ */
+export function updateContsInfo(params, contsInfo) {
+  return request({
+    url: '/construction/update',
+    method: 'post',
+    data: contsInfo,
+    params
+  })
+}
 /**
  * 获取机构建筑列表
  */

@@ -37,7 +37,7 @@ export const constantRouterMap = [
       meta: {
         title: '主界面',
         icon: 'el-icon-s-home',
-        keepAlive: true // 需要被缓存
+        keepAlive: true // 不需要被缓存
       },
       component: () => import('@/views/home/index'),
     }]

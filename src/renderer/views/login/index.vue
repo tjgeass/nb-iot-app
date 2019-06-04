@@ -54,7 +54,7 @@
           style="width:100%;"
           :loading="loading"
           @click.native.prevent="handleLogin"
-        >Sign in</el-button>
+        >登录</el-button>
       </el-form-item>
       <div class="tips">
         <span style="margin-right:20px;">username: demo</span>

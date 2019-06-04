@@ -1,4 +1,4 @@
-import { getOrgInfo, getOrgConstInfo, getDeviceData, updateOrgInfo } from '@/api/device'
+import { getOrgInfo, getOrgConstInfo, getDeviceData, updateOrgInfo, updateContsInfo } from '@/api/device'
 import sess from '../../utils/sess'
 
 const device = {
@@ -35,13 +35,23 @@ const device = {
         })
       })
     },
-    // 获取机构信息
+    // 更新机构信息
     UpdateOrgInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         updateOrgInfo(state.organization).then(response => {
           const orgInfo = response.item
           sess.set('organization', orgInfo)
           commit('SET_ORGAN', orgInfo)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 更新建筑信息
+    UpdateContsInfo({ commit, state }, { query, data }) {
+      return new Promise((resolve, reject) => {
+        updateContsInfo(query, data).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)
