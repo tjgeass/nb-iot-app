@@ -53,7 +53,7 @@ export const constantRouterMap = [
       name: 'ReportIndex',
       path: 'index',
       meta: {
-        title: '智能检测', icon: 'el-icon-s-marketing', keepAlive: false
+        title: '智能检测', icon: 'el-icon-s-marketing', keepAlive: true
       },
       component: () => import('@/views/report/index'),
     }]

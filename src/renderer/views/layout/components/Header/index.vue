@@ -52,7 +52,7 @@
         <el-dropdown-menu class="notice-dropdown" slot="dropdown">
           <el-dropdown-item v-for="(message, index) in messages" :key="index" :divided="true">
             <span>{{message.time}}</span>
-            <p>{{message.content}}</p>
+            <p class="message-text">{{message.content}}</p>
           </el-dropdown-item>
           <el-dropdown-item>
             <p @click="messageIndex">查看更多...</p>
@@ -259,5 +259,12 @@ export default {
   .notice-btn {
     color: #fff;
   }
+}
+.message-text {
+  width: 250px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
