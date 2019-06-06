@@ -1,5 +1,6 @@
 <template>
   <div class="main-container">
+    <div class="main-left"></div>
     <el-card class="box-card" :body-style="{ padding: '10px' }" shadow="hover">
       <div slot="header" class="clearfix">
         <span>设备属性</span>
@@ -69,6 +70,13 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .main-container {
   margin: 10px;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  .main-left {
+    width: 500px;
+  }
+
   .box-card {
   }
 }

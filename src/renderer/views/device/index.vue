@@ -157,7 +157,6 @@ export default {
   .main-left {
     background: url("../../assets/images/z1.png") no-repeat;
     background-size: cover;
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;

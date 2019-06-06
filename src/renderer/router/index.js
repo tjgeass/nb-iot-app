@@ -37,7 +37,7 @@ export const constantRouterMap = [
       meta: {
         title: '主界面',
         icon: 'el-icon-s-home',
-        keepAlive: true // 不需要被缓存
+        keepAlive: true // 需要被缓存
       },
       component: () => import('@/views/home/index'),
     }]
@@ -52,7 +52,9 @@ export const constantRouterMap = [
     children: [{
       name: 'ReportIndex',
       path: 'index',
-      meta: { title: '智能检测', icon: 'el-icon-s-marketing' },
+      meta: {
+        title: '智能检测', icon: 'el-icon-s-marketing', keepAlive: false
+      },
       component: () => import('@/views/report/index'),
     }]
   },
@@ -67,6 +69,21 @@ export const constantRouterMap = [
       name: 'StatusIndex',
       meta: { title: '运行状态', icon: 'el-icon-s-help' },
       component: () => import('@/views/status/index'),
+    }]
+  },
+  {
+    path: '/message',
+    component: Layout,
+    props: { class: 'message-page' },
+    redirect: '/message/index',
+    name: 'Message',
+    children: [{
+      path: 'index',
+      name: 'MessageIndex',
+      meta: {
+        title: '消息通知', icon: 'el-icon-message-solid'
+      },
+      component: () => import('@/views/message/index'),
     }]
   },
   {

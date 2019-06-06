@@ -6,7 +6,7 @@ const user = {
     token: getToken(),
     username: '',
     avatar: '',
-    phone: null
+    phone: ''
   },
 
   mutations: {
@@ -15,6 +15,9 @@ const user = {
     },
     SET_NAME: (state, username) => {
       state.username = username
+    },
+    SET_PHONE: (state, phone) => {
+      state.phone = phone
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -49,6 +52,7 @@ const user = {
           const user = response.user
           commit('SET_NAME', user.username)
           commit('SET_AVATAR', user.avatar)
+          commit('SET_PHONE', response.user.phone)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -59,7 +63,7 @@ const user = {
     UpdateSelf({ commit, state }, userInfo) {
       return new Promise((resolve, reject) => {
         updateSelf(userInfo).then(response => {
-          commit('SET_AVATAR', response.user.avatar)
+          commit('SET_PHONE', response.user.phone)
           resolve(response)
         }).catch(error => {
           reject(error)

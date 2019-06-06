@@ -32,7 +32,7 @@
                     class="el-button el-button--primary"
                     style="float: right; padding: 3px 0"
                     type="text"
-                    @click="handleDevice(device.dev_id)"
+                    @click="handleStatus(device.dev_id)"
                   >查看详情</el-button>
                 </div>
                 <div class="dev-data">
@@ -114,7 +114,7 @@ export default {
         this.consItems = response.items;
       });
     },
-    handleDevice(dev_id) {
+    handleStatus(dev_id) {
       this.$router.push({
         path: "/device/view",
         query: {

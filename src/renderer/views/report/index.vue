@@ -164,7 +164,8 @@ export default {
         clearInterval(this.timer);
         if (this.contsItem.score <= 90) {
           this.contsItem.status = 2;
-        } else if (this.contsItem.score <= 70) {
+        }
+        if (this.contsItem.score < 70) {
           this.contsItem.status = 3;
         }
         this.updateContsScore();
@@ -177,8 +178,10 @@ export default {
             "  状态" +
             format(this.contsItem.status)
         );
-        this.score =
-          this.score - (100 - this.contsItem.score) / this.organization.c_num; //更新分数
+        this.score = Number(
+          this.score - (100 - this.contsItem.score) / this.organization.c_num
+        ); //更新分数
+        console.log(this.score);
         this.activities[this.contsKey].show = true; //显示建筑评分
         this.contsKey++;
         this.addContsItem();
@@ -232,9 +235,7 @@ export default {
         });
     },
     scrollDown() {
-      console.log(this.$refs["myScrollbar"].wrap.scrollTop);
       this.$nextTick(() => {
-        console.log(this.$refs["myScrollbar"].wrap.scrollTop);
         this.$refs["myScrollbar"].wrap.scrollTop = 100;
       });
     }

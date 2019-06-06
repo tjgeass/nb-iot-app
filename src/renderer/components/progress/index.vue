@@ -5,9 +5,9 @@
     :percentage="animatedScore"
     :width="width"
     :stroke-width="8"
-    :show-text="true"
-    status="text"
     :color="color"
+    :show-text="true"
+    :format="format"
   >
     <p :style="{ color: color}">
       <b>{{animatedScore}}</b>分
@@ -55,6 +55,14 @@ export default {
         this.color = "#F56C6C";
       }
     }
+  },
+  methods: {
+    format(percentage) {
+      return percentage;
+    }
+  },
+  render: function(createElement) {
+    return createElement("h1", this.animatedScore);
   }
 };
 </script>

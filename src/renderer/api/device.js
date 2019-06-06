@@ -10,6 +10,35 @@ export function getOrgInfo() {
   })
 }
 /**
+ * 获取机构未读通知
+ */
+export function getOrgMessageRead() {
+  return request({
+    url: '/device-message/unread',
+    method: 'get',
+  })
+}
+/**
+ * 获取机构通知
+ */
+export function getOrgMessage(params) {
+  return request({
+    url: '/device-message/index',
+    method: 'get',
+    params
+  })
+}
+/**
+ * 更新机构通知
+ */
+export function updateOrgMessage(data) {
+  return request({
+    url: '/device-message/update',
+    method: 'post',
+    data: data
+  })
+}
+/**
  * 更新机构信息
  */
 export function updateOrgInfo(orgInfo) {

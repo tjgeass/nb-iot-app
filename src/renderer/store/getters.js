@@ -6,5 +6,7 @@ const getters = {
   username: state => state.user.username,
   organization: state => state.device.organization,
   devices: state => state.device.devices,
+  messages: state => state.device.messages,
+  message_count: state => state.device.message_count,
 }
 export default getters

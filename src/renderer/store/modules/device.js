@@ -1,4 +1,4 @@
-import { getOrgInfo, getOrgConstInfo, getDeviceData, updateOrgInfo, updateContsInfo } from '@/api/device'
+import { getOrgInfo, getOrgMessage, getOrgMessageRead, updateOrgMessage, getOrgConstInfo, getDeviceData, updateOrgInfo, updateContsInfo } from '@/api/device'
 import sess from '../../utils/sess'
 
 const device = {
@@ -6,7 +6,9 @@ const device = {
     organization: sess.get('organization'),
     constructions: sess.get('constructions'),
     devices: sess.get('devices'),
-    type: sess.get("types")
+    type: sess.get("types"),
+    messages: sess.get("messages"),
+    message_count: sess.get("message_count"),
   },
 
   mutations: {
@@ -18,6 +20,12 @@ const device = {
     },
     SET_DEVICE: (state, devices) => {
       state.devices = devices
+    },
+    SET_MESSAGE: (state, messages) => {
+      state.messages = messages
+    },
+    SET_MESSAGE_COUNT: (state, count) => {
+      state.message_count = count
     }
   },
 
@@ -35,6 +43,41 @@ const device = {
         })
       })
     },
+    // 获取机构未读通知
+    GetOrgMessageRead({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        getOrgMessageRead().then(response => {
+          sess.set('messages', response.items)
+          commit('SET_MESSAGE', response.items)
+          sess.set('message_count', response.count)
+          commit('SET_MESSAGE_COUNT', response.count)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取机构通知
+    GetOrgMessage({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        getOrgMessage(query).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 更新机构通知已读
+    UpdateOrgMessage({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        updateOrgMessage(data).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
     // 更新机构信息
     UpdateOrgInfo({ commit, state }) {
       return new Promise((resolve, reject) => {

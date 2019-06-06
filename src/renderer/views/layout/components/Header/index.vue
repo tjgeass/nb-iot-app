@@ -41,7 +41,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <el-dropdown class="notice-container" trigger="click">
-        <el-badge :value="200" :max="99" class="notice">
+        <el-badge :value="message_count" :max="99" class="notice">
           <el-button
             class="notice-btn no-drag"
             icon="el-icon-message-solid"
@@ -50,11 +50,13 @@
           ></el-button>
         </el-badge>
         <el-dropdown-menu class="notice-dropdown" slot="dropdown">
-          <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-circle-check-outline">蚵仔煎</el-dropdown-item>
+          <el-dropdown-item v-for="(message, index) in messages" :key="index" :divided="true">
+            <span>{{message.time}}</span>
+            <p>{{message.content}}</p>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <p @click="messageIndex">查看更多...</p>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button @click="minimize" class="no-drag" size="mini" type="text">
@@ -75,7 +77,12 @@ const { BrowserWindow } = require("electron");
 export default {
   data() {
     return {
-      logo
+      tiemr: null,
+      logo,
+      query: {
+        num: 5,
+        already: 0
+      }
     };
   },
   props: {
@@ -92,8 +99,20 @@ export default {
       }
     }
   },
+  created() {
+    this.fetchData();
+    this.timer = setInterval(this.fetchData, 60000);
+  },
   computed: {
-    ...mapGetters(["topbar", "sidebar", "avatar", "username", "organization"]),
+    ...mapGetters([
+      "topbar",
+      "sidebar",
+      "avatar",
+      "username",
+      "organization",
+      "messages",
+      "message_count"
+    ]),
     c_num() {
       return this.organization ? this.organization.c_num : 0;
     },
@@ -102,6 +121,11 @@ export default {
     }
   },
   methods: {
+    fetchData() {
+      this.$store.dispatch("GetOrgMessageRead").then(response => {
+        console.log("获取未读消息");
+      });
+    },
     close() {
       this.$confirm("此操作将退出监测平台, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -118,6 +142,12 @@ export default {
         path: "/user/index"
       });
     },
+    messageIndex() {
+      console.log(111);
+      this.$router.push({
+        path: "/message/index"
+      });
+    },
     minimize() {
       this.$electron.ipcRenderer.send("minimize");
     },
@@ -131,6 +161,12 @@ export default {
       this.$store.dispatch("LogOut").then(() => {
         location.reload(); // 为了重新实例化vue-router对象 避免bug
       });
+    }
+  },
+  destroyed() {
+    if (this.timer) {
+      //如果定时器在运行则关闭
+      clearInterval(this.timer);
     }
   }
 };

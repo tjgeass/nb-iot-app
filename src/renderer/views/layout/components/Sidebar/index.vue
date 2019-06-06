@@ -96,11 +96,13 @@ $bg: #22bb6a;
       transition: width 0.5s;
       flex: 1;
       display: flex;
+      z-index: 9999;
       .el-menu {
         height: 100%;
       }
     }
     .toggle-button {
+      z-index: 9999;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -142,7 +144,7 @@ $bg: #22bb6a;
     left: 0;
     .sidebar-content-wrapper {
       .toggle-button {
-        right: -22px;
+        right: -20px;
       }
     }
   }
@@ -150,7 +152,7 @@ $bg: #22bb6a;
     right: 0;
     .sidebar-content-wrapper {
       .toggle-button {
-        left: -22px;
+        left: -20px;
         transform: rotate(180deg);
       }
     }
