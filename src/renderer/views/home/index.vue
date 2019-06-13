@@ -43,13 +43,20 @@
 import { mapGetters } from "vuex";
 import { TweenLite } from "gsap";
 import ProgressView from "@/components/progress";
+import wave from "@/components/garish/wave";
 
 export default {
   name: "home",
-  components: { ProgressView },
+  components: { wave, ProgressView },
   data() {
     return {
-      score: 100
+      score: 100,
+      drive: {
+        width: 160,
+        height: 160,
+        gap: 10,
+        percent: 85
+      }
     };
   },
   computed: {

@@ -1,18 +1,20 @@
 <template>
-  <el-progress
-    class="score"
-    type="circle"
-    :percentage="animatedScore"
-    :width="width"
-    :stroke-width="8"
-    :color="color"
-    :show-text="true"
-    :format="format"
-  >
-    <p :style="{ color: color}">
-      <b>{{animatedScore}}</b>分
-    </p>
-  </el-progress>
+  <div class="score">
+    <el-progress
+      type="circle"
+      class="progress"
+      :percentage="animatedScore"
+      :width="width"
+      :stroke-width="8"
+      :color="color"
+      :show-text="false"
+    ></el-progress>
+    <div class="score-text">
+      <p :style="{ color: color}">
+        <b>{{animatedScore}}</b>分
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -69,20 +71,36 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .score {
-  background: rgba(255, 255, 255, 0.6);
-  background-size: 100%;
-  margin: 0px auto;
-  border-radius: 50%;
   position: relative;
-  .dot {
-    position: absolute;
+  .progress {
+    background: rgba(255, 255, 255, 0.6);
+    background-size: 100%;
+    margin: 0px auto;
+    border-radius: 50%;
   }
-}
-p {
-  color: #35b172;
-  text-align: center;
-  b {
-    font-size: 50px;
+  .score-text {
+    position: absolute;
+    display: flex;
+    /* flex: 1; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: #35b172;
+      text-align: center;
+      b {
+        font-size: 50px;
+      }
+    }
   }
 }
 </style>
+<style>
+.el-progress__text {
+  font-size: 36px !important;
+}
+</style>
+

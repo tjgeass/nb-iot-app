@@ -1,8 +1,8 @@
 {
   "name": "nb-iot",
   "version": "1.0.0",
-  "author": "Pan <panfree23@gmail.com>",
-  "description": "An electron-vue project",
+  "author": "tjgeass <tjgeass@gmail.com>",
+  "description": "NB-IOT",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": ""
+        "url": "http://127.0.0.1:80/verson/"
       }
     ],
     "directories": {

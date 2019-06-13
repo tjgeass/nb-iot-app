@@ -34,8 +34,8 @@ function createWindow() {
     resizable: false,
     skipTaskbar: false,
     transparent: false,
-    title:"遗址检测",
-    autoHideMenuBar:true,
+    title: "遗址检测",
+    autoHideMenuBar: true,
   })
 
   mainWindow.loadURL(winURL)
@@ -43,7 +43,74 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+
+  function handleUpdate() {
+    const returnData = {
+      error: { status: -1, msg: '检测更新查询异常' },
+      checking: { status: 0, msg: '正在检查应用程序更新' },
+      updateAva: { status: 1, msg: '检测到新版本，正在下载,请稍后' },
+      updateNotAva: { status: -1, msg: '您现在使用的版本为最新版本,无需更新!' },
+    };
+
+    //和之前package.json配置的一样
+    autoUpdater.setFeedURL('http://127.0.0.1:verson/');
+
+    //更新错误
+    autoUpdater.on('error', function (error) {
+      sendUpdateMessage(returnData.error)
+    });
+
+    //检查中
+    autoUpdater.on('checking-for-update', function () {
+      sendUpdateMessage(returnData.checking)
+    });
+
+    //发现新版本
+    autoUpdater.on('update-available', function (info) {
+      sendUpdateMessage(returnData.updateAva)
+    });
+
+    //当前版本为最新版本
+    autoUpdater.on('update-not-available', function (info) {
+      setTimeout(function () {
+        sendUpdateMessage(returnData.updateNotAva)
+      }, 1000);
+    });
+
+    // 更新下载进度事件
+    autoUpdater.on('download-progress', function (progressObj) {
+      mainWindow.webContents.send('downloadProgress', progressObj)
+    });
+
+
+    autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
+      ipcMain.on('isUpdateNow', (e, arg) => {
+        //some code here to handle event
+        autoUpdater.quitAndInstall();
+      });
+      // win.webContents.send('isUpdateNow')
+    });
+
+    //执行自动更新检查
+    autoUpdater.checkForUpdates();
+  }
+
+  handleUpdate();
+
+  // 通过main进程发送事件给renderer进程，提示更新信息
+  function sendUpdateMessage(text) {
+    mainWindow.webContents.send('message', text)
+  }
+
+  ipcMain.on("checkForUpdate", (event, data) => {
+    console.log('执行自动更新检查!!!');
+    // event.sender.send('reply', 'hi lee my name is yuan, age is 17');
+    autoUpdater.checkForUpdates();
+  });
 }
+
+
 
 app.on('ready', createWindow)
 
@@ -74,8 +141,10 @@ ipcMain.on('minimize', e => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
+/**
 import { autoUpdater } from 'electron-updater'
+
+autoUpdater.setFeedURL('http://127.0.0.1:80/verson/')
 
 autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall()
@@ -84,4 +153,5 @@ autoUpdater.on('update-downloaded', () => {
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
- */
+
+*/

@@ -1,7 +1,6 @@
 <template>
   <div class="main-container">
-    <div class="main-left"></div>
-    <el-card class="box-card" :body-style="{ padding: '10px' }" shadow="hover">
+    <el-card class="box-card-basic" :body-style="{ padding: '10px' }" shadow="hover">
       <div slot="header" class="clearfix">
         <span>设备属性</span>
       </div>
@@ -9,24 +8,62 @@
         label-position="left"
         :model="device"
         size="mini"
-        label-width="100px"
+        label-width="80px"
         class="demo-table-expand"
       >
-        <el-form-item label="设备名称">
+        <el-form-item label="设备名称:">
           <span>{{ device.name }}</span>
         </el-form-item>
-        <el-form-item label="设备简介">
+        <el-form-item label="设备简介:">
           <span>{{ device.desc }}</span>
         </el-form-item>
-        <el-form-item label="设备状态">
-          <span>{{ device.status }}</span>
+        <el-form-item label="设备状态:">
+          <span>{{ device.status|formatNameStatus }}</span>
         </el-form-item>
-        <el-form-item label="设备类型">
+        <el-form-item label="设备类型:">
           <span>{{ device.type_id }}</span>
         </el-form-item>
       </el-form>
     </el-card>
-    {{device.name}}
+
+    <el-card class="box-card-status">
+      <div slot="header" class="clearfix">
+        <span>运行状态</span>
+      </div>
+      <div class="status">
+        <div v-if="device.newData.temp" class="dev-data">
+          <i class="icon iconfont icon-wendu"></i>
+          <p class="data">当前值:{{device.newData.temp}}</p>
+          <p class="cali">标定值:{{device.initial_data.temp ? device.initial_data.temp:"无"}}</p>
+        </div>
+        <div v-if="device.newData.humi" class="dev-data">
+          <i class="icon iconfont icon-shidu"></i>
+          <span class="data">{{device.newData.humi}}</span>
+          <span class="cali">{{device.initial_data.humi}}</span>
+        </div>
+        <div v-if="device.newData.illu" class="dev-data">
+          <span class="name">光照:</span>
+          <span class="data">{{device.newData.illu}}</span>
+          <span class="cali">{{device.initial_data.illu}}</span>
+        </div>
+        <div v-if="device.newData.perc" class="dev-data">
+          <span class="name">裂隙:</span>
+          <span class="data">{{device.newData.perc}}</span>
+          <span class="cali">{{device.initial_data.perc}}</span>
+        </div>
+        <div v-if="device.newData.dire_0" class="dev-data">
+          <span class="name">前后倾角:</span>
+          <span class="data">{{device.newData.dire_0}}</span>
+          <span class="cali">{{device.initial_data.dire_0}}</span>
+        </div>
+        <div v-if="device.newData.dire_1" class="dev-data">
+          <span class="name">左右倾角:</span>
+          <span class="data">{{device.newData.dire_1}}</span>
+          <span class="cali">{{device.initial_data.dire_1}}</span>
+        </div>
+      </div>
+      <div class="action"></div>
+    </el-card>
   </div>
 </template>
 
@@ -73,11 +110,26 @@ export default {
   display: flex;
   flex: 1;
   flex-direction: row;
-  .main-left {
-    width: 500px;
+  .box-card-basic {
+    width: 250px;
+    margin-right: 10px;
   }
-
-  .box-card {
+  .box-card-status {
+    flex: 1;
+    margin-right: 10px;
+    .status {
+      height: 400px;
+      .dev-data {
+        float: left;
+        width: 150px;
+        height: 150px;
+        i {
+          display: block;
+          font-size: 80px;
+          text-align: center;
+        }
+      }
+    }
   }
 }
 @keyframes breath-danger {
