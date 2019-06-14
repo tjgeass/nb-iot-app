@@ -62,7 +62,9 @@
           <span class="cali">{{device.initial_data.dire_1}}</span>
         </div>
       </div>
-      <div class="action"></div>
+      <div class="action">
+        <el-button type="primary" plain @click="handleDevice">曲线图</el-button>
+      </div>
     </el-card>
   </div>
 </template>
@@ -97,7 +99,15 @@ export default {
     }
   },
   methods: {
-    fetchData() {}
+    fetchData() {},
+    handleDevice() {
+      this.$router.push({
+        path: "/device/chart",
+        query: {
+          dev_id: this.dev_id
+        }
+      });
+    }
   }
 };
 </script>

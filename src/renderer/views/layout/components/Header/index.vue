@@ -143,7 +143,6 @@ export default {
       });
     },
     messageIndex() {
-      console.log(111);
       this.$router.push({
         path: "/message/index"
       });
@@ -158,9 +157,17 @@ export default {
       this.$bus.$emit("page-refresh", this.$route.name);
     },
     logout() {
-      this.$store.dispatch("LogOut").then(() => {
-        location.reload(); // 为了重新实例化vue-router对象 避免bug
-      });
+      this.$confirm("确定注销当前账号?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$store.dispatch("LogOut").then(() => {
+            location.reload(); // 为了重新实例化vue-router对象 避免bug
+          });
+        })
+        .catch(() => {});
     }
   },
   destroyed() {

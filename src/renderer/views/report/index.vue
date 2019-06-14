@@ -88,7 +88,7 @@
           @click="handleStart"
           round
           :loading="reporting"
-        >{{restart?"重新检测":"开始检测"}}</el-button>
+        >{{restart?"重新检测":"检测中"}}</el-button>
       </el-row>
     </div>
   </div>
@@ -121,7 +121,9 @@ export default {
   computed: {
     ...mapGetters(["topbar", "organization"])
   },
-  mounted() {},
+  mounted() {
+    this.handleStart();
+  },
   methods: {
     addContsItem() {
       let contsItems = this.list;
@@ -138,7 +140,7 @@ export default {
         this.timer = setInterval(this.addDevItem, this.time); //嵌套循环
       } else {
         console.log("检测完成");
-        this.organization.score = this.score.toFixed(0);
+        this.organization.score = Number(this.score.toFixed(0));
         this.updateOrgScore(); //更新机构评分
         this.reporting = false;
         this.restart = 1;

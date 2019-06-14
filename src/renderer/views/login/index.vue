@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" v-loading.fullscreen="downing" :element-loading-text="downText">
     <div class="header-view" :style="{height: '50px'}">
       <div class="right">
         <el-button @click="minimize" class="no-drag" size="mini" type="text">
@@ -66,6 +66,7 @@
 
 <script>
 //  import { isvalidUsername } from '@/utils/validate'
+import { ipcRenderer } from "electron";
 
 export default {
   name: "login",
@@ -85,6 +86,8 @@ export default {
       }
     };
     return {
+      downing: false,
+      downText: null,
       activeName: "first",
       loginForm: {
         username: "demo",
@@ -140,7 +143,35 @@ export default {
           return false;
         }
       });
+    },
+    checkForUpdate() {
+      ipcRenderer.send("checkForUpdate");
+      ipcRenderer.on("message", (event, text) => {
+        //console.log(arguments);
+        this.tips = text;
+        this.$message(text);
+      });
+      ipcRenderer.on("downloadProgress", (event, progressObj) => {
+        //console.log(progressObj);
+        this.downing = true;
+        this.downText =
+          "下载更新包中" + Number(progressObj.percent.toFixed(1)) + "%";
+        this.downloadPercent = progressObj.percent || 0;
+      });
+      ipcRenderer.on("isUpdateNow", () => {
+        ipcRenderer.send("isUpdateNow");
+      });
     }
+  },
+  mounted() {
+    this.checkForUpdate();
+  },
+  beforeDestroy() {
+    this.$electron.ipcRenderer.removeAll([
+      "message",
+      "downloadProgress",
+      "isUpdateNow"
+    ]);
   }
 };
 </script>

@@ -6,8 +6,8 @@ import {
   ipcMain
 } from 'electron'
 
-
-// import { app, BrowserWindow } from 'electron'
+// 自动更新相关
+import { autoUpdater } from 'electron-updater'
 
 /**
  * Set `__static` path to static files in production
@@ -43,76 +43,63 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+}
+// 通过main进程发送事件给renderer进程，提示更新信息
+function sendUpdateMessage(text) {
+  mainWindow.webContents.send('message', text)
+}
+/**
+ * 自动更新
+ */
+function updateHandle() {
 
+  // 监测更新，在你想要检查更新的时候执行，renderer事件触发后的操作自行编写
+  const message = {
+    error: '检查更新出错',
+    checking: '正在检查更新......',
+    updateAva: '监测到新版本，正在下载......',
+    updateNotAva: '现在使用的就是最新版本，不用下载'
+  }
+  const uploadUrl = "http://101.200.33.135/verson/"; // 下载地址，不加后面的**.exe
+  autoUpdater.setFeedURL(uploadUrl);
+  autoUpdater.on('error', function (error) {
+    sendUpdateMessage(message.error)
+  });
+  autoUpdater.on('checking-for-update', function () {
+    sendUpdateMessage(message.checking)
+  });
+  autoUpdater.on('update-available', function (info) {
+    sendUpdateMessage(message.updateAva)
+  });
+  autoUpdater.on('update-not-available', function (info) {
+    sendUpdateMessage(message.updateNotAva)
+  });
 
-  function handleUpdate() {
-    const returnData = {
-      error: { status: -1, msg: '检测更新查询异常' },
-      checking: { status: 0, msg: '正在检查应用程序更新' },
-      updateAva: { status: 1, msg: '检测到新版本，正在下载,请稍后' },
-      updateNotAva: { status: -1, msg: '您现在使用的版本为最新版本,无需更新!' },
-    };
-
-    //和之前package.json配置的一样
-    autoUpdater.setFeedURL('http://127.0.0.1:verson/');
-
-    //更新错误
-    autoUpdater.on('error', function (error) {
-      sendUpdateMessage(returnData.error)
+  // 更新下载进度事件
+  autoUpdater.on('download-progress', function (progressObj) {
+    mainWindow.webContents.send('downloadProgress', progressObj)
+  })
+  autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
+    ipcMain.on('isUpdateNow', (e, arg) => {
+      console.log(arguments);
+      console.log("开始更新");
+      //some code here to handle event
+      autoUpdater.quitAndInstall();
     });
 
-    //检查中
-    autoUpdater.on('checking-for-update', function () {
-      sendUpdateMessage(returnData.checking)
-    });
+    mainWindow.webContents.send('isUpdateNow')
+  });
 
-    //发现新版本
-    autoUpdater.on('update-available', function (info) {
-      sendUpdateMessage(returnData.updateAva)
-    });
-
-    //当前版本为最新版本
-    autoUpdater.on('update-not-available', function (info) {
-      setTimeout(function () {
-        sendUpdateMessage(returnData.updateNotAva)
-      }, 1000);
-    });
-
-    // 更新下载进度事件
-    autoUpdater.on('download-progress', function (progressObj) {
-      mainWindow.webContents.send('downloadProgress', progressObj)
-    });
-
-
-    autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
-      ipcMain.on('isUpdateNow', (e, arg) => {
-        //some code here to handle event
-        autoUpdater.quitAndInstall();
-      });
-      // win.webContents.send('isUpdateNow')
-    });
-
+  ipcMain.on("checkForUpdate", () => {
     //执行自动更新检查
     autoUpdater.checkForUpdates();
-  }
-
-  handleUpdate();
-
-  // 通过main进程发送事件给renderer进程，提示更新信息
-  function sendUpdateMessage(text) {
-    mainWindow.webContents.send('message', text)
-  }
-
-  ipcMain.on("checkForUpdate", (event, data) => {
-    console.log('执行自动更新检查!!!');
-    // event.sender.send('reply', 'hi lee my name is yuan, age is 17');
-    autoUpdater.checkForUpdates();
-  });
+  })
 }
 
-
-
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow();
+  if (process.env.NODE_ENV === 'production') updateHandle();
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -46,7 +46,7 @@ export default {
   watch: {
     // 定义缓动动画
     score: function(newValue) {
-      console.log(newValue);
+      //console.log(newValue);
       TweenLite.to(this.$data, 3, { tweenedScore: newValue });
     },
     animatedScore: function(newValue) {

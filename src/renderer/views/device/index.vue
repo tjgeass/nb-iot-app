@@ -97,12 +97,11 @@ export default {
     fetchData() {
       this.$store.dispatch("GetOrgConstInfo").then(response => {
         this.consLists = response.items;
-        console.log(this.consLists);
       });
     },
     handleDevice(dev_id) {
       this.$router.push({
-        path: "/device/chart",
+        path: "/device/view",
         query: {
           dev_id: dev_id
         }

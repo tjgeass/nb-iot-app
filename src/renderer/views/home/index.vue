@@ -46,7 +46,7 @@ import ProgressView from "@/components/progress";
 import wave from "@/components/garish/wave";
 
 export default {
-  name: "home",
+  name: "homeIndex",
   components: { wave, ProgressView },
   data() {
     return {

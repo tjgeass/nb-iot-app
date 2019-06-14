@@ -7,7 +7,7 @@ const app = {
       withoutAnimation: false
     },
     topbar: {
-      title: "首页",
+      title: "主界面",
       path: '/'
     },
     device: 'desktop'

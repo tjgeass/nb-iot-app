@@ -1,6 +1,6 @@
 {
   "name": "nb-iot",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "author": "tjgeass <tjgeass@gmail.com>",
   "description": "NB-IOT",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "http://127.0.0.1:80/verson/"
+        "url": "http://101.200.33.135/verson/"
       }
     ],
     "directories": {
@@ -55,11 +55,21 @@
     },
     "linux": {
       "icon": "build/icons"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": false,
+      "installerIcon": "./build/icon.ico",
+      "uninstallerIcon": "./build/icon.ico"
     }
   },
   "dependencies": {
     "apicache": "^1.2.3",
-    "axios": "0.17.1",
+    "axios": "^0.19.0",
     "echarts": "^4.2.1",
     "electron-updater": "^4.0.6",
     "element-ui": "2.9.1",
@@ -75,9 +85,10 @@
     "vue-electron": "^1.0.6",
     "vue-router": "3.0.1",
     "vue2-better-scroll": "^1.0.7",
-    "vuex": "3.0.1"
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
+    "@vue/devtools": "^5.0.9",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
@@ -93,9 +104,9 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^1.7.5",
+    "electron": "^4.0.0",
     "electron-builder": "^19.19.1",
-    "electron-debug": "^1.4.0",
+    "electron-debug": "^2.2.0",
     "electron-devtools-installer": "^2.2.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
