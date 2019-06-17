@@ -101,6 +101,9 @@ export default {
       let IDs = [row.id];
       this.handleReadOnly(IDs);
     },
+     /**
+     * 多选修改为已读
+     */
     clickReadOnlys() {
       if (this.multipleSelection.length == 0) {
         this.$message.error("没有勾选消息!");

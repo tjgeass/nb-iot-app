@@ -31,35 +31,42 @@
         <span>运行状态</span>
       </div>
       <div class="status">
-        <div v-if="device.newData.temp" class="dev-data">
+        <div
+          v-if="device.newData.temp"
+          class="dev-data"
+          :class="device.newData.abnormal.temp|formatNameStatus"
+        >
           <i class="icon iconfont icon-wendu"></i>
-          <p class="data">当前值:{{device.newData.temp}}</p>
-          <p class="cali">标定值:{{device.initial_data.temp ? device.initial_data.temp:"无"}}</p>
+          <p class="data">温度:{{device.newData.temp}}</p>
+          <p class="cali" v-if="device.initial_data.temp">标定值:{{device.initial_data.temp }}</p>
         </div>
         <div v-if="device.newData.humi" class="dev-data">
           <i class="icon iconfont icon-shidu"></i>
-          <span class="data">{{device.newData.humi}}</span>
-          <span class="cali">{{device.initial_data.humi}}</span>
-        </div>
-        <div v-if="device.newData.illu" class="dev-data">
-          <span class="name">光照:</span>
-          <span class="data">{{device.newData.illu}}</span>
-          <span class="cali">{{device.initial_data.illu}}</span>
+          <p class="data">湿度:{{device.newData.humi}}</p>
+          <p class="cali" v-if="device.initial_data.humi">{{device.initial_data.humi}}</p>
         </div>
         <div v-if="device.newData.perc" class="dev-data">
-          <span class="name">裂隙:</span>
-          <span class="data">{{device.newData.perc}}</span>
-          <span class="cali">{{device.initial_data.perc}}</span>
+          <i class="icon iconfont icon-liefengji"></i>
+          <p class="data">裂隙:{{device.newData.perc}}</p>
+          <p class="cali" v-if="device.initial_data.perc">标定值:{{device.initial_data.perc }}</p>
         </div>
-        <div v-if="device.newData.dire_0" class="dev-data">
-          <span class="name">前后倾角:</span>
-          <span class="data">{{device.newData.dire_0}}</span>
-          <span class="cali">{{device.initial_data.dire_0}}</span>
+        <div
+          v-if="device.newData.dire_0"
+          class="dev-data"
+          :class="device.newData.abnormal.dire_0|formatTypeStatus"
+        >
+          <i class="icon iconfont icon-qingjiaoyi"></i>
+          <p class="data">前后倾角:{{device.newData.dire_0}}</p>
+          <p class="cali" v-if="device.initial_data.dire_0">标定值:{{device.initial_data.dire_0 }}</p>
         </div>
-        <div v-if="device.newData.dire_1" class="dev-data">
-          <span class="name">左右倾角:</span>
-          <span class="data">{{device.newData.dire_1}}</span>
-          <span class="cali">{{device.initial_data.dire_1}}</span>
+        <div
+          v-if="device.newData.dire_1"
+          class="dev-data"
+          :class="device.newData.abnormal.dire_1|formatTypeStatus"
+        >
+          <i class="icon iconfont icon-qingjiaoyi"></i>
+          <p class="data">左右倾角:{{device.newData.dire_1}}</p>
+          <p class="cali" v-if="device.initial_data.dire_1">标定值:{{device.initial_data.dire_1}}</p>
         </div>
       </div>
       <div class="action">
@@ -80,13 +87,17 @@ export default {
       padding: {
         padding: "10px"
       },
+      classObject: {
+        active: true,
+        "text-danger": false
+      },
       dev_id: this.$route.query.dev_id
     };
   },
   watch: {},
   created() {
     var item = {
-      title: "首页",
+      title: "主界面",
       path: "/home"
     };
     this.$store.commit("SET_TOPBAR", item);
@@ -131,12 +142,16 @@ export default {
       height: 400px;
       .dev-data {
         float: left;
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
         i {
           display: block;
-          font-size: 80px;
+          font-size: 100px;
           text-align: center;
+        }
+        p {
+          text-align: center;
+          line-height: 150%;
         }
       }
     }

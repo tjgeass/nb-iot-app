@@ -2,13 +2,15 @@
 <template>
   <div class="main-container">
     <el-row class="top s-justify-space-between el-row--flex">
-      <el-col :span="3">
-        <el-button @click="handleIndex">设备列表</el-button>
+      <el-col :span="9" class="title">
+        <el-page-header @back="handleIndex">
+          <span slot="content">
+            <i class="el-icon-date"></i>
+            设备名称:{{device.name}}
+          </span>
+        </el-page-header>
       </el-col>
       <el-col :span="6">
-        <span class="name">设备名称:{{device.name}}</span>
-      </el-col>
-      <el-col :span="3">
         <el-switch
           v-model="autoRefresh"
           v-show="dataQuery.dateCate==3"
@@ -16,7 +18,7 @@
           active-text="自动刷新"
         ></el-switch>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="10">
         <el-radio-group v-model="dataQuery.dateCate" @change="handleRadio">
           <el-radio :label="3">一天</el-radio>
           <el-radio :label="2">一月</el-radio>
@@ -307,6 +309,10 @@ export default {
   .top {
     height: 50px;
     line-height: 50px;
+    .title {
+      padding-left: 100px;
+      align-self: center;
+    }
   }
   .main-chart {
     display: block;
