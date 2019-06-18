@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container class="container" id="main" style="position: relative;">
-      <el-header class="header" height="70px">
+      <el-header class="header" :class="{color:isColor}" height="70px">
         <header-view height="70px"></header-view>
       </el-header>
       <el-main class="main">
@@ -28,9 +28,23 @@ export default {
     HeaderView,
     SideBar
   },
+  data() {
+    return {
+      isColor: true
+    };
+  },
   computed: {
     sidebar() {
       return this.$store.state.app.sidebar;
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.name === "HomeIndex" || to.name === "ReportIndex") {
+        this.isColor = false;
+      } else {
+        this.isColor = true;
+      }
     }
   }
 };
@@ -50,7 +64,7 @@ export default {
   flex-shrink: 0;
   position: relative;
 }
-.el-header {
+.el-header.color {
   background: #22bb6a;
 }
 </style>
