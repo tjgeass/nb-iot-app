@@ -65,7 +65,7 @@
                 >{{errInfo.status|formatNameStatus}}</el-tag>
                 <span>{{errInfo.name}}</span>
                 <el-divider direction="vertical"></el-divider>
-                <span>{{errInfo.newData.uplink_at}}</span>
+                <span>上传时间: {{errInfo.newData.uplink_at}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text">查看详情</el-button>
               </div>
               <div v-if="errInfo.newData.abnormal" class="text item">
@@ -82,7 +82,7 @@
           </transition-group>
         </el-scrollbar>
       </div>
-      <el-row type="flex" class="report" justify="center">
+      <el-row type="flex" class="report-row" justify="center">
         <el-button
           type="warning"
           class="btn-report"
@@ -317,6 +317,9 @@ export default {
         }
       }
     }
+    .report-row {
+      margin-top: 20px;
+    }
   }
 
   .list-enter-active,
@@ -336,7 +339,7 @@ export default {
     opacity: 0;
   }
 }
-/**
+
 .el-icon-success {
   color: #67c23a;
 }
@@ -346,5 +349,4 @@ export default {
 .el-icon-error {
   color: #f56c6c;
 }
-*/
 </style>

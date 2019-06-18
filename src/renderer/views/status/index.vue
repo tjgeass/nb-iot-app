@@ -92,8 +92,10 @@ export default {
       activeNames: [0],
       consItems: [],
       statusClass: {
-        2: "warning",
-        3: "danger"
+        0: "info-box",
+        1: "success-box",
+        2: "warning-box",
+        3: "danger-box"
       }
     };
   },

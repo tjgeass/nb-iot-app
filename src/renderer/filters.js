@@ -51,6 +51,9 @@ const filters = {
             case 3:
                 return 'danger';
                 break;
+            case 0:
+                return 'info';
+                break;
         }
 
     },
@@ -66,6 +69,9 @@ const filters = {
             case 3:
                 return '#F56C6C';
                 break;
+            case 0:
+                return '#909399';
+                break;
 
         }
 
@@ -80,6 +86,9 @@ const filters = {
                 break;
             case 3:
                 return '危险';
+                break;
+            case 0:
+                return '离线';
                 break;
 
         }
