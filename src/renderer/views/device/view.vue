@@ -69,8 +69,10 @@
           <p class="cali" v-if="device.initial_data.dire_1">标定值:{{device.initial_data.dire_1}}</p>
         </div>
       </div>
+      <el-divider content-position="left">设备历史数据</el-divider>
       <div class="action">
         <el-button type="primary" plain @click="handleDevice">曲线图</el-button>
+        <el-button type="primary" plain @click="handleDevice">表格图</el-button>
       </div>
     </el-card>
   </div>

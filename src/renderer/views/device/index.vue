@@ -47,6 +47,7 @@
             </div>
             <div v-else>无设备布局示意图</div>
           </el-row>
+          <el-divider content-position="left">设备列表</el-divider>
           <el-row style="height:200px">
             <el-button
               v-for="(device, index) in cons.devices"
@@ -94,11 +95,17 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 获取数据
+     */
     fetchData() {
       this.$store.dispatch("GetOrgConstInfo").then(response => {
         this.consLists = response.items;
       });
     },
+    /**
+     * 跳转设备详情页
+     */
     handleDevice(dev_id) {
       this.$router.push({
         path: "/device/view",
@@ -107,6 +114,9 @@ export default {
         }
       });
     },
+    /**
+     * 动态样式
+     */
     styleObject(index) {
       var radioIndex = this.tabArray[index].radioId;
       if (this.consLists[index].layout.length > 0) {
@@ -122,6 +132,9 @@ export default {
         return null;
       }
     },
+    /**
+     * 标记样式
+     */
     markerStyle(marker) {
       if (marker) {
         var device = this.$store.getters.getDeviceById(marker.dev_id);
@@ -135,6 +148,9 @@ export default {
         return null;
       }
     },
+    /**
+     * 动态获取标记点名称
+     */
     getMarkerName(val) {
       var device = this.$store.getters.getDeviceById(val);
       if (device) {
@@ -227,7 +243,7 @@ export default {
     opacity: 0.7;
   }
   to {
-    opacity: 0.5;
+    opacity: 0.2;
   }
 }
 </style>

@@ -121,42 +121,6 @@ export default {
           dev_id: dev_id
         }
       });
-    },
-    styleObject(index) {
-      var radioIndex = this.tabArray[index].radioId;
-      if (this.consItems[index].layout.length > 0) {
-        this.tabArray[index].image = this.consItems[index].layout[
-          radioIndex
-        ].image;
-        return {
-          height: this.consItems[index].layout[radioIndex].height + "px",
-          width: this.consItems[index].layout[radioIndex].width + "px",
-          backgroundImage: "url('" + this.tabArray[index].image + "')"
-        };
-      } else {
-        return null;
-      }
-    },
-    markerStyle(marker) {
-      if (marker) {
-        var device = this.$store.getters.getDeviceById(marker.dev_id);
-        var format = Vue.filter("formatColorStatus");
-        return {
-          left: marker.x + "px",
-          top: marker.y + "px",
-          color: format(device.status)
-        };
-      } else {
-        return null;
-      }
-    },
-    getMarkerName(val) {
-      var device = this.$store.getters.getDeviceById(val);
-      if (device) {
-        return device.name;
-      } else {
-        return null;
-      }
     }
   }
 };

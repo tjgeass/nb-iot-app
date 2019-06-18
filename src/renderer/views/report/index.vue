@@ -33,7 +33,8 @@
                     v-show="activity.show"
                     class="score"
                     size="small"
-                    :color="activity.status|formatColorStatus"
+                    effect="dark"
+                    :type="activity.status|formatTypeStatus"
                   >{{activity.score}}分</el-tag>
                 </h3>
                 <transition name="fade">
@@ -215,13 +216,16 @@ export default {
         });
     },
     /**
-     * 更新分数
+     * 更新机构分数
      */
     updateOrgScore() {
       this.$store.dispatch("UpdateOrgInfo").then(response => {
         console.log("更新机构信息成功");
       });
     },
+    /**
+     * 更新建筑
+     */
     updateContsScore() {
       let query = {
         id: this.contsItem.id
@@ -236,9 +240,14 @@ export default {
           console.log("更新建筑信息成功");
         });
     },
+    /**
+     * 滚动事件,自动滚动到底部
+     */
     scrollDown() {
       this.$nextTick(() => {
-        this.$refs["myScrollbar"].wrap.scrollTop = 100;
+        this.$refs["myScrollbar"].wrap.scrollTop = this.$refs[
+          "myScrollbar"
+        ].wrap.scrollHeight;
       });
     }
   },
