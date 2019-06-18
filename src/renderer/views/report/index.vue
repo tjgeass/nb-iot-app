@@ -272,7 +272,8 @@ export default {
     flex-direction: column;
     padding: 20px;
     .score-box {
-      text-align: center;
+      justify-content: center;
+      display: flex;
     }
     .block {
       padding-top: 50px;
@@ -335,6 +336,7 @@ export default {
     opacity: 0;
   }
 }
+/**
 .el-icon-success {
   color: #67c23a;
 }
@@ -344,4 +346,5 @@ export default {
 .el-icon-error {
   color: #f56c6c;
 }
+*/
 </style>

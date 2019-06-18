@@ -4,8 +4,10 @@
       <progress-view :score="localSocre" :width="160"></progress-view>
     </el-row>
     <el-row class="status-text">
-      <p class="p1">您管理的文物遗址很健康，继续保持</p>
-      <p class="p2">良好的定期体检习惯，会让文物遗址的健康状态持续时间更久</p>
+      <transition name="slide-fade" :duration="{ enter: 500, leave: 800 }">
+        <p class="p1" :style="activeColor">{{info1}}</p>
+      </transition>
+      <p class="p2">{{info2}}</p>
     </el-row>
     <el-row type="flex" class="report" justify="center">
       <el-button type="warning" class="btn-report" round @click.native.prevent="handleReport">智能检测</el-button>
@@ -51,12 +53,9 @@ export default {
   data() {
     return {
       score: 100,
-      drive: {
-        width: 160,
-        height: 160,
-        gap: 10,
-        percent: 85
-      }
+      activeColor: "#FFF",
+      info1: "您管理的文物遗址很健康，继续保持",
+      info2: "良好的定期体检习惯，会让文物遗址的健康状态持续时间更久"
     };
   },
   computed: {
@@ -72,7 +71,18 @@ export default {
       return new Date().getTime();
     }
   },
-  watch: {},
+  watch: {
+    localSocre: function(newValue) {
+      if (this.localSocre < 90) {
+        this.info1 = "您管理的文物遗址部分设备数据异常!";
+        this.activeColor = { color: "#6A23C" };
+      }
+      if (this.localSocre < 70) {
+        this.info1 = "您管理的文物遗址设备上传危险数据!";
+        this.activeColor = { color: "#F56C6C" };
+      }
+    }
+  },
   created() {
     this.fetchData();
   },
@@ -116,6 +126,7 @@ export default {
     }
     .p1 {
       font-size: 32px;
+      font-weight: 600;
     }
     .p2 {
       font-size: 18px;
@@ -141,5 +152,16 @@ export default {
       }
     }
   }
+}
+.slide-fade-enter-active {
+  transition: all 3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

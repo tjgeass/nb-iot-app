@@ -1,5 +1,5 @@
 <template>
-  <div class="score">
+  <div class="score" :style="{width: width+'px'}">
     <el-progress
       type="circle"
       class="progress"
@@ -81,7 +81,6 @@ export default {
   .score-text {
     position: absolute;
     display: flex;
-    /* flex: 1; */
     top: 0;
     left: 0;
     right: 0;
