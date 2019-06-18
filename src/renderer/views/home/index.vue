@@ -137,7 +137,14 @@ export default {
       i {
         display: block;
         color: #31c878;
-        font-size: 67px;
+        font-size: 90px;
+      }
+      span{
+        background: #31c878;
+        color: #fff;
+        padding:3px 15px;
+        border-radius:5px;
+        margin-top: 20px;
       }
     }
   }
