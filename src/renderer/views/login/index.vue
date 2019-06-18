@@ -210,6 +210,10 @@ $dark_gray: #889aa4;
     border-radius: 5px;
     color: #454545;
   }
+  .el-button--primary{
+    background: #f5b147;
+    padding: 15px 0px;
+  }
   .right {
     float: right;
     .btn {
@@ -240,7 +244,7 @@ $dark_gray: #889aa4;
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: $dark_gray;
+    color: #fff;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -254,14 +258,14 @@ $dark_gray: #889aa4;
     color: $light_gray;
     margin: 0px auto 40px auto;
     text-align: center;
-    font-weight: bold;
+    font-weight:normal;
   }
   .show-pwd {
     position: absolute;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    color: #fff;
     cursor: pointer;
     user-select: none;
   }
