@@ -213,7 +213,7 @@ $dark_gray: #889aa4;
   .right {
     float: right;
     .btn {
-      font-size: 17px;
+      font-size: 18px;
       color: #fff;
     }
     .btn:hover {
