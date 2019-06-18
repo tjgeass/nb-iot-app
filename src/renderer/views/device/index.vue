@@ -86,7 +86,7 @@ export default {
   created() {
     this.fetchData();
     var item = {
-      title: "首页",
+      title: "主界面",
       path: "/home"
     };
     this.$store.commit("SET_TOPBAR", item);

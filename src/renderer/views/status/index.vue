@@ -100,7 +100,7 @@ export default {
   watch: {},
   created() {
     var item = {
-      title: "首页",
+      title: "主界面",
       path: "/"
     };
     this.$store.commit("SET_TOPBAR", item);
