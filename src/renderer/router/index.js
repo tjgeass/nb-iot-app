@@ -117,6 +117,14 @@ export const constantRouterMap = [
       },
       component: () => import('@/views/device/view'),
       hidden: true
+    }, {
+      name: 'deviceTable',
+      path: 'table',
+      meta: {
+        keepAlive: false
+      },
+      component: () => import('@/views/device/table'),
+      hidden: true
     }
     ]
   },
