@@ -187,7 +187,7 @@ export default {
   justify-content: space-between;
   .left {
     .logo{
-      height: 60%;
+     width: 80%;
     }
     .btn {
       font-size: 17px;
@@ -213,7 +213,7 @@ export default {
   .right {
     .btn {
       font-size: 17px;
-      color: #333;
+      color: #fff;
     }
     .btn:hover {
       color: #31c27c;
