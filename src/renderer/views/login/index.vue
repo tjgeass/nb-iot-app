@@ -19,7 +19,7 @@
       ref="loginForm"
       label-position="left"
     >
-      <h3 class="title">物联网智能检测平台</h3>
+      <h3 class="title"><img class="logo" :src="logo" style="-webkit-app-region: drag"></h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user"/>
@@ -66,6 +66,7 @@
 
 <script>
 //  import { isvalidUsername } from '@/utils/validate'
+import logo from "@/assets/images/logo.png";
 import { ipcRenderer } from "electron";
 
 export default {
@@ -88,6 +89,7 @@ export default {
     return {
       downing: false,
       downText: null,
+      logo,
       activeName: "first",
       loginForm: {
         username: "demo",
@@ -212,7 +214,9 @@ $dark_gray: #889aa4;
   }
   .el-button--primary{
     background: #f5b147;
-    padding: 15px 0px;
+    padding: 17px 0px;
+    border:none;
+    border-radius: 3px;
   }
   .right {
     float: right;

@@ -15,25 +15,25 @@
     <el-row class="home-btns" type="flex" justify="center">
       <el-col :span="2">
         <div class="btn-1" @click="handleDevice">
-          <i class="el-icon-s-platform"></i>
+          <i class="iconfont icon-shebei"></i>
           <span>设备分布</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-2" @click="handleStatus">
-          <i class="el-icon-s-help"></i>
+          <i class="iconfont icon-lingdang"></i>
           <span>运行状态</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-3">
-          <i class="el-icon-s-custom"></i>
+          <i class="iconfont icon-zhuanjiaxuanpin"></i>
           <span>专家服务</span>
         </div>
       </el-col>
       <el-col :span="2" :offset="2">
         <div class="btn-4">
-          <i class="el-icon-s-data"></i>
+          <i class="iconfont icon-tubiao1"></i>
           <span>监控报告</span>
         </div>
       </el-col>
@@ -126,7 +126,7 @@ export default {
     }
     .p1 {
       font-size: 32px;
-      font-weight: 600;
+      font-weight:normal;
     }
     .p2 {
       font-size: 18px;
@@ -148,13 +148,14 @@ export default {
       i {
         display: block;
         color: #31c878;
-        font-size: 90px;
+        font-size:67px;
+        margin-bottom:25px;
       }
       span{
         background: #31c878;
         color: #fff;
-        padding:3px 15px;
-        border-radius:5px;
+        padding:7px 15px;
+        border-radius:15px;
         margin-top: 20px;
       }
     }
