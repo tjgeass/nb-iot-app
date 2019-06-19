@@ -2,13 +2,18 @@
 @import url('./element-ui.scss');
 @import url('./iconfont/iconfont.css');
 
+
+@font-face{
+  font-family: 'xiaomi';
+  src: url('./font/miui.ttf') format('truetype');
+}
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 * {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Microsoft YaHei","xiaomi","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB",Arial,sans-serif;
 }
 html {
   box-sizing: border-box;
