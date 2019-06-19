@@ -1,6 +1,6 @@
 import { login, logout, getInfo, updateAvatar, updateSelf } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import { sess } from '@/utils/sess'
 const user = {
   state: {
     token: getToken(),
@@ -87,6 +87,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           removeToken()
+          sessionStorage.clear();
           resolve()
         }).catch(error => {
           reject(error)

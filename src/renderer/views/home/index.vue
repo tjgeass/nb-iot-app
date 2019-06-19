@@ -73,11 +73,11 @@ export default {
   },
   watch: {
     localSocre: function(newValue) {
-      if (this.localSocre < 90) {
+      if (this.localSocre <= 90) {
         this.info1 = "您管理的文物遗址部分设备数据异常!";
         this.activeColor = { color: "#6A23C" };
       }
-      if (this.localSocre < 70) {
+      if (this.localSocre <= 70) {
         this.info1 = "您管理的文物遗址设备上传危险数据!";
         this.activeColor = { color: "#F56C6C" };
       }

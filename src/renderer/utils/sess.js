@@ -17,5 +17,8 @@ export default {
     remove(name) {
         return sessionStorage.removeItem(name)
     },
+    clear() {
+        return sessionStorage.clear();
+    }
 
 }
