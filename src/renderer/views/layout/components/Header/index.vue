@@ -186,8 +186,8 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   .left {
-    .logo{
-     width: 80%;
+    .logo {
+      width: 80%;
     }
     .btn {
       font-size: 17px;

@@ -19,7 +19,9 @@
       ref="loginForm"
       label-position="left"
     >
-      <h3 class="title"><img class="logo" :src="logo" style="-webkit-app-region: drag"></h3>
+      <h3 class="title">
+        <img class="logo" :src="logo">
+      </h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user"/>
@@ -51,6 +53,8 @@
       <el-form-item>
         <el-button
           type="primary"
+          class="login-btn"
+          size="medium"
           style="width:100%;"
           :loading="loading"
           @click.native.prevent="handleLogin"
@@ -212,22 +216,28 @@ $dark_gray: #889aa4;
     border-radius: 5px;
     color: #454545;
   }
-  .el-button--primary{
+  .login-btn {
     background: #f5b147;
     padding: 17px 0px;
-    border:none;
-    border-radius: 3px;
+    border: none;
   }
-  .right {
-    float: right;
-    .btn {
-      font-size: 18px;
-      color: #fff;
-    }
-    .btn:hover {
-      color: #31c27c;
+  .header-view {
+    -webkit-app-region: drag;
+    display: flex;
+    justify-content: flex-end;
+    .right {
+      display: flex;
+      padding: 0 10px;
+      .btn {
+        font-size: 18px;
+        color: #fff;
+      }
+      .btn:hover {
+        color: #31c27c;
+      }
     }
   }
+
   .login-form {
     position: absolute;
     left: 0;
@@ -262,7 +272,7 @@ $dark_gray: #889aa4;
     color: $light_gray;
     margin: 0px auto 40px auto;
     text-align: center;
-    font-weight:normal;
+    font-weight: normal;
   }
   .show-pwd {
     position: absolute;

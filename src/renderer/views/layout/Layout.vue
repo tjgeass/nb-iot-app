@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      isColor: true
+      isColor: false
     };
   },
   computed: {
@@ -40,7 +40,11 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (to.name === "HomeIndex" || to.name === "ReportIndex") {
+      if (
+        to.name === "HomeIndex" ||
+        to.name === "ReportIndex" ||
+        to.name === "DeviceIndex"
+      ) {
         this.isColor = false;
       } else {
         this.isColor = true;
