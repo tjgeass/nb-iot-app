@@ -93,7 +93,7 @@ export const constantRouterMap = [
     redirect: '/device/index',
     name: 'Device',
     children: [{
-      name: 'deviceIndex',
+      name: 'DeviceIndex',
       path: 'index',
       meta: {
         keepAlive: true, // 需要被缓存
@@ -102,7 +102,7 @@ export const constantRouterMap = [
       },
       component: () => import('@/views/device/index'),
     }, {
-      name: 'deviceChart',
+      name: 'DeviceChart',
       path: 'chart',
       meta: {
         keepAlive: false
@@ -110,7 +110,7 @@ export const constantRouterMap = [
       component: () => import('@/views/device/chart'),
       hidden: true
     }, {
-      name: 'deviceView',
+      name: 'DeviceView',
       path: 'view',
       meta: {
         keepAlive: false
@@ -118,7 +118,7 @@ export const constantRouterMap = [
       component: () => import('@/views/device/view'),
       hidden: true
     }, {
-      name: 'deviceTable',
+      name: 'DeviceTable',
       path: 'table',
       meta: {
         keepAlive: false

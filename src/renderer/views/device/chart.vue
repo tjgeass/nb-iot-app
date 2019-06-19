@@ -429,10 +429,11 @@ export default {
       this.$router.push({ path: "/device/index" });
     },
     fetchData() {
-      console.log("查询数据");
-      this.$store.dispatch("GetDeviceData", this.dataQuery).then(response => {
-        this.option.dataset.source = response.items;
-      });
+      this.$store
+        .dispatch("GetDeviceDataChart", this.dataQuery)
+        .then(response => {
+          this.option.dataset.source = response.items;
+        });
     },
     handleRadio() {
       this.autoRefresh = false;

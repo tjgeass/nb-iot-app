@@ -1,12 +1,6 @@
 <template>
   <div class="main-container" v-loading="listLoading" element-loading-text="拼命加载中....">
-    <div class="header-box">
-      <el-radio-group v-model="already" @change="alreadyChange" size="mini">
-        <el-radio-button :label="0">未读</el-radio-button>
-        <el-radio-button :label="1">已读</el-radio-button>
-      </el-radio-group>
-      <el-button @click="clickReadOnlys" size="mini" type="primary" round>标为已读</el-button>
-    </div>
+    <div class="header-box"></div>
     <div class="table-box">
       <el-table
         :data="list"
@@ -20,28 +14,25 @@
         <el-table-column align="center" label="ID" width="100">
           <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
-        <el-table-column label="内容" min-width="300" align="center">
-          <template slot-scope="scope">
-            <span>{{scope.row.content}}</span>
-          </template>
+        <el-table-column align="center" label="温度" min-width="100">
+          <template slot-scope="scope">{{scope.row.temp}}</template>
         </el-table-column>
-        <el-table-column class-name="status-col" label="状态" width="80" align="center">
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.status | formatTypeStatus"
-            >{{scope.row.status|formatNameStatus}}</el-tag>
-          </template>
+        <el-table-column align="center" label="湿度">
+          <template slot-scope="scope">{{scope.row.humi}}</template>
         </el-table-column>
-        <el-table-column align="center" label="时间" width="200">
+        <el-table-column align="center" label="裂隙" v-if="device.type_id == 4">
+          <template slot-scope="scope">{{scope.row.perc}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="前后倾角" v-if="device.type_id == 3">
+          <template slot-scope="scope">{{scope.row.dire_0}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="左右倾角" v-if="device.type_id == 3">
+          <template slot-scope="scope">{{scope.row.dire_1}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="上传时间" width="200">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
-            <span>{{scope.row.time}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="200" v-if="!already">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="clickReadOnly(scope.row)">标为已读</el-button>
-            <el-button size="mini" type="danger" @click="clickStatus(scope.row)">查看情况</el-button>
+            <span>{{scope.row.uplink}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -65,8 +56,6 @@
 </template>
 
 <script>
-import { getList } from "@/api/table";
-
 export default {
   name: "DeviceTable",
   data() {
@@ -90,49 +79,15 @@ export default {
       return statusMap[status];
     }
   },
+  computed: {
+    device: function() {
+      return this.$store.getters.getDeviceById(this.$route.query.dev_id);
+    }
+  },
   created() {
     this.fetchData();
   },
   methods: {
-    /**
-     * 修改为已读
-     */
-    clickReadOnly(row) {
-      let IDs = [row.id];
-      this.handleReadOnly(IDs);
-    },
-    /**
-     * 多选修改为已读
-     */
-    clickReadOnlys() {
-      if (this.multipleSelection.length == 0) {
-        this.$message.error("没有勾选消息!");
-        return;
-      }
-      let IDs = [];
-      this.multipleSelection.forEach(element => {
-        IDs.push(element.id);
-      });
-      this.handleReadOnly(IDs);
-    },
-
-    handleReadOnly(IDs) {
-      this.$store.dispatch("UpdateOrgMessage", IDs).then(response => {
-        this.$message.success("标记成功!");
-        this.fetchData();
-        this.$store.dispatch("GetOrgMessageRead");
-      });
-    },
-    clickStatus(row) {
-      let IDs = [row.id];
-      this.handleReadOnly(IDs);
-      this.$router.push({
-        path: "/device/view",
-        query: {
-          dev_id: row.dev_id
-        }
-      });
-    },
     /**
      *切换消息状态
      */
@@ -159,11 +114,11 @@ export default {
     fetchData() {
       this.listLoading = true;
       var query = {
+        dev_id: this.$route.query.dev_id,
         num: this.pageSize,
-        already: this.already,
         page: this.currentPage
       };
-      this.$store.dispatch("GetOrgMessage", query).then(response => {
+      this.$store.dispatch("GetDeviceDataTable", query).then(response => {
         this.list = response.items;
         this.currentPage = response._meta.currentPage;
         this.totalCount = response._meta.totalCount;

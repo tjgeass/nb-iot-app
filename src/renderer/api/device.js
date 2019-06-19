@@ -70,11 +70,21 @@ export function getOrgConstInfo() {
 }
 
 /**
- * 获取设备数据年月日
+ * 获取设备图表数据-年月日
  */
-export function getDeviceData(params) {
+export function getDeviceDataChart(params) {
   return request({
-    url: '/device/data',
+    url: '/device/data-chart',
+    method: 'get',
+    params
+  })
+}
+/**
+ * 获取设备图表数据-年月日
+ */
+export function getDeviceDataTable(params) {
+  return request({
+    url: '/device/data-table?XDEBUG_SESSION_START=10879',
     method: 'get',
     params
   })

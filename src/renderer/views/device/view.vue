@@ -71,8 +71,8 @@
       </div>
       <el-divider content-position="left">设备历史数据</el-divider>
       <div class="action">
-        <el-button type="primary" plain @click="handleDevice">曲线图</el-button>
-        <el-button type="primary" plain @click="handleDevice">表格图</el-button>
+        <el-button type="primary" plain @click="handleChart">曲线图</el-button>
+        <el-button type="primary" plain @click="handleTable">表格图</el-button>
       </div>
     </el-card>
   </div>
@@ -113,9 +113,23 @@ export default {
   },
   methods: {
     fetchData() {},
-    handleDevice() {
+    /**
+     * 跳转到图表页面
+     */
+    handleChart() {
       this.$router.push({
         path: "/device/chart",
+        query: {
+          dev_id: this.dev_id
+        }
+      });
+    },
+    /**
+     * 跳转表格页面
+     */
+    handleTable() {
+      this.$router.push({
+        path: "/device/table",
         query: {
           dev_id: this.dev_id
         }
