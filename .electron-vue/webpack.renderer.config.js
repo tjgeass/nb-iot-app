@@ -11,8 +11,9 @@ const config = require('../config/index.js')
 
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 
 /**
  * List of node_modules to include in webpack bundle
@@ -34,10 +35,7 @@ let rendererConfig = {
   module: {
     rules: [{
       test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader'
-      })
+      use: ['vue-style-loader', 'css-loader']
     },
     {
       test: /\.scss$/,
@@ -68,17 +66,11 @@ let rendererConfig = {
           extractCSS: process.env.NODE_ENV === 'production',
           loaders: {
             sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-            scss: 'vue-style-loader!css-loader!sass-loader'
+            scss: 'vue-style-loader!css-loader!sass-loader',
+            less: 'vue-style-loader!css-loader!less-loader',
+            stylus: 'vue-style-loader!css-loader!stylus-loader'
           }
         }
-      }
-    },
-    {
-      test: /\.svg$/,
-      loader: 'svg-sprite-loader',
-      include: [path.join(__dirname, '../src/renderer/icons')],
-      options: {
-        symbolId: 'icon-[name]'
       }
     },
     {
@@ -117,9 +109,11 @@ let rendererConfig = {
     __filename: process.env.NODE_ENV !== 'production'
   },
   plugins: [
-    new ExtractTextPlugin('styles.css'),
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({ filename: 'styles.css' }),
     new webpack.DefinePlugin({
-      'process.env': process.env.NODE_ENV === 'production' ? config.build.env : config.dev.env
+      'process.env.NODE_ENV': process.env.NODE_ENV === 'production' ? config.build.env.NODE_ENV : config.dev.env.NODE_ENV,
+      'process.env.BASE_API': process.env.NODE_ENV === 'production' ? config.build.env.BASE_API : config.dev.env.BASE_API
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -144,7 +138,10 @@ let rendererConfig = {
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      'utils': path.join(__dirname, '../src/renderer/utils'),
+      '~': path.join(__dirname, '../src'),
+      'root': path.join(__dirname, '../')
     },
     extensions: ['.js', '.vue', '.json', '.css', '.scss', '.node']
   },

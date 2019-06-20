@@ -31,7 +31,6 @@ import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/tooltip'
 Vue.component('v-chart', ECharts)
 
-import '@/icons' // icon
 import '@/permission' // permission control
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
