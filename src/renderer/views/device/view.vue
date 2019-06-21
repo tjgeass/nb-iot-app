@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <el-card class="box-card-basic" :body-style="{ padding: '10px' }" shadow="hover">
+    <el-card class="box-card-basic" :body-style="padding" shadow="hover">
       <div slot="header" class="clearfix">
         <span>设备属性</span>
       </div>
@@ -103,6 +103,7 @@ export default {
       path: "/home"
     };
     this.$store.commit("SET_TOPBAR", item);
+    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   mounted() {},

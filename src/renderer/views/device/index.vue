@@ -85,12 +85,13 @@ export default {
   },
   watch: {},
   created() {
-    this.fetchData();
+    this.$store.commit("SET_TOPBAR_BG", true);
     var item = {
       title: "主界面",
       path: "/home"
     };
     this.$store.commit("SET_TOPBAR", item);
+    this.fetchData();
   },
   mounted() {},
   computed: {},

@@ -6,6 +6,7 @@ const app = {
       opened: false,
       withoutAnimation: false
     },
+    bgColor: true,
     topbar: {
       title: "主界面",
       path: '/'
@@ -15,6 +16,9 @@ const app = {
   mutations: {
     SET_TOPBAR: (state, item) => {
       state.topbar = item
+    },
+    SET_TOPBAR_BG: (state, item) => {
+      state.bgColor = item
     },
     TOGGLE_SIDEBAR: state => {
       state.sidebar.opened = true

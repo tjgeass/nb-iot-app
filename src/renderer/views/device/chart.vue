@@ -1,9 +1,9 @@
 
 <template>
   <div class="main-container">
-    <el-row class="top s-justify-space-between el-row--flex">
+    <el-row type="flex" class="top">
       <el-col :span="9" class="title">
-        <el-page-header @back="handleIndex">
+        <el-page-header @back="handleDevice">
           <span slot="content">
             <i class="el-icon-date"></i>
             设备名称:{{device.name}}
@@ -394,6 +394,7 @@ export default {
     };
   },
   created() {
+    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   computed: {
@@ -425,9 +426,20 @@ export default {
     }
   },
   methods: {
-    handleIndex() {
-      this.$router.push({ path: "/device/index" });
+    /**
+     * 跳转设备详情页
+     */
+    handleDevice() {
+      this.$router.push({
+        path: "/device/view",
+        query: {
+          dev_id: this.$route.query.dev_id
+        }
+      });
     },
+    /**
+     * 获取数据
+     */
     fetchData() {
       this.$store
         .dispatch("GetDeviceDataChart", this.dataQuery)
@@ -435,6 +447,9 @@ export default {
           this.option.dataset.source = response.items;
         });
     },
+    /**
+     * 切换自动刷新
+     */
     handleRadio() {
       this.autoRefresh = false;
       this.fetchData();
@@ -449,6 +464,9 @@ export default {
 };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
+.el-header {
+  background: #fff;
+}
 .main-container {
   display: flex;
   flex: 1;

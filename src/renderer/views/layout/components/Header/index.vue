@@ -1,5 +1,5 @@
 <template>
-  <div class="header-view" :style="{height: height}">
+  <div class="header-view" :style="{height: height}" :class="{color:bgColor}">
     <div class="left flex-c-l">
       <img class="logo" :src="logo" style="-webkit-app-region: drag">
     </div>
@@ -91,14 +91,7 @@ export default {
       default: "40px"
     }
   },
-  watch: {
-    $route(to, from) {
-      if (to.name === "deviceView") {
-      } else if (to.name === "detail") {
-        // something
-      }
-    }
-  },
+  watch: {},
   created() {
     this.fetchData();
     this.timer = setInterval(this.fetchData, 60000);
@@ -106,6 +99,7 @@ export default {
   computed: {
     ...mapGetters([
       "topbar",
+      "bgColor",
       "sidebar",
       "avatar",
       "username",
@@ -181,10 +175,14 @@ export default {
 
 <style lang="scss" scoped>
 .header-view {
+  padding: 0 20px;
   display: flex;
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
+  &.color {
+    background: #22bb6a;
+  }
   .left {
     .logo {
       width: 80%;

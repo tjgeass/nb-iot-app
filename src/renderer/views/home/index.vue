@@ -46,6 +46,7 @@ import { mapGetters } from "vuex";
 import { TweenLite } from "gsap";
 import ProgressView from "@/components/progress";
 import wave from "@/components/garish/wave";
+import { fail } from "assert";
 
 export default {
   name: "homeIndex",
@@ -84,18 +85,31 @@ export default {
     }
   },
   created() {
+    this.$store.commit("SET_TOPBAR_BG", false); // header背景不显示
     this.fetchData();
   },
   methods: {
+    /**
+     * 跳转检测页面
+     */
     handleReport() {
       this.$router.push({ path: "/report" });
     },
+    /**
+     * 跳转设备分布页面
+     */
     handleDevice() {
       this.$router.push({ path: "/device" });
     },
+    /**
+     * 跳转运行状态页面
+     */
     handleStatus() {
       this.$router.push({ path: "/status" });
     },
+    /**
+     * 获取数据
+     */
     fetchData() {
       this.$store.dispatch("GetOrgInfo").then(response => {
         if (this.currentTime - this.organization.updated_at > 1) {
@@ -126,7 +140,7 @@ export default {
     }
     .p1 {
       font-size: 32px;
-      font-weight:normal;
+      font-weight: normal;
     }
     .p2 {
       font-size: 18px;
@@ -148,14 +162,14 @@ export default {
       i {
         display: block;
         color: #31c878;
-        font-size:67px;
-        margin-bottom:25px;
+        font-size: 67px;
+        margin-bottom: 25px;
       }
-      span{
+      span {
         background: #31c878;
         color: #fff;
-        padding:7px 15px;
-        border-radius:15px;
+        padding: 7px 15px;
+        border-radius: 15px;
         margin-top: 20px;
       }
     }

@@ -106,6 +106,7 @@ export default {
       path: "/"
     };
     this.$store.commit("SET_TOPBAR", item);
+    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   mounted() {},

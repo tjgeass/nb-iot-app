@@ -131,6 +131,9 @@ export default {
     this.handleStart();
   },
   methods: {
+    /**
+     * 循环定时添加数据
+     */
     addContsItem() {
       let contsItems = this.list;
       if (contsItems.length > 0) {
@@ -195,12 +198,18 @@ export default {
         this.addContsItem();
       }
     },
+    /**
+     * 添加错误信息
+     */
     addErrInfo(item) {
       if (item.status != 1) {
         this.errInfos.push(item);
         this.scrollDown();
       }
     },
+    /**
+     * 开始按钮
+     */
     handleStart() {
       if (this.restart) {
         this.activities = [];
@@ -256,6 +265,9 @@ export default {
       });
     }
   },
+  /**
+   * 页面销毁事件
+   */
   destroyed() {
     if (this.timer) {
       //如果定时器在运行则关闭

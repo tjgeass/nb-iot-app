@@ -1,6 +1,17 @@
 <template>
   <div class="main-container" v-loading="listLoading" element-loading-text="拼命加载中....">
-    <div class="header-box"></div>
+    <div class="header-box">
+      <el-row type="flex" class="top">
+        <el-col :span="9" class="title">
+          <el-page-header @back="handleDevice">
+            <span slot="content">
+              <i class="el-icon-date"></i>
+              设备名称:{{device.name}}
+            </span>
+          </el-page-header>
+        </el-col>
+      </el-row>
+    </div>
     <div class="table-box">
       <el-table
         :data="list"
@@ -85,6 +96,7 @@ export default {
     }
   },
   created() {
+    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   methods: {
@@ -107,6 +119,18 @@ export default {
     currentChange(val) {
       this.currentPage = val;
       this.fetchData();
+    },
+
+    /**
+     * 跳转设备详情页
+     */
+    handleDevice() {
+      this.$router.push({
+        path: "/device/view",
+        query: {
+          dev_id: this.$route.query.dev_id
+        }
+      });
     },
     /**
      * 获取数据

@@ -68,7 +68,7 @@ export default {
   flex-shrink: 0;
   position: relative;
 }
-.el-header.color {
-  background: #22bb6a;
+.header {
+  padding: 0;
 }
 </style>
