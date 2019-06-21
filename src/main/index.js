@@ -36,6 +36,11 @@ function createWindow() {
     transparent: false,
     title: "遗址检测",
     autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,
+      backgroundThrottling: false
+    }
   })
 
   mainWindow.loadURL(winURL)

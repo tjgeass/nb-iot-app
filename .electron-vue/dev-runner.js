@@ -1,5 +1,7 @@
 'use strict'
 
+const isDev = true;
+
 const chalk = require('chalk')
 const electron = require('electron')
 const path = require('path')
@@ -48,14 +50,14 @@ function startRenderer() {
       heartbeat: 2500
     })
 
-    compiler.plugin('compilation', compilation => {
-      compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
+    compiler.hooks.compilation.tap('compilation', compilation => {
+      compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('html-webpack-plugin-after-emit', (data, cb) => {
         hotMiddleware.publish({ action: 'reload' })
         cb()
       })
     })
 
-    compiler.plugin('done', stats => {
+    compiler.hooks.done.tap('done', stats => {
       logStats('Renderer', stats)
     })
 
@@ -83,7 +85,7 @@ function startMain() {
     mainConfig.mode = 'development'
     const compiler = webpack(mainConfig)
 
-    compiler.plugin('watch-run', (compilation, done) => {
+    compiler.hooks.watchRun.tapAsync('watch-run', (compilation, done) => {
       logStats('Main', chalk.white.bold('compiling...'))
       hotMiddleware.publish({ action: 'compiling' })
       done()
@@ -114,7 +116,18 @@ function startMain() {
 }
 
 function startElectron() {
-  electronProcess = spawn(electron, ['--inspect=5858', path.join(__dirname, '../dist/electron/main.js')])
+  var args = [
+    '--inspect=5858',
+    path.join(__dirname, '../dist/electron/main.js')
+  ]
+  // detect yarn or npm and process commandline args accordingly
+  if (process.env.npm_execpath.endsWith('yarn.js')) {
+    args = args.concat(process.argv.slice(3))
+  } else if (process.env.npm_execpath.endsWith('npm-cli.js')) {
+    args = args.concat(process.argv.slice(2))
+  }
+
+  electronProcess = spawn(electron, args)
 
   electronProcess.stdout.on('data', data => {
     electronLog(data, 'blue')

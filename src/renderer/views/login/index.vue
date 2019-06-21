@@ -23,21 +23,16 @@
         <img class="logo" :src="logo">
       </h3>
       <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user"/>
-        </span>
         <el-input
           name="username"
           type="text"
           v-model="loginForm.username"
           autocomplete="on"
           placeholder="username"
+          prefix-icon="el-icon-user-solid"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
-        </span>
         <el-input
           name="password"
           :type="pwdType"
@@ -45,10 +40,9 @@
           v-model="loginForm.password"
           autocomplete="on"
           placeholder="password"
+          prefix-icon="el-icon-lock"
+          show-password
         ></el-input>
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon icon-class="eye"/>
-        </span>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -61,6 +55,7 @@
         >登录</el-button>
       </el-form-item>
       <div class="tips">
+        <span style="margin-right:10px;">DEMO</span>
         <span style="margin-right:20px;">username: demo</span>
         <span>password: 123456</span>
       </div>
@@ -195,13 +190,12 @@ $dark_gray: #889aa4;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 100%;
     input {
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       &:-webkit-autofill {

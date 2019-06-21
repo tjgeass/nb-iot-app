@@ -33,75 +33,71 @@ let rendererConfig = {
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: ['vue-style-loader', 'css-loader']
-    },
-    {
-      test: /\.scss$/,
-      use: [
-        'vue-style-loader',
-        'css-loader',
-        'sass-loader'
-      ]
-    },
-    {
-      test: /\.html$/,
-      use: 'vue-html-loader'
-    },
-    {
-      test: /\.js$/,
-      use: 'babel-loader',
-      exclude: /node_modules/
-    },
-    {
-      test: /\.node$/,
-      use: 'node-loader'
-    },
-    {
-      test: /\.vue$/,
-      use: {
-        loader: 'vue-loader',
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.html$/,
+        use: 'vue-html-loader'
+      },
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.node$/,
+        use: 'node-loader'
+      },
+      {
+        test: /\.vue$/,
+        use: {
+          loader: 'vue-loader',
+          options: {
+            extractCSS: process.env.NODE_ENV === 'production',
+            loaders: {
+              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
+              scss: 'vue-style-loader!css-loader!sass-loader',
+              less: 'vue-style-loader!css-loader!less-loader'
+            }
+          }
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        exclude: [path.join(__dirname, '../src/renderer/icons')],
+        use: {
+          loader: 'url-loader',
+          query: {
+            limit: 10000,
+            name: 'imgs/[name]--[folder].[ext]'
+          }
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
         options: {
-          extractCSS: process.env.NODE_ENV === 'production',
-          loaders: {
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-            scss: 'vue-style-loader!css-loader!sass-loader',
-            less: 'vue-style-loader!css-loader!less-loader',
-            stylus: 'vue-style-loader!css-loader!stylus-loader'
+          limit: 10000,
+          name: 'media/[name]--[folder].[ext]'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          query: {
+            limit: 10000,
+            name: 'fonts/[name]--[folder].[ext]'
           }
         }
       }
-    },
-    {
-      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      exclude: [path.join(__dirname, '../src/renderer/icons')],
-      use: {
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'imgs/[name]--[folder].[ext]'
-        }
-      }
-    },
-    {
-      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        name: 'media/[name]--[folder].[ext]'
-      }
-    },
-    {
-      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      use: {
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'fonts/[name]--[folder].[ext]'
-        }
-      }
-    }
     ]
   },
   node: {
@@ -111,10 +107,11 @@ let rendererConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({ filename: 'styles.css' }),
+
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': process.env.NODE_ENV === 'production' ? config.build.env.NODE_ENV : config.dev.env.NODE_ENV,
-      'process.env.BASE_API': process.env.NODE_ENV === 'production' ? config.build.env.BASE_API : config.dev.env.BASE_API
+      'process.env': process.env.NODE_ENV === 'production' ? config.build.env : config.dev.env
     }),
+
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
@@ -139,9 +136,6 @@ let rendererConfig = {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
       'vue$': 'vue/dist/vue.esm.js',
-      'utils': path.join(__dirname, '../src/renderer/utils'),
-      '~': path.join(__dirname, '../src'),
-      'root': path.join(__dirname, '../')
     },
     extensions: ['.js', '.vue', '.json', '.css', '.scss', '.node']
   },

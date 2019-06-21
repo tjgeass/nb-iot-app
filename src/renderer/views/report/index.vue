@@ -57,7 +57,12 @@
           :native="false"
         >
           <transition-group name="fade" tag="div">
-            <el-card class="box-card" v-for="(errInfo, err_index) in errInfos" :key="err_index">
+            <el-card
+              class="box-card"
+              v-for="(errInfo, err_index) in errInfos"
+              :key="errInfo.id"
+              :data-index="err_index"
+            >
               <div slot="header" class="clearfix">
                 <el-tag
                   :type="errInfo.status|formatTypeStatus"
