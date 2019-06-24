@@ -96,7 +96,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   methods: {
@@ -143,6 +142,7 @@ export default {
         page: this.currentPage
       };
       this.$store.dispatch("GetDeviceDataTable", query).then(response => {
+        console.log(response);
         this.list = response.items;
         this.currentPage = response._meta.currentPage;
         this.totalCount = response._meta.totalCount;

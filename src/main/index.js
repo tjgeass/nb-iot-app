@@ -50,8 +50,8 @@ function createWindow() {
   })
 }
 // 通过main进程发送事件给renderer进程，提示更新信息
-function sendUpdateMessage(text) {
-  mainWindow.webContents.send('message', text)
+function sendUpdateMessage(type, text) {
+  mainWindow.webContents.send('message', { type, text })
 }
 /**
  * 自动更新
@@ -68,16 +68,16 @@ function updateHandle() {
   const uploadUrl = "http://101.200.33.135/verson/"; // 下载地址，不加后面的**.exe
   autoUpdater.setFeedURL(uploadUrl);
   autoUpdater.on('error', function (error) {
-    sendUpdateMessage(message.error)
+    sendUpdateMessage('error', message.error)
   });
   autoUpdater.on('checking-for-update', function () {
-    sendUpdateMessage(message.checking)
+    sendUpdateMessage('checking-for-update', message.checking)
   });
   autoUpdater.on('update-available', function (info) {
-    sendUpdateMessage(message.updateAva)
+    sendUpdateMessage('update-available', message.updateAva)
   });
   autoUpdater.on('update-not-available', function (info) {
-    sendUpdateMessage(message.updateNotAva)
+    sendUpdateMessage('update-not-available', message.updateNotAva)
   });
 
   // 更新下载进度事件

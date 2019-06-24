@@ -127,6 +127,7 @@ export default {
   computed: {
     ...mapGetters(["topbar", "organization"])
   },
+  created() {},
   mounted() {
     this.handleStart();
   },

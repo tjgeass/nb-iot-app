@@ -147,10 +147,20 @@ export default {
     },
     checkForUpdate() {
       ipcRenderer.send("checkForUpdate");
-      ipcRenderer.on("message", (event, text) => {
-        //console.log(arguments);
+      ipcRenderer.on("message", (event, { type, text }) => {
         this.tips = text;
-        this.$message(text);
+        if (type == "checking") {
+          let checking = this.$message.warning(text);
+        } else if (type == "updateNotAva") {
+          checking.close();
+          this.$message.success(text);
+        } else if (type == "updateAva") {
+          checking.close();
+          this.$message.success(text);
+        }
+        if (type == "error") {
+          this.$message.error(text);
+        }
       });
       ipcRenderer.on("downloadProgress", (event, progressObj) => {
         //console.log(progressObj);
@@ -165,14 +175,19 @@ export default {
     }
   },
   mounted() {
+    /**
+     * 触发更新事件
+     */
     this.checkForUpdate();
   },
   beforeDestroy() {
-    this.$electron.ipcRenderer.removeAll([
+    /**
+     this.$electron.ipcRenderer.removeAll([
       "message",
       "downloadProgress",
       "isUpdateNow"
-    ]);
+    ]); 
+     */
   }
 };
 </script>

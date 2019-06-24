@@ -103,7 +103,6 @@ export default {
       path: "/home"
     };
     this.$store.commit("SET_TOPBAR", item);
-    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   mounted() {},
@@ -139,9 +138,6 @@ export default {
   }
 };
 </script>
-
-
-
 <style rel="stylesheet/scss" lang="scss" scoped>
 .main-container {
   margin: 10px;

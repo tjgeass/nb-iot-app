@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-container class="container" id="main" style="position: relative;">
-      <el-header class="header" :class="{color:isColor}" height="70px">
-        <header-view height="70px"></header-view>
+      <el-header class="header" height="70px">
+        <header-view height="70px" :bgColor="isColor"></header-view>
       </el-header>
       <el-main class="main">
         <transition name="fade" mode="out-in">
@@ -22,6 +22,7 @@
 <script>
 import HeaderView from "./components/Header/";
 import SideBar from "./components/Sidebar";
+import { truncate } from "fs";
 export default {
   name: "layout",
   components: {
@@ -30,7 +31,7 @@ export default {
   },
   data() {
     return {
-      isColor: false
+      isColor: true
     };
   },
   computed: {

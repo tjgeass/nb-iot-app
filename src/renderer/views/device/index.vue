@@ -85,7 +85,7 @@ export default {
   },
   watch: {},
   created() {
-    this.$store.commit("SET_TOPBAR_BG", true);
+    this.$store.commit("SET_TOPBAR_BG", false);
     var item = {
       title: "主界面",
       path: "/home"

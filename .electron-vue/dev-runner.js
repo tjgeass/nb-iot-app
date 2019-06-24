@@ -1,7 +1,5 @@
 'use strict'
 
-const isDev = true;
-
 const chalk = require('chalk')
 const electron = require('electron')
 const path = require('path')

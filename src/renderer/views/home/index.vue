@@ -49,7 +49,7 @@ import wave from "@/components/garish/wave";
 import { fail } from "assert";
 
 export default {
-  name: "homeIndex",
+  name: "HomeIndex",
   components: { wave, ProgressView },
   data() {
     return {
@@ -85,7 +85,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit("SET_TOPBAR_BG", false); // header背景不显示
     this.fetchData();
   },
   methods: {
@@ -112,8 +111,8 @@ export default {
      */
     fetchData() {
       this.$store.dispatch("GetOrgInfo").then(response => {
-        if (this.currentTime - this.organization.updated_at > 1) {
-          this.$message(
+        if (this.currentTime - this.organization.updated_at > 10 * 60) {
+          this.$message.warning(
             "已经很长时间没有进行智能检测,请点击智能检测分析遗址状态!"
           );
         }

@@ -394,7 +394,6 @@ export default {
     };
   },
   created() {
-    this.$store.commit("SET_TOPBAR_BG", true);
     this.fetchData();
   },
   computed: {

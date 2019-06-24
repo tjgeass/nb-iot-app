@@ -35,6 +35,9 @@
           <el-dropdown-item :divided="true" icon="el-icon-setting">
             <span @click="userInfo">个人信息设置</span>
           </el-dropdown-item>
+          <el-dropdown-item :divided="true" icon="el-icon-warning-outline">
+            <span @click="about">关于我们</span>
+          </el-dropdown-item>
           <el-dropdown-item :divided="true" icon="el-icon-switch-button">
             <span @click="logout">退出登录</span>
           </el-dropdown-item>
@@ -51,11 +54,17 @@
         </el-badge>
         <el-dropdown-menu class="notice-dropdown" slot="dropdown">
           <el-dropdown-item v-for="(message, index) in messages" :key="index" :divided="true">
-            <span>{{message.time}}</span>
+            <div class="time clearfix">
+              <el-tag
+                :type="message.status | formatTypeStatus"
+                size="mini"
+              >{{message.status|formatNameStatus}}</el-tag>
+              <span class="right">{{message.time}}</span>
+            </div>
             <p class="message-text">{{message.content}}</p>
           </el-dropdown-item>
           <el-dropdown-item>
-            <p @click="messageIndex">查看更多...</p>
+            <p @click="messageIndex" class="more">查看更多...</p>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -68,15 +77,15 @@
     </div>
   </div>
 </template>
-
 <script>
+import pkg from "root/package.json";
 import { mapGetters } from "vuex";
 import logo from "@/assets/images/logo.png";
-const { BrowserWindow } = require("electron");
 
 export default {
   data() {
     return {
+      pkg,
       tiemr: null,
       logo,
       query: {
@@ -89,6 +98,10 @@ export default {
     height: {
       type: String,
       default: "40px"
+    },
+    bgColor: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {},
@@ -99,7 +112,6 @@ export default {
   computed: {
     ...mapGetters([
       "topbar",
-      "bgColor",
       "sidebar",
       "avatar",
       "username",
@@ -162,6 +174,28 @@ export default {
           });
         })
         .catch(() => {});
+    },
+    about() {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "关于我们",
+        message: h("div", null, [
+          h("p", null, [
+            h("span", null, "项目名称:"),
+            h("i", { style: "color: teal" }, this.pkg.name)
+          ]),
+          h("p", null, [
+            h("span", null, "软件版本:"),
+            h("i", { style: "color: teal" }, this.pkg.version)
+          ]),
+          h("p", null, [
+            h("span", null, "作    者:"),
+            h("i", { style: "color: teal" }, this.pkg.author)
+          ])
+        ]),
+        showConfirmButton: false,
+        showCancelButton: false
+      });
     }
   },
   destroyed() {
@@ -229,8 +263,19 @@ export default {
     }
   }
 }
+.avatar-container {
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+}
 .user-dropdown {
   width: 280px;
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+  }
   .item-device {
     .el-col {
       border-left: 1px solid #ebeef5;
@@ -250,16 +295,6 @@ export default {
     }
   }
 }
-
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-.user-dropdown .user-avatar {
-  width: 40px;
-  height: 40px;
-}
 .notice-container {
   .notice {
     margin-right: 30px;
@@ -268,11 +303,29 @@ export default {
     color: #fff;
   }
 }
-.message-text {
-  width: 250px;
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.notice-dropdown {
+  .time {
+    height: 23px;
+    line-height: 23px;
+    font-size: 13px;
+    color: #909399;
+    .el-tag {
+    }
+    .right {
+      float: right;
+    }
+  }
+  .message-text {
+    width: 250px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 150%;
+  }
+  .more {
+    text-align: center;
+    color: #22bb6a;
+  }
 }
 </style>

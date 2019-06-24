@@ -107,7 +107,6 @@ let rendererConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({ filename: 'styles.css' }),
-
     new webpack.DefinePlugin({
       'process.env': process.env.NODE_ENV === 'production' ? config.build.env : config.dev.env
     }),
@@ -136,6 +135,7 @@ let rendererConfig = {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
       'vue$': 'vue/dist/vue.esm.js',
+      'root': path.join(__dirname, '../')
     },
     extensions: ['.js', '.vue', '.json', '.css', '.scss', '.node']
   },
