@@ -54,7 +54,6 @@
 import { mapGetters } from "vuex";
 import Vue from "vue";
 import options from "@/utils/echart/options";
-
 export default {
   name: "deviceView",
   data() {
