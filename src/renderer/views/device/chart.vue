@@ -26,7 +26,7 @@
         </el-radio-group>
       </el-col>
     </el-row>
-    <div class="main-chart" style="d">
+    <div class="main-chart">
       <v-chart :options="option"/>
     </div>
   </div>

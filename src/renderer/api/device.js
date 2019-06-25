@@ -68,6 +68,16 @@ export function getOrgConstInfo() {
     method: 'get',
   })
 }
+/**
+ * 获取设备信息
+ */
+export function getDeviceInfo(params) {
+  return request({
+    url: '/device/info',
+    method: 'get',
+    params
+  })
+}
 
 /**
  * 获取设备图表数据-年月日

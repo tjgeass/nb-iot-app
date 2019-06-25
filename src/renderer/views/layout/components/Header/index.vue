@@ -1,14 +1,14 @@
 <template>
   <div class="header-view" :style="{height: height}" :class="{color:bgColor}">
     <div class="left flex-c-l">
-      <img class="logo" :src="logo" style="-webkit-app-region: drag">
+      <img class="logo" :src="logo">
     </div>
     <div class="flex-c-l">
-      <router-link to="/">{{topbar.title}}</router-link>
+      <router-link to="/" class="no-drag">{{topbar.title}}</router-link>
     </div>
     <div class="right flex-c-l">
       <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
+        <div class="avatar-wrapper no-drag">
           <img class="user-avatar" :src="avatar">
           <span>{{username}}</span>
           <i class="el-icon-caret-bottom"></i>
@@ -44,7 +44,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <el-dropdown class="notice-container" trigger="click">
-        <el-badge :value="message_count" :max="99" class="notice">
+        <el-badge :value="message_count" :max="99" class="notice no-drag">
           <el-button
             class="notice-btn no-drag"
             icon="el-icon-message-solid"

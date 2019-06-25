@@ -15,35 +15,45 @@
     <div class="table-box">
       <el-table
         :data="list"
+        empty-text="无"
         border
         fit
         highlight-current-row
-        @selection-change="handleSelectionChange"
+        height="480"
         max-height="480"
       >
-        <el-table-column type="selection" align="center" width="35"></el-table-column>
         <el-table-column align="center" label="ID" width="100">
           <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
         <el-table-column align="center" label="温度" min-width="100">
-          <template slot-scope="scope">{{scope.row.temp}}</template>
+          <template slot-scope="scope" :class="scope.row.abnormal.temp">
+            <span :class="scope.row.abnormal.temp|formatTypeStatus">{{scope.row.temp}}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" label="湿度">
-          <template slot-scope="scope">{{scope.row.humi}}</template>
+        <el-table-column align="center" label="湿度" min-width="100">
+          <template slot-scope="scope">
+            <span :class="scope.row.abnormal.humi|formatTypeStatus">{{scope.row.humi}}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" label="裂隙" v-if="device.type_id == 4">
-          <template slot-scope="scope">{{scope.row.perc}}</template>
+        <el-table-column align="center" label="裂隙" min-width="100" v-if="device.type_id == 4">
+          <template slot-scope="scope">
+            <span :class="scope.row.abnormal.perc|formatTypeStatus">{{scope.row.perc}}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" label="前后倾角" v-if="device.type_id == 3">
-          <template slot-scope="scope">{{scope.row.dire_0}}</template>
+        <el-table-column align="center" label="前后倾角" min-width="100" v-if="device.type_id == 3">
+          <template slot-scope="scope">
+            <span :class="scope.row.abnormal.dire_0|formatTypeStatus">{{scope.row.dire_0}}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" label="左右倾角" v-if="device.type_id == 3">
-          <template slot-scope="scope">{{scope.row.dire_1}}</template>
+        <el-table-column align="center" label="左右倾角" min-width="100" v-if="device.type_id == 3">
+          <template slot-scope="scope">
+            <span :class="scope.row.abnormal.dire_1|formatTypeStatus">{{scope.row.dire_1}}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" label="上传时间" width="200">
+        <el-table-column align="center" label="上传时间" min-width="200">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
-            <span>{{scope.row.uplink}}</span>
+            <span>{{scope.row.uplink_at}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -160,10 +170,10 @@ export default {
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .main-container {
-  flex: 1;
-  display: flex;
   padding: 10px;
+  /*
   flex-direction: column;
+  */
   width: 100%;
   .header-box {
     flex: 1;

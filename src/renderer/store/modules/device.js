@@ -1,4 +1,15 @@
-import { getOrgInfo, getOrgMessage, getOrgMessageRead, updateOrgMessage, getOrgConstInfo, getDeviceDataChart, getDeviceDataTable, updateOrgInfo, updateContsInfo } from '@/api/device'
+import {
+  getOrgInfo,
+  getOrgMessage,
+  getOrgMessageRead,
+  updateOrgMessage,
+  getOrgConstInfo,
+  getDeviceInfo,
+  getDeviceDataChart,
+  getDeviceDataTable,
+  updateOrgInfo,
+  updateContsInfo
+} from '@/api/device'
 import sess from '../../utils/sess'
 
 const device = {
@@ -114,6 +125,18 @@ const device = {
           }
           sess.set('devices', devices)
           commit('SET_DEVICE', devices)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取设备图表数据
+    GetDeviceInfo({ commit, state }, dataQuery) {
+      return new Promise((resolve, reject) => {
+        getDeviceInfo(dataQuery).then(response => {
+          //const contsInfo = response.items
+          //commit('SET_ORGAN', contsInfo)
           resolve(response)
         }).catch(error => {
           reject(error)

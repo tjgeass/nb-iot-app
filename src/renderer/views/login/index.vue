@@ -181,6 +181,7 @@ export default {
     this.checkForUpdate();
   },
   beforeDestroy() {
+    ipcRenderer.removeAllListeners("checkForUpdate");
     /**
      this.$electron.ipcRenderer.removeAll([
       "message",

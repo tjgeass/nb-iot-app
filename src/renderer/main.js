@@ -26,9 +26,11 @@ Object.keys(filters).forEach(key => {
 import ECharts from 'vue-echarts/components/ECharts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/Gauge'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/tooltip'
+
 Vue.component('v-chart', ECharts)
 
 import '@/permission' // permission control

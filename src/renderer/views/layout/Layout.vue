@@ -2,7 +2,7 @@
   <div>
     <el-container class="container" id="main" style="position: relative;">
       <el-header class="header" height="70px">
-        <header-view height="70px" :bgColor="isColor"></header-view>
+        <header-view height="70px" :bgColor="isColor" style="-webkit-app-region: drag"></header-view>
       </el-header>
       <el-main class="main">
         <transition name="fade" mode="out-in">
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      isColor: true
+      isColor: false
     };
   },
   computed: {
@@ -39,6 +39,7 @@ export default {
       return this.$store.state.app.sidebar;
     }
   },
+  created() {},
   watch: {
     $route(to, from) {
       if (

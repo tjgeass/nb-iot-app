@@ -31,42 +31,14 @@
         <span>运行状态</span>
       </div>
       <div class="status">
-        <div
-          v-if="device.newData.temp"
-          class="dev-data"
-          :class="device.newData.abnormal.temp|formatNameStatus"
-        >
-          <i class="icon iconfont icon-wendu"></i>
-          <p class="data">温度:{{device.newData.temp}}</p>
-          <p class="cali" v-if="device.initial_data.temp">标定值:{{device.initial_data.temp }}</p>
+        <div class="box-chart">
+          <v-chart :options="gaugeTemp" class="chart"/>
         </div>
-        <div v-if="device.newData.humi" class="dev-data">
-          <i class="icon iconfont icon-shidu"></i>
-          <p class="data">湿度:{{device.newData.humi}}</p>
-          <p class="cali" v-if="device.initial_data.humi">{{device.initial_data.humi}}</p>
+        <div class="box-chart">
+          <v-chart :options="gaugeHumi" class="chart"/>
         </div>
-        <div v-if="device.newData.perc" class="dev-data">
-          <i class="icon iconfont icon-liefengji"></i>
-          <p class="data">裂隙:{{device.newData.perc}}</p>
-          <p class="cali" v-if="device.initial_data.perc">标定值:{{device.initial_data.perc }}</p>
-        </div>
-        <div
-          v-if="device.newData.dire_0"
-          class="dev-data"
-          :class="device.newData.abnormal.dire_0|formatTypeStatus"
-        >
-          <i class="icon iconfont icon-qingjiaoyi"></i>
-          <p class="data">前后倾角:{{device.newData.dire_0}}</p>
-          <p class="cali" v-if="device.initial_data.dire_0">标定值:{{device.initial_data.dire_0 }}</p>
-        </div>
-        <div
-          v-if="device.newData.dire_1"
-          class="dev-data"
-          :class="device.newData.abnormal.dire_1|formatTypeStatus"
-        >
-          <i class="icon iconfont icon-qingjiaoyi"></i>
-          <p class="data">左右倾角:{{device.newData.dire_1}}</p>
-          <p class="cali" v-if="device.initial_data.dire_1">标定值:{{device.initial_data.dire_1}}</p>
+        <div class="box-chart">
+          <v-chart :options="gaugeDire" class="chart chart-dire"/>
         </div>
       </div>
       <el-divider content-position="left">设备历史数据</el-divider>
@@ -81,11 +53,14 @@
 <script>
 import { mapGetters } from "vuex";
 import Vue from "vue";
+import options from "@/utils/echart/options";
 
 export default {
   name: "deviceView",
   data() {
     return {
+      device: {},
+      options,
       padding: {
         padding: "10px"
       },
@@ -93,6 +68,7 @@ export default {
         active: true,
         "text-danger": false
       },
+
       dev_id: this.$route.query.dev_id
     };
   },
@@ -107,12 +83,29 @@ export default {
   },
   mounted() {},
   computed: {
-    device: function() {
-      return this.$store.getters.getDeviceById(this.dev_id);
+    gaugeTemp: function() {
+      return this.options.gaugeTemp;
+    },
+    gaugeHumi: function() {
+      return this.options.gaugeHumi;
+    },
+    gaugeDire: function() {
+      return this.options.gaugeDire;
     }
   },
   methods: {
-    fetchData() {},
+    fetchData() {
+      var query = {
+        dev_id: this.$route.query.dev_id
+      };
+      this.$store.dispatch("GetDeviceInfo", query).then(response => {
+        this.device = response.item;
+        this.gaugeTemp.series[0].data[0].value = this.device.newData.temp;
+        this.gaugeHumi.series[0].data[0].value = this.device.newData.humi;
+        this.gaugeDire.series[0].data[0].value = this.device.newData.dire_0;
+        this.gaugeDire.series[1].data[0].value = this.device.newData.dire_1;
+      });
+    },
     /**
      * 跳转到图表页面
      */
@@ -153,18 +146,19 @@ export default {
     margin-right: 10px;
     .status {
       height: 400px;
-      .dev-data {
-        float: left;
-        width: 200px;
-        height: 200px;
-        i {
-          display: block;
-          font-size: 100px;
-          text-align: center;
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      justify-content: space-between;
+      .box-chart {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        .chart {
+          width: 100%;
+          height: 200px;
         }
-        p {
-          text-align: center;
-          line-height: 150%;
+        .chart-dire {
         }
       }
     }
