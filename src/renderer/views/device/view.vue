@@ -1,16 +1,10 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" v-loading="loading" element-loading-text="拼命加载中....">
     <el-card class="box-card-basic" :body-style="padding" shadow="hover">
       <div slot="header" class="clearfix">
         <span>设备属性</span>
       </div>
-      <el-form
-        label-position="left"
-        :model="device"
-        size="mini"
-        label-width="80px"
-        class="demo-table-expand"
-      >
+      <el-form label-position="left" size="mini" label-width="80px" class="demo-table-expand">
         <el-form-item label="设备名称:">
           <span>{{ device.name }}</span>
         </el-form-item>
@@ -20,9 +14,14 @@
         <el-form-item label="设备状态:">
           <span>{{ device.status|formatNameStatus }}</span>
         </el-form-item>
-        <el-form-item label="设备类型:">
-          <span>{{ device.type_id }}</span>
-        </el-form-item>
+        <template v-if="device.type">
+          <el-form-item label="设备型号:">
+            <span>{{ device.type.name }}</span>
+          </el-form-item>
+          <el-form-item label="型号简介:">
+            <span>{{ device.type.explain }}</span>
+          </el-form-item>
+        </template>
       </el-form>
     </el-card>
 
@@ -30,15 +29,18 @@
       <div slot="header" class="clearfix">
         <span>运行状态</span>
       </div>
-      <div class="status">
+      <div class="status" v-if="device.type">
         <div class="box-chart">
           <v-chart :options="gaugeTemp" class="chart"/>
         </div>
         <div class="box-chart">
           <v-chart :options="gaugeHumi" class="chart"/>
         </div>
-        <div class="box-chart">
+        <div class="box-chart" v-if="device.type.isDire">
           <v-chart :options="gaugeDire" class="chart chart-dire"/>
+        </div>
+        <div class="box-chart" v-if="device.type.isPerc">
+          <v-chart :options="gaugePerc" class="chart"/>
         </div>
       </div>
       <el-divider content-position="left">设备历史数据</el-divider>
@@ -57,17 +59,18 @@ import options from "@/utils/echart/options";
 export default {
   name: "deviceView",
   data() {
+    //let device = this.$store.getters.getDeviceById(this.$route.query.dev_id);
     return {
       device: {},
       options,
       padding: {
         padding: "10px"
       },
+      loading: true,
       classObject: {
         active: true,
         "text-danger": false
       },
-
       dev_id: this.$route.query.dev_id
     };
   },
@@ -90,6 +93,9 @@ export default {
     },
     gaugeDire: function() {
       return this.options.gaugeDire;
+    },
+    gaugePerc: function() {
+      return this.options.gaugePerc;
     }
   },
   methods: {
@@ -103,6 +109,7 @@ export default {
         this.gaugeHumi.series[0].data[0].value = this.device.newData.humi;
         this.gaugeDire.series[0].data[0].value = this.device.newData.dire_0;
         this.gaugeDire.series[1].data[0].value = this.device.newData.dire_1;
+        this.loading = false;
       });
     },
     /**
@@ -156,8 +163,6 @@ export default {
         .chart {
           width: 100%;
           height: 200px;
-        }
-        .chart-dire {
         }
       }
     }

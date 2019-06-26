@@ -35,17 +35,22 @@
             <span :class="scope.row.abnormal.humi|formatTypeStatus">{{scope.row.humi}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="裂隙" min-width="100" v-if="device.type_id == 4">
+        <el-table-column align="center" label="光照" min-width="100">
+          <template slot-scope="scope">
+            <span :class="scope.row.abnormal.illu|formatTypeStatus">{{scope.row.illu}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="裂隙" min-width="100" v-if="device.type.isPrec">
           <template slot-scope="scope">
             <span :class="scope.row.abnormal.perc|formatTypeStatus">{{scope.row.perc}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="前后倾角" min-width="100" v-if="device.type_id == 3">
+        <el-table-column align="center" label="前后倾角" min-width="100" v-if="device.type.isDire">
           <template slot-scope="scope">
             <span :class="scope.row.abnormal.dire_0|formatTypeStatus">{{scope.row.dire_0}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="左右倾角" min-width="100" v-if="device.type_id == 3">
+        <el-table-column align="center" label="左右倾角" min-width="100" v-if="device.type.isDire">
           <template slot-scope="scope">
             <span :class="scope.row.abnormal.dire_1|formatTypeStatus">{{scope.row.dire_1}}</span>
           </template>

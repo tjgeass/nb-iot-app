@@ -94,7 +94,7 @@ export function getDeviceDataChart(params) {
  */
 export function getDeviceDataTable(params) {
   return request({
-    url: '/device/data-table?XDEBUG_SESSION_START=10879',
+    url: '/device/data-table',
     method: 'get',
     params
   })
