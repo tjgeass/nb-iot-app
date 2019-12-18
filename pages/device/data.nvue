@@ -1,0 +1,567 @@
+<template>
+	<view class="container">
+		<scroll-view id="tab-bar" class="uni-row scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+			<view v-for="(item,index) in tabBars" :key="index" class="uni-tab-item" :class="tabIndex==index ? 'uni-tab-item-active' : ''"
+			 :data-current="index" @click="ontabtap">
+				<text class="uni-tab-item-title">{{item.name}}</text>
+			</view>
+		</scroll-view>
+		<swiper :current="tabIndex" class="swiper-box" style="flex: 1;" :duration="300" @change="ontabchange">
+			<swiper-item class="swiper-item" :key="0">
+				<waterfall @loadmore="loadMore(0)" loadmoreoffset="30" :show-scrollbar="true" column-count="2" column-width="auto"
+				 class="waterfall" column-gap="24" ref="waterfall">
+					<refresh class="refresh" @refresh="onrefresh(0)" @pullingdown="onpullingdown" :display="dataList[0].refreshing  ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[0].refreshing || pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': dataList[0].refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="dataList[0].refreshing"></loading-indicator>
+							<text class="loading-text">{{dataList[0].refreshText}}</text>
+						</div>
+					</refresh>
+					<header style="width: 750rpx; height: 1rpx;"></header>
+					<cell :key="index" v-for="(item,index) in dataList[0].data">
+						<image :src="item.url" @error="imageError(item)" style="height: 280rpx;" mode="aspectFit" :lazy-load="true"></image>
+						<text class="pic_date">{{item.uplink_at}}</text>
+					</cell>
+					<header class="loading-more">
+						<text class="loadmore-line" v-if="pageIndex>3"></text>
+						<text class="loadmore-text">{{dataList[0].loadingText}}</text>
+					</header>
+				</waterfall>
+			</swiper-item>
+			<swiper-item class="swiper-item" :key="1">
+				<view class="uni-row data-header">
+					<view class="cell-col">
+						<text class="col-v">时间</text>
+					</view>
+					<view class="cell-col">
+						<text class="col-v">温度℃</text>
+					</view>
+					<view class="cell-col">
+
+						<text class="col-v">湿度%</text>
+					</view>
+					<view class="cell-col">
+						<text class="col-v">锁具</text>
+					</view>
+					<view class="cell-col">
+						<text class="col-v">震动</text>
+					</view>
+				</view>
+				<list @loadmore="loadMore(1)" loadmoreoffset="30">
+					<refresh class="refresh" @refresh="onrefresh(1)" @pullingdown="onpullingdown" :display="dataList[1].refreshing  ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[1].refreshing || pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': dataList[1].refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="dataList[1].refreshing"></loading-indicator>
+							<text class="loading-text">{{dataList[1].refreshText}}</text>
+						</div>
+					</refresh>
+					<cell :key="index" v-for="(item,index) in dataList[1].data" class="uni-row data-line">
+						<view class="cell-col">
+							<text class="col-v" style="font-size: 26rpx;line-height: 30rpx;">{{item.uplink_at}}</text>
+						</view>
+						<view class="cell-col">
+							<text class="col-v">{{item.temperature||'无'}}</text>
+						</view>
+						<view class="cell-col">
+
+							<text class="col-v">{{item.humidity||'无'}}</text>
+						</view>
+						<view class="cell-col">
+
+							<text class="col-v">{{item.lock == 1 ? '开启':'关闭'}}</text>
+						</view>
+						<view class="cell-col">
+							<text class="col-v">{{item.vibration||'无'}}</text>
+						</view>
+					</cell>
+					<header class="loading-more">
+						<text class="loadmore-line" v-if="pageIndex>dataList[1]"></text>
+						<text class="loadmore-text">{{dataList[1].loadingText}}</text>
+					</header>
+				</list>
+			</swiper-item>
+			<swiper-item class="swiper-item" :key="2">
+				<map class="map" :scale="12" id="map2" ref="map2" style="width: 100%; height: 300px;" :latitude="latitude" :longitude="longitude"
+				 :markers="covers" @tap="clickMap" :polyline="polyline">
+				</map>
+				<list @loadmore="loadMore(2)" loadmoreoffset="10">
+					<refresh class="refresh" @refresh="onrefresh(2)" @pullingdown="onpullingdown" :display="dataList[2].refreshing  ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[2].refreshing || pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': dataList[2].refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="dataList[2].refreshing"></loading-indicator>
+							<text class="loading-text">{{dataList[2].refreshText}}</text>
+						</div>
+					</refresh>
+					<cell :key="index" v-for="(item,index) in dataList[2].data" class="map-list" v-if="item.latitude && item.longitude">
+						<view class="btn-row">
+							<text style="font-size: 28rpx;line-height: 40rpx;">{{item.uplink_at}}</text>
+							<button class="mini-btn" type="default" size="mini" @tap="clickDev(item)">地图显示</button>
+						</view>
+						<view class="address-row">
+							<text class="address">{{item.address}}</text>
+						</view>
+					</cell>
+					<header class="loading-more">
+						<text class="loadmore-line" v-if="pageIndex>dataList[2]"></text>
+						<text class="loadmore-text">{{dataList[2].loadingText}}</text>
+					</header>
+				</list>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	// 缓存每页最多
+	const MAX_CACHE_DATA = 100;
+	// 缓存页签数量
+	const MAX_CACHE_PAGE = 3;
+	export default {
+		components: {
+
+		},
+		data() {
+			return {
+				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
+				tabIndex: 0,
+				dataList: [],
+				cacheTab: [],
+				tabBars: [{
+					name: '照片数据',
+					id: 'pic'
+				}, {
+					name: '环境数据',
+					id: 'huanjing'
+				}, {
+					name: 'GPS数据',
+					id: 'gps'
+				}],
+				refreshing: false,
+				dev_id: null,
+				longitude: 116.39742,
+				latitude: 39.909,
+				nowMarker:{},
+				covers: [],
+				polyline: [],
+			}
+		},
+		onLoad: function(option) {
+			this.tabIndex = option.tabIndex
+			this.dev_id = option.dev_id;
+			this.tabBars.forEach((tabBar) => {
+				this.dataList.push({
+					data: [],
+					pageIndex: 1,
+					pageCount: 0,
+					isLoading: false,
+					refreshing: false,
+					refreshText: "",
+					loadingText: '加载更多...'
+				});
+			});
+			setTimeout(() => {
+				this.getList(this.tabIndex || 0);
+			}, 350);
+			if (this.tabIndex) {
+				this.switchTab(this.tabIndex);
+			}
+			//this.pullrefresh();
+		},
+		onReady() {
+			//this.map = uni.createMapContext("map2", this);
+		},
+		methods: {
+			imageError(e) {
+				e.url = "/static/images/pic.png";
+			},
+			getList(index) {
+				let activeTab = this.dataList[index];
+				let list = [];
+				if (index == 0) {
+					var query = {
+						dev_id: this.dev_id,
+						page: activeTab.pageIndex,
+					};
+					this.$store
+						.dispatch("GetDevicePictrues", query)
+						.then(response => {
+							if (response.items.length == 0) {
+								activeTab.loadingText = "无数据";
+								return;
+							}
+							activeTab.pageCount = response._meta.pageCount;
+							if(activeTab.pageIndex <= activeTab.pageCount ){
+								activeTab.data = activeTab.data.concat(response.items);
+								if(activeTab.pageIndex == activeTab.pageCount ){
+									activeTab.loadingText = "没有更多数据";
+								}
+								activeTab.pageIndex = response._meta.currentPage + 1;
+							}else{
+								activeTab.loadingText = "没有更多数据";
+								return;
+							}
+							//this.$refs.waterfall.resetLoadmore()
+						})
+						.catch(() => {
+							//this.loading = false;
+						});
+				} else if (index == 1) {
+					var query = {
+						dev_id: this.dev_id,
+						page: activeTab.pageIndex,
+					};
+					this.$store
+						.dispatch("GetDeviceData", query)
+						.then(response => {
+							if (response.items.length == 0) {
+								activeTab.loadingText = "无数据";
+								return;
+							}
+							activeTab.pageCount = response._meta.pageCount;
+							if(activeTab.pageIndex <= activeTab.pageCount ){
+								activeTab.data = activeTab.data.concat(response.items);
+								if(activeTab.pageIndex == activeTab.pageCount ){
+									activeTab.loadingText = "没有更多数据";
+								}
+								activeTab.pageIndex = response._meta.currentPage + 1;
+							}else{
+								activeTab.loadingText = "没有更多数据";
+								return;
+							}
+							//this.$refs.waterfall.resetLoadmore()
+						})
+						.catch(() => {
+							//this.loading = false;
+						});
+				} else if (index == 2) {
+					var query = {
+						dev_id: this.dev_id,
+						page: activeTab.pageIndex,
+					};
+					this.$store
+						.dispatch("GetDeviceCoord", query)
+						.then(response => {
+							if (response.items.length == 0) {
+								activeTab.loadingText = "无数据";
+								return;
+							}
+							activeTab.pageCount = response._meta.pageCount;
+							if(activeTab.pageIndex <= activeTab.pageCount ){
+								if (activeTab.pageIndex == 1) {
+									this.longitude = response.items[0].longitude;
+									this.latitude = response.items[0].latitude;
+									this.covers = [];
+									this.nowMarker = {
+										id: 0,
+										latitude: Number(this.latitude),
+										longitude: Number(this.longitude),
+										iconPath: '/static/images/maps/box1.png',
+										width: 20,
+										height: 20,
+										anchor:{x: .5, y: 0.5}
+									};
+									this.covers.push(this.nowMarker);
+								}
+								activeTab.data = activeTab.data.concat(response.items);
+								this.addPolyline(activeTab.data);
+								if(activeTab.pageIndex == activeTab.pageCount ){
+									activeTab.loadingText = "没有更多数据";
+								}
+								activeTab.pageIndex = response._meta.currentPage + 1;
+							}else{
+								activeTab.loadingText = "没有更多数据";
+								return;
+							}
+							//this.$refs.waterfall.resetLoadmore()
+						})
+						.catch(() => {
+							//this.loading = false;
+						});
+				}
+			},
+			addPolyline(data) {
+				let points = [];
+				for (let i = 0; i < data.length; i++) {
+					points.push({
+						latitude: Number(data[i].latitude),
+						longitude: Number(data[i].longitude),
+					});
+				}
+				this.polyline = [{
+					points: points,
+					color: 'rgb(2,146,195)',
+					width: 3,
+					arrowLine: true,
+					arrowIconPath:'/static/images/maps/arr.png',
+				}];
+			},
+			clickDev(item) {
+				let marker={
+					id: 1,
+					latitude: Number(item.latitude),
+					longitude: Number(item.longitude),
+					iconPath: '/static/images/maps/box1.png',
+					width: 20,
+					height: 20,
+					anchor:{x: .5, y: 0.5}
+				};
+				this.covers=[];
+				this.covers.push(this.nowMarker);
+				this.covers.push(marker);
+				this.longitude =item.longitude;
+				this.latitude =item.latitude;
+			},
+
+			onrefresh(e) {
+				var tab = this.dataList[this.tabIndex];
+				if (!tab.refreshFlag) {
+					return;
+				}
+				tab.refreshing = true;
+				tab.refreshText = "正在刷新...";
+
+				setTimeout(() => {
+					this.refreshData(e);
+					this.pulling = true;
+					tab.refreshing = false;
+					tab.refreshFlag = false;
+					tab.refreshText = "已刷新";
+					setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
+						this.pulling = false;
+					}, 500);
+				}, 2000);
+			},
+			onpullingdown(e) {
+				var tab = this.dataList[this.tabIndex];
+				if (tab.refreshing || this.pulling) {
+					return;
+				}
+				if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+					tab.refreshFlag = true;
+					tab.refreshText = "释放立即刷新";
+				} else {
+					tab.refreshFlag = false;
+					tab.refreshText = "下拉可以刷新";
+				}
+			},
+			refreshData(e) {
+				this.dataList[e].pageIndex = 1;
+				this.dataList[e].data = [];
+				setTimeout(() => {
+					this.getList(this.tabIndex);
+				}, 500)
+			},
+			ontabtap(e) {
+				let index = e.target.dataset.current || e.currentTarget.dataset.current;
+				this.switchTab(index);
+			},
+			ontabchange(e) {
+				let index = e.target.current || e.detail.current;
+				this.switchTab(index);
+			},
+			switchTab(index) {
+				if (this.dataList[index].data.length === 0) {
+					this.getList(index);
+				}
+
+				if (this.tabIndex === index) {
+					return;
+				}
+
+				// 缓存 tabId
+				if (this.dataList[this.tabIndex].data.length > MAX_CACHE_DATA) {
+					let isExist = this.cacheTab.indexOf(this.tabIndex);
+					if (isExist < 0) {
+						this.cacheTab.push(this.tabIndex);
+						//console.log("cache index:: " + this.tabIndex);
+					}
+				}
+
+				this.tabIndex = index;
+				this.scrollInto = this.tabBars[index].id;
+
+				// 释放 tabId
+				if (this.cacheTab.length > MAX_CACHE_PAGE) {
+					let cacheIndex = this.cacheTab[0];
+					this.clearTabData(cacheIndex);
+					this.cacheTab.splice(0, 1);
+					//console.log("remove cache index:: " + cacheIndex);
+				}
+			},
+			clearTabData(e) {
+				this.dataList[e].data.length = 0;
+				this.dataList[e].loadingText = "加载更多...";
+			},
+			loadMore(e) {
+				setTimeout(() => {
+					this.getList(this.tabIndex);
+				}, 500)
+			},
+			clickMap(e) {
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.container {
+		color: #007AFF;
+		flex: 1;
+		padding: 0 10rpx;
+	}
+
+	.tabs {
+		flex-direction: row;
+		height: 100rpx;
+	}
+
+	.uni-tab-item {
+		flex: 1;
+		height: 80rpx;
+		border-bottom-color: #E9E9E9;
+		border-bottom-width: 2rpx;
+	}
+
+	.uni-tab-item-active {
+		border-bottom-width: 4rpx;
+		border-bottom-color: #389BFF;
+	}
+
+	.uni-tab-item-title {
+		line-height: 80rpx;
+		text-align: center;
+		font-size: 28rpx;
+		color: #333333;
+	}
+
+	.swiper-box {
+		flex: 1;
+		padding: 0 15rpx;
+	}
+
+	.pic_date {
+		height: 60rpx;
+		font-size: 30rpx;
+		line-height: 60rpx;
+		text-align: center;
+	}
+
+	.waterfall {
+		padding: 0 15rpx;
+	}
+
+	.uni-row {
+		justify-content: space-around;
+	}
+
+	.data-header {
+		background-color: #CAD8FB;
+	}
+
+	.data-line {
+		height: 80rpx;
+		justify-content: space-between;
+		border-bottom-color: #CCCCCC;
+		border-bottom-width: 2rpx;
+	}
+
+	.cell-col {
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.col-v {
+		color: #333333;
+		font-size: 32rpx;
+		line-height: 50rpx;
+		text-align: center;
+	}
+
+	.map-list {
+		border-bottom-color: #CCCCCC;
+		border-bottom-width: 1px;
+		border-style: dotted;
+		flex-direction: column;
+	}
+
+	.address-row {
+		font-size: 12rpx;
+		line-height: 40rpx;
+	}
+
+	.address {
+		font-size: 28rpx;
+        flex-wrap: wrap;
+	}
+
+	.btn-row {
+		height: 80rpx;
+		line-height: 80rpx;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.mini-btn {
+		padding-left: 5rpx !important;
+		padding-right: 5rpx !important;
+		padding: 0 !important;
+	}
+
+	.refresh {
+		width: 750rpx;
+		height: 64px;
+		justify-content: center;
+	}
+
+	.refresh-view {
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.refresh-icon {
+		width: 30px;
+		height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+
+	.loading-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+		color: #999999;
+	}
+
+	.loading-text {
+		margin-left: 2px;
+		font-size: 16px;
+		color: #999999;
+	}
+
+	.loading-more {
+		align-items: center;
+		justify-content: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		text-align: center;
+		background-color: rgba(0, 0, 0, 0)
+	}
+
+	.loadmore-text {
+		font-size: 28rpx;
+		color: #C8C7CC;
+	}
+</style>

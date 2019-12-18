@@ -1,0 +1,216 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages		
+		{
+			"path": "pages/tabBar/home/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"app-plus": {
+					"titleNView": false,
+					"subNVues": [{
+						"id": "follow",
+						"path": "pages/tabBar/home/subnvue/follow",
+						"type": "popup",
+						"style": {
+							"margin": "auto",
+							"width": "50%",
+							"height": "700upx"
+						}
+					}]
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/message/index",
+			"style": {
+				"navigationBarTitleText": "信息",
+				"app-plus": {
+					"titleNView": false,
+					"subNVues": [{
+						"id": "list",
+						"path": "pages/tabBar/message/subnvue/list",
+						"type": "popup",
+						"style": {
+							"width": "50%"
+						}
+					}, {
+						"id": "nav",
+						"path": "pages/tabBar/message/subnvue/nav",
+						"type": "navigationBar"
+					}]
+				}
+			}
+		},
+		{
+			"path": "pages/article/index",
+			"style": {
+				"navigationBarTitleText": "新闻公告"
+			}
+		},
+		{
+		    "path" : "pages/article/view",
+		    "style" : {
+				"navigationBarTitleText": "详情",
+				"app-plus": {
+				    "titleNView": {
+				        "type": "transparent"
+				    }
+				}
+			}
+		},
+		
+		{
+			"path": "pages/tabBar/home/map",
+			"style": {
+				"navigationBarTitleText": "地图定位",
+				"app-plus": {
+					"animationType": "zoom-fade-out",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/mine/mine",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/tabBar/device/index",
+			"style": {
+				"navigationBarTitleText": "设备列表"
+			}
+		},
+		{
+			"path": "pages/device/info",
+			"style": {
+				"navigationBarTitleText": "实时数据",
+				"navigationBarBackgroundColor": "#7E77F7"
+			}
+		},
+		{
+			"path": "pages/device/data",
+			"style": {
+				"navigationBarTitleText": "历史数据",
+				"navigationBarBackgroundColor": "#7E77F7"
+			}
+		},
+
+		{
+			"path": "pages/denglu/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/denglu/register/register",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{
+			"path": "pages/denglu/password/password",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
+			}
+		},
+		{
+			"path": "pages/mine/info/info",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/mine/qrcode/qrcode",
+			"style": {
+				"navigationBarTitleText": "我的二维码"
+			}
+		},
+		{
+			"path": "pages/mine/logo/logo",
+			"style": {
+				"navigationBarTitleText": "个人头像"
+			}
+		},
+		{
+			"path": "pages/mine/scan/scan",
+			"style": {}
+		},
+		{
+			"path": "pages/mine/setting/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+        {
+            "path" : "pages/about/about",
+            "style" : {
+				"navigationBarTitleText": "关于中创智能箱"
+			}
+        }
+        ,{
+            "path" : "pages/error/404",
+            "style" : {
+				"navigationBarTitleText": "出错了"
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "文物箱匣",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#656565",
+		"selectedColor": "#1E81F8",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/tabBar/home/index",
+				"iconPath": "static/home.png",
+				"selectedIconPath": "static/homeHL.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tabBar/device/index",
+				"iconPath": "static/device.png",
+				"selectedIconPath": "static/deviceHL.png",
+				"text": "设备"
+			},
+			{
+				"pagePath": "pages/tabBar/message/index",
+				"iconPath": "static/message.png",
+				"selectedIconPath": "static/messageHL.png",
+				"text": "信息"
+			},
+			{
+				"pagePath": "pages/tabBar/mine/mine",
+				"iconPath": "static/my.png",
+				"selectedIconPath": "static/myHL.png",
+				"text": "我的"
+			}
+		]
+	},
+	"condition": {
+		//模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式（list 的索引项）
+		"list": [{
+			"name": "index",
+			"path": "pages/tabBar/home/index",
+			"query": ""
+		},
+		{
+			"name": "login",
+			"path": "pages/denglu/login/login",
+			"query": ""
+		},
+		{
+			"name": "404",
+			"path": "pages/error/404",
+			"query": ""
+		}]
+	}
+	
+}

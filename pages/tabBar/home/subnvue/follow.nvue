@@ -1,0 +1,174 @@
+<template>
+	<div class="container">
+		<text class="title">选择首页显示设备</text>
+		<view class="uni-list">
+			<checkbox-group @change="checkboxChange">
+				<label class="uni-list-cell uni-list-cell-pd" :index="index" v-for="(item,index) in devices" :key="item.dev_id">
+					<view>
+						<checkbox :value="item.dev_id" :checked="item.follow"></checkbox>
+					</view>
+					<view>{{item.name}}</view>
+				</label>
+			</checkbox-group>
+		</view>
+		<view class="message-wrapper">
+			<button class="send-message" type="primary" :loading="loading" :disabled="btnDisabled" @tap="updateFollow">确定</button>
+		</view>
+	</div>
+</template>
+
+<script>
+	import {
+		mapGetters
+	} from 'vuex';
+	export default {
+		computed: {
+			...mapGetters(["devices"]),
+		},
+		data() {
+			return {
+				lists: [],
+				devIds: [],
+				loading: false,
+				btnDisabled: true,
+				ckDisabled: [],
+			}
+		},
+		created() {
+			uni.getCurrentSubNVue().addEventListener("maskClick", function(e) {
+			console.log("maskClick")
+			}, false)
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				fontFamily: "unibtn",
+				'src': "url('../../../../static/uni.ttf')"
+			});
+		},
+		onLoad() {
+			if (this.devices.length == 0) {
+				this.devices = this.$store.getters.devices
+			}
+		},
+		methods: {
+			/**
+			 * 获取首页数据
+			 */
+			fetchData() {
+				this.$store
+					.dispatch("GetHome")
+					.then(response => {
+						//this.loading = false;
+						this.devices = response.devices;
+					})
+					.catch(() => {
+						//this.loading = false;
+					});
+			},
+			/**
+			 * 选中列表
+			 * @param {Object} e
+			 */
+			checkboxChange: function(e) {
+				this.btnDisabled = false;
+				if (e.detail.value.length > 1) {
+					this.ckDisabled = true;
+				} else {
+					this.ckDisabled = false;
+				}
+				this.devIds = e.detail.value;
+			},
+			/**
+			 * 更新数据
+			 */
+			updateFollow() {
+				if (this.btnDisabled) {
+					return;
+				}
+				this.loading = true;
+				var query = {
+					ids: this.devIds,
+				};
+				this.$store
+					.dispatch("UpdateFollow", query)
+					.then(response => {
+						uni.$emit('home')
+						this.loading = false;
+						uni.showToast({
+							title: '修改成功',
+							icon: "none"
+						});
+						uni.getCurrentSubNVue().hide('auto')
+						//this.project = response.item;
+						this.btnDisabled = true;
+					})
+					.catch(() => {
+						this.loading = false;
+					});
+			},
+		}
+	}
+</script>
+
+<style>
+	.container {
+		flex: 1;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 10rpx 15rpx;
+		background-color: #F4F5F6;
+		border-radius: 20rpx;
+	}
+
+	.title {
+		height: 100rpx;
+		line-height: 100rpx;
+		border-bottom-style: solid;
+		border-bottom-width: 1rpx;
+		border-bottom-color: #CBCBCB;
+		justify-content: center;
+		font-size: 30rpx;
+	}
+
+	.scroller {
+		flex: 1;
+		padding: 8rpx 15rpx;
+	}
+
+	.uni-list {
+		flex: 1;
+	}
+
+	.uni-list-cell {
+		justify-content: flex-start;
+	}
+
+	.content {
+		color: #555555;
+		font-size: 32rpx;
+	}
+
+	.message-wrapper {
+		padding: 10rpx 10rpx;
+		height: 110rpx;
+	}
+
+	.send-message {}
+
+	.cell {
+		margin: 10rpx;
+		padding: 20rpx 0;
+		top: 10rpx;
+		align-items: center;
+		justify-content: center;
+		border-radius: 10rpx;
+		background-color: #5989B9;
+	}
+
+	.text {
+		font-size: 30rpx;
+		text-align: center;
+		color: white;
+	}
+</style>

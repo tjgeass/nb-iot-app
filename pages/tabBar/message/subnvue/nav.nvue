@@ -1,0 +1,113 @@
+<template>
+	<view class="wrapper">
+		<view class="status-bar"></view>
+		<view class="nav">
+			<view class="back">
+			</view>
+			<text class="title">消息</text>
+			<view class="btn" @tap="showDrawer()">
+				<text style="color: #FFFFFF;font-size: 34rpx;">{{name||'全部'}}</text>
+				<text class="icon">&#xe562;</text>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {
+		mapGetters
+	} from 'vuex';
+	export default {
+		computed: {
+			...mapGetters(["device"]),
+		},
+		data() {
+			return {
+				name: '全部',
+				dev_id: '',
+			}
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				fontFamily: "unibtn",
+				'src': "url('../../../../static/uni.ttf')"
+			});
+		},
+		onLoad: function(option) {
+			if(this.device){
+				this.name = this.device.name;
+			}else{
+				this.name ="全部";
+			}
+			// 监听 drawer 消息
+			uni.$on('message', (data) => {
+				if(data.device){
+					this.name = data.device.name;
+					this.dev_id = data.device.dev_id;
+				}else{
+					this.name ="全部";
+					this.dev_id= '';
+				}
+			})
+		},
+		methods: {
+			back() {
+				uni.navigateBack();
+			},
+			showDrawer() {
+				uni.getSubNVueById('list').show('slide-in-left', 200);
+			},
+		},
+	}
+</script>
+
+<style>
+	.wrapper {
+		flex: 1;
+		background-image: linear-gradient(to top, #34A3FF, #477CFE);
+		flex-direction: column;
+	}
+
+	.status-bar {
+		flex: 1;
+	}
+
+	.nav {
+		position: relative;
+		height: 40px;
+		flex: 1;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+	}
+
+	.title {
+		flex: 0.6;
+		font-size: 34rpx;
+		text-align: center;
+		color: #FFFFFF;
+		line-height: 40rpx;
+	}
+
+	.back {
+		flex: 0.2;
+		justify-content: flex-start;
+	}
+
+	.btn {
+		flex-direction: row;
+		flex: 0.2;
+		text-align: right;
+		justify-content: flex-end;
+	}
+
+	.icon {
+		color: #FFFFFF;
+		padding-left: 15rpx;
+		right: 10rpx;
+		font-family: unibtn;
+		font-size: 42rpx;
+		font-weight: 400;
+	}
+</style>

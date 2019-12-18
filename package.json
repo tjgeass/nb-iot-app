@@ -1,0 +1,23 @@
+{
+  "name": "nb-iot-app",
+  "version": "1.0.0",
+  "description": "用[uni-app](https://uniapp.dcloud.io/)创建的类微信应用。",
+  "main": "main.js",
+  "dependencies": {
+    "@dcloudio/uni-ui": "^1.0.4",
+    "mint-ui": "^2.2.13",
+    "unifly": "^1.0.2",
+    "vue-baidu-map": "^0.21.22"
+  },
+  "devDependencies": {
+    "mini-css-extract-plugin": "0.4.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

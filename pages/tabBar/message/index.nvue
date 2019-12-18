@@ -1,0 +1,444 @@
+<template>
+	<view class="container">
+		<scroll-view id="tab-bar" class="uni-row scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+			<view v-for="(item,index) in tabBars" :key="index" class="uni-tab-item" :class="tabIndex==index ? 'uni-tab-item-active' : ''"
+			 :data-current="index" @click="ontabtap">
+				<view class="uni-icon uni-icon-list" style="font-size: 24px;"></view>
+				<text class="uni-tab-item-title">{{item.name}}</text>
+			</view>
+		</scroll-view>
+		<swiper :current="tabIndex" class="swiper-box" style="flex: 1;" :duration="300" @change="ontabchange">
+			<swiper-item class="swiper-item" :key="0">
+				<list @loadmore="loadMore(0)" loadmoreoffset="30" :show-scrollbar="false" class="list">
+					<refresh class="refresh" @refresh="onrefresh(0)" @pullingdown="onpullingdown" :display="dataList[0].refreshing  ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[0].refreshing || pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': dataList[0].refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="dataList[0].refreshing"></loading-indicator>
+							<text class="loading-text">{{dataList[0].refreshText}}</text>
+						</div>
+					</refresh>
+					<cell :key="index" v-for="(item,index) in dataList[0].data">
+						<view class="item">
+							<view class="uni-flex" style="width: 120rpx;justify-content: center;align-items: center;">
+								<image :src="item.lock ? '/static/images/open_box.png':'/static/images/close_box.png'" style="width: 50rpx;height: 50rpx;"></image>
+							</view>
+							<view class="uni-flex uni-column" style="flex: 1;justify-content: space-between;">
+								<view class="text" style="padding-top: 10rpx;">
+									<text style="word-wrap:break-word; line-height:60rpx;font-size: 32rpx;color: #818181;">{{item.content}}</text>
+								</view>
+								<view class="uni-flex uni-row" style="padding-bottom: 10rpx;">
+									<text class="text" style="flex: 1;font-size: 24rpx;color: #818181;">{{item.uplink_at}}</text>
+								</view>
+							</view>
+						</view>
+
+					</cell>
+					<header class="loading-more">
+						<text class="loadmore-line" v-if="pageIndex>dataList[0]"></text>
+						<text class="loadmore-text">{{dataList[0].loadingText}}</text>
+					</header>
+				</list>
+			</swiper-item>
+			<swiper-item class="swiper-item" :key="1">
+				<list @loadmore="loadMore(1)" loadmoreoffset="30" :show-scrollbar="false" class="list">
+					<refresh class="refresh" @refresh="onrefresh(1)" @pullingdown="onpullingdown" :display="dataList[1].refreshing  ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[1].refreshing || pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': dataList[1].refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="dataList[1].refreshing"></loading-indicator>
+							<text class="loading-text">{{dataList[1].refreshText}}</text>
+						</div>
+					</refresh>
+					<cell :key="index" v-for="(item,index) in dataList[1].data">
+						<view class="item">
+							<view class="uni-flex" style="width: 120rpx;justify-content: center;align-items: center;">
+								<image :src="item.type|formatIcon" style="width: 50rpx;height: 50rpx;"></image>
+							</view>
+							<view class="uni-flex uni-column" style="flex: 1;justify-content: space-between;">
+								<view class="" style=" height:100rpx ; padding-top: 10rpx;">
+									<text style="line-height: 42rpx; font-size: 32rpx;color: #818181;">{{item.content}}</text>
+								</view>
+								<view class="uni-flex" style="padding-bottom: 10rpx;">
+									<text  class="text" style="flex: 1;font-size: 24rpx;color: #818181;">{{item.uplink_at}}</text>
+								</view>
+							</view>
+						</view>
+					</cell>
+					<header class="loading-more">
+						<text class="loadmore-line" v-if="pageIndex>dataList[1]"></text>
+						<text class="loadmore-text">{{dataList[1].loadingText}}</text>
+					</header>
+				</list>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	// 缓存每页最多
+	const MAX_CACHE_DATA = 100;
+	// 缓存页签数量
+	const MAX_CACHE_PAGE = 3;
+	import {
+		mapGetters
+	} from 'vuex';
+	export default {
+		computed: {
+			...mapGetters(["device"]),
+		},
+		components: {},
+		data() {
+			return {
+				dev_id: '',
+				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
+				tabIndex: 0,
+				dataList: [],
+				cacheTab: [],
+				title: 'nav-city-dropdown',
+				tabBars: [{
+					name: '开锁记录',
+					id: 'suo'
+				}, {
+					name: '异常报警',
+					id: 'err'
+				}],
+			};
+		},
+		filters: {
+			formatIcon: function(value) {
+				switch (value) {
+					case 1:
+						return '/static/images/temp.png';
+						break;
+					case 2:
+						return '/static/images/humi.png';
+						break;
+					case 3:
+						return '/static/images/vibr.png';
+						break;
+					default:
+						return '/static/images/err.png';
+						break;
+				}
+			}
+		},
+		onLoad: function(option) {
+			if (option.tab_index) {
+				this.switchTab(option.tab_index);
+			}
+			if(this.device){
+				this.dev_id = this.device.dev_id;
+			}else{
+				this.dev_id = '';
+			}
+			
+			this.init();
+			setTimeout(() => {
+				this.getList(this.tabIndex);
+			}, 150);
+			// 监听 drawer 消息
+			uni.$on('message', (data) => {
+				if (data) {
+					uni.showToast({
+						title: data.device ? '切换设备' + data.device.name: '切换全部',
+						icon: "none"
+					});
+					this.dev_id = data.device.dev_id || '';
+					this.dataList = [];
+					this.init();
+					setTimeout(() => {
+						this.getList(data.tab_index || this.tabIndex);
+					}, 100);
+				}
+				if (data.tab_index) {
+					this.switchTab(data.tab_index);
+				}
+			});
+		},
+		onReady() {
+
+		},
+		methods: {
+			init() {
+				this.tabBars.forEach((tabBar) => {
+					this.dataList.push({
+						data: [],
+						pageIndex: 1,
+						pageCount: 0,
+						isLoading: false,
+						refreshing: false,
+						refreshText: "",
+						loadingText: '加载更多...'
+					});
+				});
+			},
+			getList(index) {
+				let activeTab = this.dataList[index];
+				if (index == 0) {
+					var query = {
+						dev_id: this.dev_id,
+						page: activeTab.pageIndex,
+					};
+					this.$store
+						.dispatch("GetDeviceLockRecord", query)
+						.then(response => {
+							if (response.items.length == 0) {
+								activeTab.loadingText = "无数据";
+								return;
+							}
+							activeTab.pageCount = response._meta.pageCount;
+							if (activeTab.pageIndex <= activeTab.pageCount) {
+								activeTab.data = activeTab.data.concat(response.items);
+								if(activeTab.pageIndex == activeTab.pageCount ){
+									activeTab.loadingText = "没有更多数据";
+								}
+								activeTab.pageIndex = response._meta.currentPage + 1;
+							}else{
+								activeTab.loadingText = "没有更多数据";
+								return;
+							}
+							//this.$refs.waterfall.resetLoadmore()
+						})
+						.catch(() => {
+							//this.loading = false;
+						});
+				} else if (index == 1) {
+					var query = {
+						dev_id: this.dev_id,
+						page: activeTab.pageIndex,
+					};
+					this.$store
+						.dispatch("GetDeviceMessage", query)
+						.then(response => {
+							if (response.items.length == 0) {
+								activeTab.loadingText = "无数据";
+								return;
+							}
+							activeTab.pageCount = response._meta.pageCount;
+							if (activeTab.pageIndex <= activeTab.pageCount) {
+								activeTab.data = activeTab.data.concat(response.items);
+								if(activeTab.pageIndex == activeTab.pageCount ){
+									activeTab.loadingText = "没有更多数据";
+								}
+								activeTab.pageIndex = response._meta.currentPage + 1;
+							}else{
+								activeTab.loadingText = "没有更多数据";
+								return;
+							}
+							//this.$refs.waterfall.resetLoadmore()
+						})
+						.catch(() => {
+							//this.loading = false;
+						});
+
+				}
+			},
+			onrefresh(e) {
+				var tab = this.dataList[this.tabIndex];
+				if (!tab.refreshFlag) {
+					return;
+				}
+				tab.refreshing = true;
+				tab.refreshText = "正在刷新...";
+
+				setTimeout(() => {
+					this.refreshData(e);
+					this.pulling = true;
+					tab.refreshing = false;
+					tab.refreshFlag = false;
+					tab.refreshText = "已刷新";
+					setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
+						this.pulling = false;
+					}, 50);
+				}, 70);
+			},
+			onpullingdown(e) {
+				var tab = this.dataList[this.tabIndex];
+				if (tab.refreshing || this.pulling) {
+					return;
+				}
+				if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+					tab.refreshFlag = true;
+					tab.refreshText = "释放立即刷新";
+				} else {
+					tab.refreshFlag = false;
+					tab.refreshText = "下拉可以刷新";
+				}
+			},
+			refreshData(e) {
+				this.dataList[e].pageIndex = 1;
+				this.dataList[e].data = [];
+				this.dataList[e].loadingText = "加载中";
+				setTimeout(() => {
+					this.getList(this.tabIndex);
+				}, 30)
+			},
+			ontabtap(e) {
+				let index = e.target.dataset.current || e.currentTarget.dataset.current;
+				this.switchTab(index);
+			},
+			ontabchange(e) {
+				let index = e.target.current || e.detail.current;
+				this.switchTab(index);
+			},
+			switchTab(index) {
+				if (this.dataList[index].data.length === 0) {
+					this.getList(index);
+				}
+
+				if (this.tabIndex === index) {
+					return;
+				}
+
+				// 缓存 tabId
+				if (this.dataList[this.tabIndex].data.length > MAX_CACHE_DATA) {
+					let isExist = this.cacheTab.indexOf(this.tabIndex);
+					if (isExist < 0) {
+						this.cacheTab.push(this.tabIndex);
+						//console.log("cache index:: " + this.tabIndex);
+					}
+				}
+
+				this.tabIndex = index;
+				this.scrollInto = this.tabBars[index].id;
+
+				// 释放 tabId
+				if (this.cacheTab.length > MAX_CACHE_PAGE) {
+					let cacheIndex = this.cacheTab[0];
+					this.clearTabData(cacheIndex);
+					this.cacheTab.splice(0, 1);
+					//console.log("remove cache index:: " + cacheIndex);
+				}
+			},
+			clearTabData(e) {
+				this.dataList[e].data.length = 0;
+				this.dataList[e].loadingText = "加载更多...";
+			},
+			clearData() {
+				this.dataList = [];
+			},
+			loadMore(e) {
+				this.dataList[e].loadingText = "正在加载";
+				setTimeout(() => {
+					this.getList(this.tabIndex);
+				}, 100)
+			},
+			
+		}
+
+	};
+</script>
+
+<style lang="scss">
+	.container {
+		flex: 1;
+		flex-direction: column;
+		width: 750rpx;
+		height: 100vh;
+	}
+
+	.tabs {
+		width: 100%;
+		height: 110rpx;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.uni-tab-item {
+		flex: 0.5;
+		align-items: center;
+		justify-content: center;
+		height: 100rpx;
+		line-height: 100rpx;
+		border-bottom-color: #E9E9E9;
+		border-bottom-width: 2rpx;
+		border-bottom-style: solid;
+	}
+
+	.uni-tab-item-active {
+		border-bottom-width: 4rpx;
+		border-bottom-color: #389BFF;
+	}
+
+	.uni-tab-item-title {
+		font-size: 30rpx;
+		color: #333333;
+	}
+
+	.swiper-box {
+		flex: 1;
+		padding: 0 15rpx;
+		background-color: #EFEFF4;
+	}
+
+	.item {
+		background-color: #FFFFFF;
+		margin: 10rpx 20rpx;
+		justify-content: space-between;
+		flex-direction: row;
+		padding: 5rpx;
+	}
+
+	.refresh {
+		width: 750upx;
+		height: 64px;
+		justify-content: center;
+	}
+
+	.refresh-view {
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.refresh-icon {
+		width: 30px;
+		height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+
+	.loading-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+		color: #999999;
+	}
+
+	.loading-text {
+		margin-left: 2px;
+		font-size: 16px;
+		color: #999999;
+	}
+
+	.loading-more {
+		align-items: center;
+		justify-content: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		text-align: center;
+		background-color: rgba(0, 0, 0, 0)
+	}
+
+	.loadmore-text {
+		font-size: 28rpx;
+		color: #C8C7CC;
+	}
+
+	.icon {
+		color: #FFFFFF;
+		padding-left: 15rpx;
+		right: 10rpx;
+		font-family: unibtn;
+		font-size: 40rpx;
+		font-weight: 400;
+	}
+</style>
