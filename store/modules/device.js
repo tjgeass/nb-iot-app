@@ -8,7 +8,7 @@ const device = {
 		device: false,
 		follows:[],
 		message:[],
-		project:{}
+		organization:{}
 	},
 
 	mutations: {
@@ -24,9 +24,9 @@ const device = {
 		SET_MESSAGE:(state, message) => {
 			state.message = message
 		},
-		SET_PROJECT: (state, project) => {
-			state.project = project
-		}
+		SET_ORGAN: (state, organization) => {
+		      state.organization = organization
+		},
 	},
 
 	actions: {
@@ -34,17 +34,11 @@ const device = {
 			commit
 		}, dataQuery) {
 			return new Promise((resolve, reject) => {
-				http.get('/device/home', {
+				http.get('/organization/index', {
 					params: dataQuery
 				}).then(response => {
-					const devices = response.devices;
-					const follows = response.follows;
-					const message = response.message;
-					const project = response.project;
-					commit('SET_DEVICES', devices);
-					commit('SET_FOLLOWS', follows);
-					commit('SET_MESSAGE', message);
-					commit('SET_PROJECT', project);
+					const orgInfo = response.item
+					commit('SET_ORGAN', orgInfo)
 					resolve(response)
 				}).catch(error => {
 					reject(error)
@@ -172,7 +166,7 @@ const device = {
 			commit
 		}, dataQuery) {
 			return new Promise((resolve, reject) => {
-				http.get('/device/message?XDEBUG_SESSION_START=16095', {
+				http.get('/device-message/index', {
 					params: dataQuery
 				}).then(response => {
 					//const devices = response.item;

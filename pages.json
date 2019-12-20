@@ -6,39 +6,14 @@
 			"style": {
 				"navigationBarTitleText": "首页",
 				"app-plus": {
-					"titleNView": false,
-					"subNVues": [{
-						"id": "follow",
-						"path": "pages/tabBar/home/subnvue/follow",
-						"type": "popup",
-						"style": {
-							"margin": "auto",
-							"width": "50%",
-							"height": "700upx"
-						}
-					}]
+					"titleNView": false
 				}
 			}
 		},
 		{
 			"path": "pages/tabBar/message/index",
 			"style": {
-				"navigationBarTitleText": "信息",
-				"app-plus": {
-					"titleNView": false,
-					"subNVues": [{
-						"id": "list",
-						"path": "pages/tabBar/message/subnvue/list",
-						"type": "popup",
-						"style": {
-							"width": "50%"
-						}
-					}, {
-						"id": "nav",
-						"path": "pages/tabBar/message/subnvue/nav",
-						"type": "navigationBar"
-					}]
-				}
+				"navigationBarTitleText": "信息"
 			}
 		},
 		{
@@ -58,7 +33,6 @@
 				}
 			}
 		},
-		
 		{
 			"path": "pages/tabBar/home/map",
 			"style": {
@@ -84,8 +58,7 @@
 		{
 			"path": "pages/device/info",
 			"style": {
-				"navigationBarTitleText": "实时数据",
-				"navigationBarBackgroundColor": "#7E77F7"
+				"navigationBarTitleText": "设备详情"
 			}
 		},
 		{
@@ -157,14 +130,14 @@
         }
     ],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "文物箱匣",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "遗址检测",
+		"navigationBarBackgroundColor": "#22BB69",
+		"backgroundColor": "#22BB69"
 	},
 	"tabBar": {
 		"color": "#656565",
-		"selectedColor": "#1E81F8",
+		"selectedColor": "#22BB69",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
@@ -207,9 +180,9 @@
 			"query": ""
 		},
 		{
-			"name": "404",
-			"path": "pages/error/404",
-			"query": ""
+			"name": "info",
+			"path": "pages/device/info",
+			"query": "dev_id=524427789"
 		}]
 	}
 	

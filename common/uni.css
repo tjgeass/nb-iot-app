@@ -2,7 +2,7 @@
 	font-family: uniicons;
 	font-weight: normal;
 	font-style: normal;
-	src: url('./static/uni.ttf') format('truetype');
+	src: url('~@/static/uni.ttf') format('truetype');
 }
 
 /*通用*/
@@ -15,6 +15,29 @@ progress, checkbox-group{
 }
 form {
 	width: 100%;
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+.primary{
+	color: #67C23A;
+}
+.warning{
+	color: #E6A23C;
+}
+.danger{
+	color: #F56C6C;
+}
+.info{
+	color: #909399;
+}
+.justify-content-center{
+	justify-content: center;
+}
+.align-items-cente{
+	align-items: center;
 }
 .uni-flex {
 	display: flex;

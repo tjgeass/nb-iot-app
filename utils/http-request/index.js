@@ -50,11 +50,11 @@ const http = new Request()
 
 http.setConfig((config) => { /* 设置全局配置 */
 	if (process.env.NODE_ENV === 'development') {
-		config.baseUrl = 'http://192.168.31.222/api/v1' /* 根域名不同 */
+		config.baseUrl = 'http://192.168.31.222:81/api/v1' /* 根域名不同 */
 	}
 	// uEnvProd
 	if (process.env.NODE_ENV === 'production') {
-		config.baseUrl = 'http://101.200.33.135:81/api/v1' /* 根域名不同 */
+		config.baseUrl = 'http://101.200.33.135/api/v1' /* 根域名不同 */
 	}
 
 	config.header = {

@@ -69,5 +69,4 @@
 	@import "./common/uni.css"; 
 	@import "./common/uni.scss";  
 	@import "./common/app.css"; 
-	
 </style>

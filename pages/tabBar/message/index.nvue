@@ -11,12 +11,12 @@
 			<swiper-item class="swiper-item" :key="0">
 				<list @loadmore="loadMore(0)" loadmoreoffset="30" :show-scrollbar="false" class="list">
 					<refresh class="refresh" @refresh="onrefresh(0)" @pullingdown="onpullingdown" :display="dataList[0].refreshing  ? 'show' : 'hide'">
-						<div class="refresh-view">
+						<view class="refresh-view">
 							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[0].refreshing || pulling) ? 0: '30px'}"
 							 :class="{'refresh-icon-active': dataList[0].refreshFlag}"></image>
 							<loading-indicator class="loading-icon" animating="true" v-if="dataList[0].refreshing"></loading-indicator>
 							<text class="loading-text">{{dataList[0].refreshText}}</text>
-						</div>
+						</view>
 					</refresh>
 					<cell :key="index" v-for="(item,index) in dataList[0].data">
 						<view class="item">
@@ -43,12 +43,12 @@
 			<swiper-item class="swiper-item" :key="1">
 				<list @loadmore="loadMore(1)" loadmoreoffset="30" :show-scrollbar="false" class="list">
 					<refresh class="refresh" @refresh="onrefresh(1)" @pullingdown="onpullingdown" :display="dataList[1].refreshing  ? 'show' : 'hide'">
-						<div class="refresh-view">
+						<view class="refresh-view">
 							<image class="refresh-icon" :src="refreshIcon" :style="{width: (dataList[1].refreshing || pulling) ? 0: '30px'}"
 							 :class="{'refresh-icon-active': dataList[1].refreshFlag}"></image>
 							<loading-indicator class="loading-icon" animating="true" v-if="dataList[1].refreshing"></loading-indicator>
 							<text class="loading-text">{{dataList[1].refreshText}}</text>
-						</div>
+						</view>
 					</refresh>
 					<cell :key="index" v-for="(item,index) in dataList[1].data">
 						<view class="item">
@@ -97,10 +97,10 @@
 				cacheTab: [],
 				title: 'nav-city-dropdown',
 				tabBars: [{
-					name: '开锁记录',
+					name: '未读信息',
 					id: 'suo'
 				}, {
-					name: '异常报警',
+					name: '已读信息',
 					id: 'err'
 				}],
 			};
@@ -175,64 +175,34 @@
 			},
 			getList(index) {
 				let activeTab = this.dataList[index];
-				if (index == 0) {
-					var query = {
-						dev_id: this.dev_id,
-						page: activeTab.pageIndex,
-					};
-					this.$store
-						.dispatch("GetDeviceLockRecord", query)
-						.then(response => {
-							if (response.items.length == 0) {
-								activeTab.loadingText = "无数据";
-								return;
-							}
-							activeTab.pageCount = response._meta.pageCount;
-							if (activeTab.pageIndex <= activeTab.pageCount) {
-								activeTab.data = activeTab.data.concat(response.items);
-								if(activeTab.pageIndex == activeTab.pageCount ){
-									activeTab.loadingText = "没有更多数据";
-								}
-								activeTab.pageIndex = response._meta.currentPage + 1;
-							}else{
+				var query = {
+					page: activeTab.pageIndex,
+					num:20,
+					already:index,
+				};
+				this.$store
+					.dispatch("GetDeviceMessage", query)
+					.then(response => {
+						if (response.items.length == 0) {
+							activeTab.loadingText = "无数据";
+							return;
+						}
+						activeTab.pageCount = response._meta.pageCount;
+						if (activeTab.pageIndex <= activeTab.pageCount) {
+							activeTab.data = activeTab.data.concat(response.items);
+							if(activeTab.pageIndex == activeTab.pageCount ){
 								activeTab.loadingText = "没有更多数据";
-								return;
 							}
-							//this.$refs.waterfall.resetLoadmore()
-						})
-						.catch(() => {
-							//this.loading = false;
-						});
-				} else if (index == 1) {
-					var query = {
-						dev_id: this.dev_id,
-						page: activeTab.pageIndex,
-					};
-					this.$store
-						.dispatch("GetDeviceMessage", query)
-						.then(response => {
-							if (response.items.length == 0) {
-								activeTab.loadingText = "无数据";
-								return;
-							}
-							activeTab.pageCount = response._meta.pageCount;
-							if (activeTab.pageIndex <= activeTab.pageCount) {
-								activeTab.data = activeTab.data.concat(response.items);
-								if(activeTab.pageIndex == activeTab.pageCount ){
-									activeTab.loadingText = "没有更多数据";
-								}
-								activeTab.pageIndex = response._meta.currentPage + 1;
-							}else{
-								activeTab.loadingText = "没有更多数据";
-								return;
-							}
-							//this.$refs.waterfall.resetLoadmore()
-						})
-						.catch(() => {
-							//this.loading = false;
-						});
-
-				}
+							activeTab.pageIndex = response._meta.currentPage + 1;
+						}else{
+							activeTab.loadingText = "没有更多数据";
+							return;
+						}
+						//this.$refs.waterfall.resetLoadmore()
+					})
+					.catch(() => {
+						//this.loading = false;
+					});
 			},
 			onrefresh(e) {
 				var tab = this.dataList[this.tabIndex];
