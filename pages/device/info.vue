@@ -36,7 +36,7 @@
 					<text class="col-title">湿度</text>
 					<text class="col-v">{{device.newData.humi||'N/A'}}%RH</text>
 				</view>
-				<view class="bottom-col">
+				<view class="bottom-col" v-if="device.newData.illu">
 					<text class="w-iconfont icon-guangzhao icon-item" style="color: rgb(228, 158, 28);"></text>
 					<text class="col-title">光照</text>
 					<text class="col-v" >{{device.newData.illu||'N/A'}}Lux</text>
@@ -56,6 +56,21 @@
 					<text class="col-title">左右倾角</text>
 					<text class="col-v">{{device.newData.dire_1||'N/A'}}°</text>
 				</view>
+				<view class="bottom-col" v-if="device.newData.isGyro">
+					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+					<text class="col-title">Z轴</text>
+					<text class="col-v">{{device.newData.gyro_0||'N/A'}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.newData.isGyro">
+					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+					<text class="col-title">Y轴</text>
+					<text class="col-v">{{device.newData.gyro_1||'N/A'}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.newData.isGyro">
+					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+					<text class="col-title">Z轴</text>
+					<text class="col-v">{{device.newData.gyro_2||'N/A'}}°</text>
+				</view>
 				<view class="bottom-col">
 					<text class="w-iconfont icon-dianliang icon-item"></text>
 					<text class="col-title">电压</text>
@@ -68,7 +83,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="card" style="margin-top: 30rpx;">
+		<view class="card" style="margin-top: 30rpx;display: none;">
 			<view class="card-top">
 				<view class="uni-row" style="align-items: center;">
 					<image src="/static/images/line.png" style="width:8rpx; height: 40rpx" mode="aspectFit"></image>

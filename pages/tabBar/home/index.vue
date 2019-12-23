@@ -19,19 +19,19 @@
 		</view>
 		<view class="main">
 			<view class="btns">
-				<view class="btn" @tap="clickMessage">
+				<view class="btn" >
 					<image class="btn-icon" src="/static/images/home/btn1.png" mode="aspectFit"></image>
 					<text class="btn-label">设备分布</text>
 				</view>
-				<view class="btn" @tap="clickMap">
+				<view class="btn" >
 					<image class="btn-icon" src="/static/images/home/btn2.png" mode="aspectFit"></image>
 					<text class="btn-label">运行状态</text>
 				</view>
-				<view class="btn" @tap="clickErrMessage">
+				<view class="btn" >
 					<image class="btn-icon" src="/static/images/home/btn3.png" mode="aspectFit"></image>
 					<text class="btn-label">数据导出</text>
 				</view>
-				<view class="btn" @tap="clickText">
+				<view class="btn" >
 					<image class="btn-icon" src="/static/images/home/btn4.png" mode="aspectFit"></image>
 					<text class="btn-label">监控报告</text>
 				</view>

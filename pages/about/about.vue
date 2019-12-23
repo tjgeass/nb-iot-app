@@ -3,7 +3,7 @@
 		<view class="uni-flex uni-column" style="justify-content: center; align-items: center;">
 			<image src="/static/logo.png" style="width: 300rpx; height: 350rpx;" mode="aspectFit">
 			</image>
-			<text class="version">中创智能箱 {{version}}</text>
+			<text class="version">古建物联网监测 {{version}}</text>
 		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @tap="update">

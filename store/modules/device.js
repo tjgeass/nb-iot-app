@@ -177,6 +177,19 @@ const device = {
 				})
 			})
 		},
+		UpdateDeviceMessage({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				http.post('/device-message/update', {data}).then(response => {
+					//const devices = response.item;
+					//commit('SET_DEVICE', devices);
+					resolve(response)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
 	}
 }
 

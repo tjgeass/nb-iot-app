@@ -21,18 +21,21 @@
 					<cell :key="index" v-for="(item,index) in dataList[0].data">
 						<view class="item">
 							<view class="uni-flex" style="width: 120rpx;justify-content: center;align-items: center;">
-								<image :src="item.lock ? '/static/images/open_box.png':'/static/images/close_box.png'" style="width: 50rpx;height: 50rpx;"></image>
+								<image src="/static/images/err.png" style="width: 50rpx;height: 50rpx;"></image>
 							</view>
-							<view class="uni-flex uni-column" style="flex: 1;justify-content: space-between;">
-								<view class="text" style="padding-top: 10rpx;">
-									<text style="word-wrap:break-word; line-height:60rpx;font-size: 32rpx;color: #818181;">{{item.content}}</text>
+							<view class="uni-flex uni-column" style="flex: 1;" >
+								<view class="uni-flex" style="padding-top: 10rpx;flex: 1;">
+									<text style="flex:1; width: 580rpx;lines: 3;text-overflow: ellipsis;line-height:50rpx;font-size: 32rpx;color: #818181;">{{item.content}}</text>
 								</view>
-								<view class="uni-flex uni-row" style="padding-bottom: 10rpx;">
-									<text class="text" style="flex: 1;font-size: 24rpx;color: #818181;">{{item.uplink_at}}</text>
+								<view class="uni-flex uni-row" style="padding-bottom: 10rpx;justify-content: space-between">
+									<text class="text" style="height: 30rpx;font-size: 24rpx;color: #818181;">{{item.time}}</text>
+								</view>
+								<view class="uni-flex uni-row"  style="padding-bottom: 10rpx;justify-content: flex-end">
+									<button class="btn" size="mini" @tap="clickAlready(item.id)">标记已读</button>
+									<button class="btn" size="mini" type="warn"  @tap="clickDev(item.dev_id)">查看详情</button>
 								</view>
 							</view>
 						</view>
-
 					</cell>
 					<header class="loading-more">
 						<text class="loadmore-line" v-if="pageIndex>dataList[0]"></text>
@@ -53,14 +56,14 @@
 					<cell :key="index" v-for="(item,index) in dataList[1].data">
 						<view class="item">
 							<view class="uni-flex" style="width: 120rpx;justify-content: center;align-items: center;">
-								<image :src="item.type|formatIcon" style="width: 50rpx;height: 50rpx;"></image>
+								<image src="/static/images/err.png" style="width: 50rpx;height: 50rpx;"></image>
 							</view>
 							<view class="uni-flex uni-column" style="flex: 1;justify-content: space-between;">
-								<view class="" style=" height:100rpx ; padding-top: 10rpx;">
-									<text style="line-height: 42rpx; font-size: 32rpx;color: #818181;">{{item.content}}</text>
+								<view class="" style="padding-top: 10rpx;flex: 1; ">
+									<text style="flex:1; width: 570rpx; lines: 3;text-overflow: ellipsis;line-height: 42rpx; font-size: 32rpx;color: #818181;">{{item.content}}</text>
 								</view>
-								<view class="uni-flex" style="padding-bottom: 10rpx;">
-									<text  class="text" style="flex: 1;font-size: 24rpx;color: #818181;">{{item.uplink_at}}</text>
+								<view class="uni-flex" style="padding-bottom: 10rpx;  justify-content:flex-end">
+									<text  class="text" style="height: 30rpx;font-size: 24rpx;color: #818181;">{{item.time}}</text>
 								</view>
 							</view>
 						</view>
@@ -160,6 +163,25 @@
 
 		},
 		methods: {
+			clickAlready(id){
+				var _self = this;
+				let IDs = [id];
+				this.$store.dispatch("UpdateDeviceMessage", IDs).then(response => {
+					uni.showToast({
+						 title: '标记成功!',
+					})
+					_self.dataList = [];
+					_self.init();
+					setTimeout(() => {
+						_self.getList(0);
+					}, 150);
+				});
+			},
+			clickDev(dev_id){
+				uni.navigateTo({
+					url: '/pages/device/info?dev_id=' + dev_id,
+				});
+			},
 			init() {
 				this.tabBars.forEach((tabBar) => {
 					this.dataList.push({
@@ -348,8 +370,12 @@
 		justify-content: space-between;
 		flex-direction: row;
 		padding: 5rpx;
+		
 	}
-
+	.btn{
+		margin-left: 10rpx;
+	}
+	
 	.refresh {
 		width: 750upx;
 		height: 64px;
