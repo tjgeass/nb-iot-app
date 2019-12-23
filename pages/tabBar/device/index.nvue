@@ -142,7 +142,7 @@
 			return {
 				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
 				lists: [],
-				pageSize: 10,
+				pageSize: 3,
 				pageIndex: 1,
 				pageCount: 0,
 				isLoading: false,
@@ -196,7 +196,7 @@
 		onLoad() {
 			setTimeout(() => {
 				this.fetchData();
-			}, 50);
+			}, 100);
 		},
 		methods: {
 			clickDevice(dev_id) {
@@ -253,8 +253,8 @@
 					this.refreshText = "已刷新";
 					setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
 						this.pulling = false;
-					}, 50);
-				}, 100);
+					}, 100);
+				}, 200);
 			},
 			/**
 			 * 下拉时触发
@@ -281,7 +281,7 @@
 				this.loadingText = "加载中";
 				setTimeout(() => {
 					this.fetchData();
-				}, 30)
+				}, 100)
 			},
 			/**
 			 * 上滑加载更多
@@ -290,7 +290,7 @@
 				this.loadingText = "正在加载";
 				setTimeout(() => {
 					this.fetchData();
-				}, 50)
+				}, 100)
 			},
 		}
 	}
