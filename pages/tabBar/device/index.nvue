@@ -37,7 +37,7 @@
 							</view>
 							<view v-if="device.newData.humi" class="uni-row">
 								<view class="cell-col">
-									<text class="col-v">温度:</text>
+									<text class="col-v">湿度:</text>
 								</view>
 								<view class="cell-col">
 									<text class="col-v">{{device.newData.humi}}%RH</text>
@@ -46,7 +46,7 @@
 									<text class="col-v">{{device.initial_data.humi ? device.initial_data.humi:"无"}}</text>
 								</view>
 							</view>
-							<view v-if="device.newData.illu >= 0" class="uni-row">
+							<view v-if="device.newData.illu" class="uni-row">
 								<view class="cell-col">
 									<text class="col-v">光照:</text>
 								</view>
@@ -66,17 +66,6 @@
 								</view>
 								<view class="cell-col">
 									<text class="col-v">无</text>
-								</view>
-							</view>
-							<view v-if="device.newData.humi" class="uni-row">
-								<view class="cell-col">
-									<text class="col-v">温度:</text>
-								</view>
-								<view class="cell-col">
-									<text class="col-v">{{device.newData.humi}}%RH</text>
-								</view>
-								<view class="cell-col">
-									<text class="col-v">{{device.initial_data.humi ? device.initial_data.humi:"无"}}</text>
 								</view>
 							</view>
 							<view v-if="device.newData.perc" class="uni-row">
@@ -106,10 +95,43 @@
 									<text class="col-v">左右倾角:</text>
 								</view>
 								<view class="cell-col">
-									<text class="col-v">{{device.newData.dire_1}}mm</text>
+									<text class="col-v">{{device.newData.dire_1}}°</text>
 								</view>
 								<view class="cell-col">
 									<text class="col-v">{{device.initial_data.dire_1}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">X轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_0}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_0}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">Y轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_1}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_1}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro"  class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">Z轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_2}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_2}}</text>
 								</view>
 							</view>
 							<view class="uni-row">
@@ -142,7 +164,7 @@
 			return {
 				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
 				lists: [],
-				pageSize: 3,
+				pageSize: 5,
 				pageIndex: 1,
 				pageCount: 0,
 				isLoading: false,

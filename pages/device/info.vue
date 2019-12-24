@@ -46,30 +46,30 @@
 					<text class="col-title">裂隙</text>
 					<text class="col-v">{{device.newData.perc||'N/A'}}mm </text>
 				</view>
-				<view class="bottom-col" v-if="device.newData.isDire">
-					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+				<view class="bottom-col" v-if="device.type.isDire">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
 					<text class="col-title">前后倾角</text>
 					<text class="col-v">{{device.newData.dire_0||'N/A'}}°</text>
 				</view>
-				<view class="bottom-col" v-if="device.newData.isDire">
-					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+				<view class="bottom-col" v-if="device.type.isDire">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
 					<text class="col-title">左右倾角</text>
 					<text class="col-v">{{device.newData.dire_1||'N/A'}}°</text>
 				</view>
-				<view class="bottom-col" v-if="device.newData.isGyro">
-					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
-					<text class="col-title">Z轴</text>
-					<text class="col-v">{{device.newData.gyro_0||'N/A'}}°</text>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">X轴</text>
+					<text class="col-v">{{device.newData.gyro_0}}°</text>
 				</view>
-				<view class="bottom-col" v-if="device.newData.isGyro">
-					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
 					<text class="col-title">Y轴</text>
-					<text class="col-v">{{device.newData.gyro_1||'N/A'}}°</text>
+					<text class="col-v">{{device.newData.gyro_1}}°</text>
 				</view>
-				<view class="bottom-col" v-if="device.newData.isGyro">
-					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
 					<text class="col-title">Z轴</text>
-					<text class="col-v">{{device.newData.gyro_2||'N/A'}}°</text>
+					<text class="col-v">{{device.newData.gyro_2}}°</text>
 				</view>
 				<view class="bottom-col">
 					<text class="w-iconfont icon-dianliang icon-item"></text>
