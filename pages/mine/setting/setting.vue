@@ -9,7 +9,7 @@
 			</view>
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @tap="bindAbout">
 				<view class="uni-list-cell-navigate uni-navigate-right uni-navigate-badge">
-					关于中创文物箱
+					关于古建物联网监测
 					<text class="me-list-text">{{version}}</text>
 				</view>
 			</view>

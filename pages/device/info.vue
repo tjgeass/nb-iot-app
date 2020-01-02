@@ -6,7 +6,7 @@
 		</view>
 		<view class="address-box" @tap="clickMap(device.dev_id)">
 			<image style="width: 25rpx;height: 29rpx;" src="/static/images/address.png" mode="aspectFit"></image>
-			<text class="address">{{device.address}}</text>
+			<text class="address">{{construction.name}}</text>
 		</view>
 		<view class="info-box">
 			<view class="flex-item-2 uni-bg-green">
@@ -22,33 +22,68 @@
 			<view class="card-top">
 				<view class="uni-row" style="align-items: center;">
 					<image src="/static/images/line.png" style="width:8rpx; height: 40rpx" mode="aspectFit"></image>
-					<text style="color: #333333; margin-left: 10rpx;">实时数据</text>
+					<text style="color: #333333; margin-left: 10rpx;">详细数据</text>
 				</view>
 			</view>
-			<view class="card-bottom uni-row">
+			<view class="card-bottom">
 				<view class="bottom-col">
+					<text class="w-iconfont icon-wendu icon-item"></text>
 					<text class="col-title">温度</text>
-					<text class="col-v">{{device.temperature||'N/A'}}℃</text>
+					<text class="col-v">{{device.newData.temp||'N/A'}}℃</text>
 				</view>
 				<view class="bottom-col">
+					<text class="w-iconfont icon-shidu icon-item"></text>
 					<text class="col-title">湿度</text>
-					<text class="col-v">{{device.humidity||'N/A'}}%RH</text>
+					<text class="col-v">{{device.newData.humi||'N/A'}}%RH</text>
+				</view>
+				<view class="bottom-col" v-if="device.newData.illu">
+					<text class="w-iconfont icon-guangzhao icon-item" style="color: rgb(228, 158, 28);"></text>
+					<text class="col-title">光照</text>
+					<text class="col-v" >{{device.newData.illu||'N/A'}}Lux</text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isPerc">
+					<text class="w-iconfont icon-suidaoliefeng icon-item"></text>
+					<text class="col-title">裂隙</text>
+					<text class="col-v">{{device.newData.perc||'N/A'}}mm </text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isDire">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">前后倾角</text>
+					<text class="col-v">{{device.newData.dire_0||'N/A'}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isDire">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">左右倾角</text>
+					<text class="col-v">{{device.newData.dire_1||'N/A'}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">X轴</text>
+					<text class="col-v">{{device.newData.gyro_0}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">Y轴</text>
+					<text class="col-v">{{device.newData.gyro_1}}°</text>
+				</view>
+				<view class="bottom-col" v-if="device.type.isGyro">
+					<text class="w-iconfont icon-qingjiaoyi icon-item"></text>
+					<text class="col-title">Z轴</text>
+					<text class="col-v">{{device.newData.gyro_2}}°</text>
 				</view>
 				<view class="bottom-col">
-					<text class="col-title">锁具</text>
-					<text class="col-v">{{device.lock == 1?'开启':'关闭'}}</text>
+					<text class="w-iconfont icon-dianliang icon-item"></text>
+					<text class="col-title">电压</text>
+					<text class="col-v">{{device.newData.volt/10||'N/A'}}V</text>
 				</view>
 				<view class="bottom-col">
-					<text class="col-title">电量</text>
-					<text class="col-v">{{device.battery||'N/A'}}%</text>
-				</view>
-				<view class="bottom-col">
-					<text class="col-title">震动</text>
-					<text class="col-v">{{device.vibration||'无'}}</text>
+					<text class="w-iconfont icon-qiya icon-item"></text>
+					<text class="col-title">气压</text>
+					<text class="col-v">{{Number(device.newData.alti/1000).toFixed(2)||'N/A'}}Kpa</text>
 				</view>
 			</view>
 		</view>
-		<view class="card" style="margin-top: 30rpx;">
+		<view class="card" style="margin-top: 30rpx;display: none;">
 			<view class="card-top">
 				<view class="uni-row" style="align-items: center;">
 					<image src="/static/images/line.png" style="width:8rpx; height: 40rpx" mode="aspectFit"></image>
@@ -57,75 +92,66 @@
 				<text style="color: #333333;font-size: 26rpx;" @tap="clickData(device.dev_id)">更多</text>
 			</view>
 			<view class="card-content">
-				<chart class="chart" :dev_id="dev_id" style="width: 100%;"></chart>
-			</view>
-		</view>
-		<view class="card" style="margin-top: 30rpx;">
-			<view class="card-top">
-				<view class="uni-row" style="align-items: center;">
-					<image src="/static/images/line.png" style="width:8rpx; height: 40rpx" mode="aspectFit"></image>
-					<text style="color: #333333; margin-left: 10rpx;">照片数据</text>
-				</view>
-				<text style="color: #333333;font-size: 26rpx;" @tap="clickPic(device.dev_id)">更多</text>
-			</view>
-			<view class="card-content img-con">
-				<image :src="device.picture" @error="imageError(device)"  style="width: 600rpx;" :lazy-load="true" mode="aspectFit"></image>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import chart from '@/components/chart.vue';
 	var _self;
-	var canvasMix = null;
 	export default {
-		components: {
-			chart
-		},
+		components: {},
 		data() {
 			return {
-				dev_id:'11',
+				dev_id: '',
 				device: {
 					name: '设备',
 					address: '无',
 					status: "正常",
-					temperature: "11",
 				},
+				construction: {},
 				lists: [],
 			}
 		},
 		filters: {
-		  formatNameStatus(num) {
-		      switch (num) {
-		          case 1:
-		              return '正常';
-		              break;
-		          case 2:
-		              return '异常';
-		              break;
-		          case 0:
-		              return '离线';
-		              break;
-		      }
-		  
-		  },
+			formatNameStatus(num) {
+				switch (num) {
+					case 1:
+						return '正常';
+						break;
+					case 2:
+						return '异常';
+						break;
+					case 3:
+						return '危险';
+						break;
+					case 0:
+						return '离线';
+						break;
+				}
+			},
 		},
 		onLoad: function(option) {
 			var _this = this;
 			this.dev_id = option.dev_id;
 			var query = {
-				dev_id: option.dev_id
+				expand: "construction",
+				dev_id: option.dev_id,
+				XDEBUG_SESSION_START: 19945
 			};
 			this.$store
 				.dispatch("GetDeviceInfo", query)
 				.then(response => {
 					//this.loading = false;
 					this.device = response.item;
+					this.construction = response.construction;
+					console.log(this.device);
 				})
 				.catch(() => {
 					//this.loading = false;
 				});
+
+
 		},
 		methods: {
 			clickData(dev_id) {
@@ -164,6 +190,8 @@
 </script>
 
 <style lang="scss">
+	@import "../../common/iconfont.css";
+	
 	.container {
 		color: #007AFF;
 		padding: 30rpx;
@@ -181,18 +209,20 @@
 		font-size: 26rpx;
 		line-height: 60rpx;
 	}
-	.address-box{
+
+	.address-box {
 		display: flex;
 		flex: 1;
-		align-items: center; 
+		align-items: center;
 		flex-direction: row;
 		padding-left: 5rpx;
-		 
+
 	}
+
 	.address {
 		box-sizing: border-box;
 		padding-left: 10rpx;
-		line-height: 30rpx;
+		line-height: 50rpx;
 		color: #A7A7A7;
 		font-size: 30rpx;
 		flex-shrink: 1;
@@ -231,9 +261,11 @@
 	.uni-bg-red {
 		background-image: linear-gradient(to right, #FFA659, #FD5E75);
 	}
-	.uni-row{
+
+	.uni-row {
 		display: flex;
 	}
+
 	.card {
 		box-sizing: border-box;
 		background: #FFFFFF;
@@ -260,24 +292,33 @@
 	}
 
 	.card-bottom {
+		padding: 15rpx;
 		display: flex;
 		flex: 1;
-		justify-content: space-between;
+		box-sizing: border-box;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
-
+	
+	
 	.bottom-col {
+		width: 33%;
 		display: flex;
-		flex: 1;
+		justify-content: center;
 		flex-direction: column;
 	}
-
+	.icon-item{
+		font-size: 100rpx;
+		text-align: center;
+		line-height: 100rpx;
+		color: #909399;
+	}
 	.col-title {
 		box-sizing: border-box;
 		font-size: 32rpx;
 		text-align: center;
-		background-color: #FAFAFA;
 		padding: 10rpx 0;
-		color: #787878;
+		color: #909399;
 	}
 
 	.col-v {
@@ -285,9 +326,10 @@
 		font-size: 32rpx;
 		text-align: center;
 		padding: 10rpx 0;
-		color: #333333;
+		color: #909399;
 	}
-	.img-con{
+
+	.img-con {
 		display: flex;
 		justify-content: center;
 		align-items: center;

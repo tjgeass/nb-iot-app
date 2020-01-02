@@ -1,0 +1,181 @@
+@font-face {
+  font-family: w-iconfont;
+  src: url('~@/static/iconfont.ttf') format('truetype'); /* iOS 4.1- */
+}
+
+.w-iconfont {
+  font-family: w-iconfont;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiangyou:before {
+  content: "\e608";
+}
+
+.icon-move:before {
+  content: "\e681";
+}
+
+.icon-yujing_xian:before {
+  content: "\e6bd";
+}
+
+.icon-zuixiaohua:before {
+  content: "\e67a";
+}
+
+.icon-wancheng:before {
+  content: "\e70a";
+}
+
+.icon-yonghu:before {
+  content: "\e622";
+}
+
+.icon-high_build_sink:before {
+  content: "\e62c";
+}
+
+.icon-shujudaochu:before {
+  content: "\e6a3";
+}
+
+.icon-shezhi:before {
+  content: "\e64d";
+}
+
+.icon-jiaodu:before {
+  content: "\e606";
+}
+
+.icon-lingdang:before {
+  content: "\e605";
+}
+
+.icon-tanhao:before {
+  content: "\e645";
+}
+
+.icon-icon-life-alarm:before {
+  content: "\e603";
+}
+
+.icon-dianhua:before {
+  content: "\e6c6";
+}
+
+.icon-icon-life-alarm1:before {
+  content: "\e609";
+}
+
+.icon-shuliang:before {
+  content: "\e61b";
+}
+
+.icon-shebei:before {
+  content: "\e600";
+}
+
+.icon-gantanhao:before {
+  content: "\e762";
+}
+
+.icon-shidu:before {
+  content: "\e60a";
+}
+
+.icon-guanji:before {
+  content: "\e66d";
+}
+
+.icon-yunhangzhuangtai:before {
+  content: "\e614";
+}
+
+.icon-suidaoliefeng:before {
+  content: "\e607";
+}
+
+.icon-shidu1:before {
+  content: "\e6aa";
+}
+
+.icon-fangdajing:before {
+  content: "\e963";
+}
+
+.icon-jingbao:before {
+  content: "\e604";
+}
+
+.icon-guangzhao:before {
+  content: "\e60d";
+}
+
+.icon-fangdajing1:before {
+  content: "\e60b";
+}
+
+.icon-zhuanjiaxuanpin:before {
+  content: "\e6be";
+}
+
+.icon-temperature:before {
+  content: "\e6f7";
+}
+
+.icon-qingjiaoyi:before {
+  content: "\e70f";
+}
+
+.icon-liefengji:before {
+  content: "\e733";
+}
+
+.icon-tubiao:before {
+  content: "\e601";
+}
+
+.icon-wendu:before {
+  content: "\e65a";
+}
+
+.icon-qiya:before {
+  content: "\eb31";
+}
+
+.icon-zhendong:before {
+  content: "\e60e";
+}
+
+.icon-fanhui:before {
+  content: "\e778";
+}
+
+.icon-duihao:before {
+  content: "\e674";
+}
+
+.icon-tubiao1:before {
+  content: "\e602";
+}
+
+.icon-daochuExcel:before {
+  content: "\e665";
+}
+
+.icon-yunhangzhuangtai_normalx:before {
+  content: "\e60c";
+}
+
+.icon-dianliang:before {
+  content: "\e621";
+}
+
+.icon-shidu1-copy:before {
+  content: "\eb32";
+}
+

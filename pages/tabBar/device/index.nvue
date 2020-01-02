@@ -3,36 +3,145 @@
 		<list @loadmore="loadMore" loadmoreoffset="20" :show-scrollbar="false">
 			<refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="this.refreshing  ? 'show' : 'hide'">
 				<div class="refresh-view">
-					<image class="refresh-icon" :src="refreshIcon" :style="{width: (this.refreshing || pulling) ? 0: '30px'}"
-					 :class="{'refresh-icon-active': this.refreshFlag}"></image>
+					<image class="refresh-icon" :src="refreshIcon" :style="{width: (this.refreshing || pulling) ? 0: '30px'}" :class="{'refresh-icon-active': this.refreshFlag}"></image>
 					<loading-indicator class="loading-icon" animating="true" v-if="this.refreshing"></loading-indicator>
 					<text class="loading-text">{{this.refreshText}}</text>
 				</div>
 			</refresh>
-			<cell :key="device.dev_id" v-for="device in lists" class="item-cell">
-				<view class="uni-flex" @tap="clickDevice(device.dev_id)">
-					<view class="image"  :style="device.status|formatColorStatus">
-						<image style="width: 60rpx;height: 60rpx;" src="/static/images/box.png"></image>
-					</view>
-					<view class="info">
-						<text class="name">{{device.name}}</text>
-						<view class="desc">
-							<view class="desc-item">
-								<image :src="device.status|formatIcoStatus" mode="aspectFit" class="desc-ico"></image>
-								<text class="status">设备{{device.status|formatNameStatus}} </text>
+			<cell :key="device.dev_id" v-for="(device, index) in lists" class="item-cell">
+				<uni-collapse class="my-collapse">
+					<uni-collapse-item :title="device.name" :date="device.newData.uplink_at" :animation="true" thumb="/static/images/home/btn1.png"
+					 :open="index==0">
+						<view class="coll-content">
+							<view class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">类型</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">数值</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">标定值</text>
+								</view>
 							</view>
-							<view class="desc-item">
-								<image src="/static/images/gps.png" mode="aspectFit" class="desc-ico"></image>
-								<text class="status">GPS定位 </text>
+							<view v-if="device.newData.temp" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">温度:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.temp}}℃</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.temp ? device.initial_data.temp:"无"}}</text>
+								</view>
 							</view>
-							<view class="desc-item">
-								<image src="/static/images/sssj.png" mode="aspectFit" class="desc-ico"></image>
-								<text class="status">实时数据</text>
+							<view v-if="device.newData.humi" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">湿度:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.humi}}%RH</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.humi ? device.initial_data.humi:"无"}}</text>
+								</view>
 							</view>
-
+							<view v-if="device.newData.illu" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">光照:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.illu}}Lux</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.illu ? device.initial_data.illu:"无"}}</text>
+								</view>
+							</view>
+							<view v-if="device.newData.alti" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">气压:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{(device.newData.alti/1000).toFixed(2)}}Kpa</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">无</text>
+								</view>
+							</view>
+							<view v-if="device.newData.perc" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">裂隙:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.perc}}mm</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.perc}}</text>
+								</view>
+							</view>
+							<view v-if="device.newData.dire_1" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">前后倾角:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.dire_0}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.dire_0}}</text>
+								</view>
+							</view>
+							<view v-if="device.newData.dire_1" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">左右倾角:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.dire_1}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.dire_1}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">X轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_0}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_0}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro" class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">Y轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_1}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_1}}</text>
+								</view>
+							</view>
+							<view v-if="device.type.isGyro"  class="uni-row">
+								<view class="cell-col">
+									<text class="col-v">Z轴:</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.newData.gyro_2}}°</text>
+								</view>
+								<view class="cell-col">
+									<text class="col-v">{{device.initial_data.gyro_2}}</text>
+								</view>
+							</view>
+							<view class="uni-row">
+								<view class="cell-col">
+									<button size="mini" class="col-v" @tap="clickDevice(device.dev_id)">查看详情</button>
+								</view>
+							</view>
 						</view>
-					</view>
-				</view>
+					</uni-collapse-item>
+				</uni-collapse>
 			</cell>
 			<header class="loading-more">
 				<text class="loadmore-text">{{this.loadingText}}</text>
@@ -44,12 +153,18 @@
 </template>
 
 <script>
+	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
+	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 	export default {
+		components: {
+			uniCollapse,
+			uniCollapseItem,
+		},
 		data() {
 			return {
 				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
 				lists: [],
-				pageSize:10,
+				pageSize: 5,
 				pageIndex: 1,
 				pageCount: 0,
 				isLoading: false,
@@ -59,51 +174,51 @@
 			}
 		},
 		filters: {
-		  formatColorStatus(num) {
-		      switch (num) {
-		          case 1:
-		              return 'background-color:#67C23A';
-		              break;
-		          case 2:
-		              return 'background-color:#F56C6C';
-		              break;
-		          case 0:
-		              return 'background-color:#909399';
-		              break;
-		      }
-		  },
-		  formatIcoStatus(num) {
-		      switch (num) {
-		          case 1:
-		              return '/static/images/s1.png';
-		              break;
-		          case 2:
-		              return '/static/images/s2.png';
-		              break;
-		          case 0:
-		              return '/static/images/s0.png';
-		              break;
-		      }
-		  },
-		  formatNameStatus(num) {
-		      switch (num) {
-		          case 1:
-		              return '正常';
-		              break;
-		          case 2:
-		              return '异常';
-		              break;
-		          case 0:
-		              return '离线';
-		              break;
-		      }
-		  
-		  },
+			formatColorStatus(num) {
+				switch (num) {
+					case 1:
+						return 'background-color:#67C23A';
+						break;
+					case 2:
+						return 'background-color:#F56C6C';
+						break;
+					case 0:
+						return 'background-color:#909399';
+						break;
+				}
+			},
+			formatIcoStatus(num) {
+				switch (num) {
+					case 1:
+						return '/static/images/s1.png';
+						break;
+					case 2:
+						return '/static/images/s2.png';
+						break;
+					case 0:
+						return '/static/images/s0.png';
+						break;
+				}
+			},
+			formatNameStatus(num) {
+				switch (num) {
+					case 1:
+						return '正常';
+						break;
+					case 2:
+						return '异常';
+						break;
+					case 0:
+						return '离线';
+						break;
+				}
+
+			},
 		},
 		onLoad() {
 			setTimeout(() => {
 				this.fetchData();
-			}, 50);
+			}, 100);
 		},
 		methods: {
 			clickDevice(dev_id) {
@@ -128,13 +243,13 @@
 							return;
 						}
 						this.pageCount = response._meta.pageCount;
-						if(this.pageIndex <= this.pageCount ){
+						if (this.pageIndex <= this.pageCount) {
 							this.lists = this.lists.concat(response.items);
-							if(this.pageIndex == this.pageCount ){
+							if (this.pageIndex == this.pageCount) {
 								this.loadingText = "没有更多数据";
 							}
 							this.pageIndex = response._meta.currentPage + 1;
-						}else{
+						} else {
 							this.loadingText = "没有更多数据";
 							return;
 						}
@@ -160,8 +275,8 @@
 					this.refreshText = "已刷新";
 					setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
 						this.pulling = false;
-					}, 50);
-				}, 100);
+					}, 100);
+				}, 200);
 			},
 			/**
 			 * 下拉时触发
@@ -188,7 +303,7 @@
 				this.loadingText = "加载中";
 				setTimeout(() => {
 					this.fetchData();
-				}, 30)
+				}, 100)
 			},
 			/**
 			 * 上滑加载更多
@@ -197,7 +312,7 @@
 				this.loadingText = "正在加载";
 				setTimeout(() => {
 					this.fetchData();
-				}, 50)
+				}, 100)
 			},
 		}
 	}
@@ -207,12 +322,41 @@
 	.container {
 		flex: 1;
 		background-color: #F2F2F2;
+		padding: 20rpx 20rpx 0;
+
 	}
-	.uni-flex {
-		margin: 15rpx 20rpx;
-		padding: 20rpx;
-		background-color: #FFFFFF;
+
+	.my-collapse {
+		border-color: #6A988C;
+		border-width: 1rpx;
+		margin-bottom: 20rpx;
 		border-radius: 10rpx;
+		color: #666666;
+	}
+
+	.coll-content {
+		padding: 10rpx;
+		border-color: #22BB69;
+		border-top-width: 1rpx;
+	}
+
+	.uni-row {
+		justify-content: space-between;
+		border-bottom-width: 1rpx;
+		border-color: #DADADA;
+	}
+
+	.cell-col {
+		flex: 1;
+		justify-content: center;
+		padding: 10rpx 5rpx;
+	}
+
+	.col-v {
+		text-align: center;
+		font-size: 30rpx;
+		line-height: 50rpx;
+		color: #7E7E7E;
 	}
 
 	.image {
@@ -222,13 +366,15 @@
 		align-items: center;
 		justify-content: center;
 	}
-	.blue{
+
+	.blue {
 		background-color: #2F81F1;
 	}
-	.red{
+
+	.red {
 		background-color: #F77777;
 	}
-	
+
 	.info {
 		flex: 1;
 		padding-left: 40rpx;
@@ -248,33 +394,37 @@
 		margin-bottom: 20rpx;
 		flex-direction: row;
 	}
-	.desc-item{
+
+	.desc-item {
 		flex-direction: row;
 		margin-right: 30rpx;
 		justify-content: center;
 		align-items: center;
 	}
-	.desc-ico{
+
+	.desc-ico {
 		width: 30rpx;
 		height: 30rpx;
 	}
+
 	.status {
 		color: #acacac;
 		font-size: 30rpx;
 	}
+
 	.refresh {
 		width: 750upx;
 		height: 64px;
 		justify-content: center;
 	}
-	
+
 	.refresh-view {
 		flex-direction: row;
 		flex-wrap: nowrap;
 		align-items: center;
 		justify-content: center;
 	}
-	
+
 	.refresh-icon {
 		width: 30px;
 		height: 30px;
@@ -283,24 +433,24 @@
 		transform: rotate(0deg);
 		transform-origin: 15px 15px;
 	}
-	
+
 	.refresh-icon-active {
 		transform: rotate(180deg);
 	}
-	
+
 	.loading-icon {
 		width: 20px;
 		height: 20px;
 		margin-right: 5px;
 		color: #999999;
 	}
-	
+
 	.loading-text {
 		margin-left: 2px;
 		font-size: 16px;
 		color: #999999;
 	}
-	
+
 	.loading-more {
 		align-items: center;
 		justify-content: center;
@@ -309,10 +459,9 @@
 		text-align: center;
 		background-color: rgba(0, 0, 0, 0)
 	}
-	
+
 	.loadmore-text {
 		font-size: 28rpx;
 		color: #C8C7CC;
 	}
-	
 </style>

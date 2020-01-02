@@ -93,7 +93,7 @@ const user = {
 					commit('SET_NAME', user.username);
 					commit('SET_NICKNAME', user.nickname);
 					commit('SET_AVATAR', user.avatar);
-					commit('SET_PHONE', user.mobile);
+					commit('SET_PHONE', user.phone);
 					commit('SET_HasLogin', true);
 					resolve(response)
 				}).catch(error => {
