@@ -18,7 +18,7 @@
 			</view>
 		</view>
 		<view class="main">
-			<view class="btns">
+			<view class="btns" style="display: none;">
 				<view class="btn" >
 					<image class="btn-icon" src="/static/images/home/btn1.png" mode="aspectFit"></image>
 					<text class="btn-label">设备分布</text>
