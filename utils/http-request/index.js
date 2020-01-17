@@ -54,7 +54,7 @@ http.setConfig((config) => { /* 设置全局配置 */
 	}
 	// uEnvProd
 	if (process.env.NODE_ENV === 'production') {
-		config.baseUrl = 'http://101.200.33.135/api/v1' /* 根域名不同 */
+		config.baseUrl = 'http://gjjc.hlwhw.com/api/v1' /* 根域名不同 */
 	}
 
 	config.header = {

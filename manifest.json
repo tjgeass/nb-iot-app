@@ -89,9 +89,9 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/splash/480x762.png",
-                    "xhdpi" : "unpackage/res/splash/720x1242.png",
-                    "xxhdpi" : "unpackage/res/splash/1080x1882.png"
+                    "hdpi" : "E:/引导页1080x1882.png",
+                    "xhdpi" : "E:/引导页1080x1882.png",
+                    "xxhdpi" : "E:/引导页1080x1882.png"
                 }
             }
         },
