@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<image src="/static/images/login/top.png" style="width:187rpx ; height: 187rpx; margin: 200rpx auto 10rpx;"></image>
-		<text style="margin: 10rpx auto;color: #d2d2d2;">欢迎使用中创智能箱</text>
+		<text style="margin: 10rpx auto;color: #d2d2d2;">欢迎使用智能监测</text>
 		<form :model="loginForm" class="login-form">
 			<view class="input-group">
 				<view class="input-row border">

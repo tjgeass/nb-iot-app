@@ -108,6 +108,8 @@
 					name: '设备',
 					address: '无',
 					status: "正常",
+					newData:{},
+					type:{}
 				},
 				construction: {},
 				lists: [],
@@ -137,21 +139,17 @@
 			var query = {
 				expand: "construction",
 				dev_id: option.dev_id,
-				XDEBUG_SESSION_START: 19945
-			};
+				};
 			this.$store
 				.dispatch("GetDeviceInfo", query)
 				.then(response => {
 					//this.loading = false;
 					this.device = response.item;
 					this.construction = response.construction;
-					console.log(this.device);
 				})
 				.catch(() => {
 					//this.loading = false;
 				});
-
-
 		},
 		methods: {
 			clickData(dev_id) {

@@ -6,7 +6,7 @@
 					<image class="uni-media-list-logo me-list-logo" :src="avatar"></image>
 					<view class="uni-media-list-body me-list-body">
 						<view class="uni-media-list-text-top me-list-text">{{username}}</view>
-						<view class="uni-media-list-text-bottom uni-ellipsis me-list-bottom">{{phone}}</view>
+						<view class="uni-media-list-text-bottom uni-ellipsis me-list-bottom">{{mobile}}</view>
 					</view>
 				</view>
 			</view>

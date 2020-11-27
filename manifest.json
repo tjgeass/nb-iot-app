@@ -56,7 +56,8 @@
                         "appkey_android" : "8e6808c1de6746cd5b362067aac618c8"
                     }
                 },
-                "geolocation" : {}
+                "geolocation" : {},
+                "ad" : {}
             },
             // 屏幕方向 需要云打包/本地打包/自定义基座生效
             "orientation" : [

@@ -171,7 +171,7 @@
 		"current": 0, //当前激活的模式（list 的索引项）
 		"list": [{
 			"name": "index",
-			"path": "pages/tabBar/device/index",
+			"path": "pages/tabBar/home/index",
 			"query": ""
 		},
 		{
