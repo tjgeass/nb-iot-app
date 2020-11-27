@@ -35,19 +35,19 @@
 			});
 		},
 		onLoad: function(option) {
-			if (this.device) {
+			if(this.device){
 				this.name = this.device.name;
-			} else {
-				this.name = "全部";
+			}else{
+				this.name ="全部";
 			}
 			// 监听 drawer 消息
 			uni.$on('message', (data) => {
-				if (data.device) {
+				if(data.device){
 					this.name = data.device.name;
 					this.dev_id = data.device.dev_id;
-				} else {
-					this.name = "全部";
-					this.dev_id = '';
+				}else{
+					this.name ="全部";
+					this.dev_id= '';
 				}
 			})
 		},
@@ -86,7 +86,7 @@
 		flex: 0.6;
 		font-size: 34rpx;
 		text-align: center;
-		color: #FFFFFF;
+		color: #DD524D;
 		line-height: 40rpx;
 	}
 

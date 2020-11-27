@@ -14,7 +14,7 @@
 				<text class="text2">良好的定期体检习惯，会让文物遗址的健康状态持续时间更久</text>
 			</view>
 			<view class="header-btn">
-				<button class="btn">智能检测</button>
+				<button class="btn"  @click="$dianji(clickMap)">大数据平台</button>
 			</view>
 		</view>
 		<view class="main">
@@ -71,15 +71,22 @@
 				followList: [],
 				score: 100,
 				gaugeWidth: 15,
+				noClick:true,
 
 			};
 		},
 		onLoad() {
+			plus.screen.lockOrientation('portrait-primary'); //锁定
 			if (this.token) {
 				this.fetchData();
 			}
 			//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
 
+		},
+		onShow() {
+			plus.screen.lockOrientation('portrait-primary'); //锁定
+			plus.navigator.setFullscreen(false); //取消全屏
+			
 		},
 		methods: {
 			/**
@@ -117,6 +124,9 @@
 			clickMap: function() {
 				uni.navigateTo({
 					url: '/pages/tabBar/home/map',
+					delta: 1,
+					animationType: 'zoom-out',
+					animationDuration: 100
 				});
 			},
 			/**

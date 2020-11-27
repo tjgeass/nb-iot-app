@@ -68,7 +68,7 @@
 									<text class="col-v">无</text>
 								</view>
 							</view>
-							<view v-if="device.newData.perc" class="uni-row">
+							<view v-if="device.type.isPerc" class="uni-row">
 								<view class="cell-col">
 									<text class="col-v">裂隙:</text>
 								</view>
@@ -123,7 +123,7 @@
 									<text class="col-v">{{device.initial_data.gyro_1}}</text>
 								</view>
 							</view>
-							<view v-if="device.type.isGyro"  class="uni-row">
+							<view v-if="device.type.isGyro" class="uni-row">
 								<view class="cell-col">
 									<text class="col-v">Z轴:</text>
 								</view>
@@ -164,7 +164,7 @@
 			return {
 				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
 				lists: [],
-				pageSize: 5,
+				pageSize: 10,
 				pageIndex: 1,
 				pageCount: 0,
 				isLoading: false,

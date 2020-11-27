@@ -9,7 +9,8 @@
         /* 5+App特有相关 */
         "modules" : {
             "Push" : {},
-            "Maps" : {}
+            "Maps" : {},
+            "Webview-x5" : {}
         },
         /* 模块配置 */
         "distribute" : {
@@ -41,7 +42,8 @@
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
             },
             "ios" : {
                 "idfa" : true
@@ -53,8 +55,16 @@
                         "appkey_ios" : "8e6808c1de6746cd5b362067aac618c8",
                         "appkey_android" : "8e6808c1de6746cd5b362067aac618c8"
                     }
-                }
+                },
+                "geolocation" : {}
             },
+            // 屏幕方向 需要云打包/本地打包/自定义基座生效
+            "orientation" : [
+                "portrait-primary",
+                "landscape-primary",
+                "portrait-secondary",
+                "landscape-secondary"
+            ],
             "icons" : {
                 "android" : {
                     "hdpi" : "unpackage/res/icons/72x72.png",
@@ -92,7 +102,8 @@
                     "hdpi" : "E:/引导页1080x1882.png",
                     "xhdpi" : "E:/引导页1080x1882.png",
                     "xxhdpi" : "E:/引导页1080x1882.png"
-                }
+                },
+                "androidStyle" : "common"
             }
         },
         "nvueCompiler" : "uni-app",

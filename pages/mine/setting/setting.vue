@@ -1,7 +1,7 @@
 <template>
 	<view class="content" >
 		<view class="uni-list">
-			<view class="uni-list-cell" hover-class="uni-list-cell-hover" @tap="bindReg">
+			<view class="uni-list-cell" style="display: none;" hover-class="uni-list-cell-hover" @tap="bindReg">
 				<view class="uni-list-cell-navigate uni-navigate-right uni-navigate-badge">
 					修改密码
 					<text class="me-list-text"></text>

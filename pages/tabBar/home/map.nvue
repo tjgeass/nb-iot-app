@@ -1,304 +1,65 @@
 <template>
 	<view class="container">
-		<map id="maps" class="map" :latitude="latitude" :longitude="longitude" :markers="covers" :include-points="includePoints"
-		 :controls="controls" :show-compass="showCompass" :show-location="showLocation" @markertap="marker" :scale="scale" @controltap="clickControl">
-			<cover-view class="map-top uni-row">
-				<view class="uni-row " style="align-items:center ;">
-					<image src="/static/images/line.png" style="width:8rpx; height: 50rpx;margin-right: 15rpx;" mode="aspectFit"></image>
-					<text class="j-name">项目名称:{{project.name|'中创文保'}}</text>
-				</view>
-				<text class="j-name">设备数量:{{project.d_num|0}}</text>
-			</cover-view>
+		<web-view class="webview" :webview-styles="webviewStyles" :src="webUrl">
 
-			<cover-view class="card uni-column" v-if="item">
-				<view class="card-top uni-row">
-					<view class="card-title">
-						<text class="name">设备{{item.name}}</text>
-						<text class="addr">{{item.address}}</text>
-						<text class="time">上传时间:{{item.updated_at}}</text>
-					</view>
-					<view class="card-btn uni-row">
-						<view class="btn btn1" @tap="clickDevice()">
-							<cover-image style="width: 46rpx; height: 46rpx;" src="/static/images/btn1.png"></cover-image>
-							<text class="uni-h5">实时数据</text>
-						</view>
-						<view class="btn btn2" @tap="clickErrMessage()">
-							<cover-image style="width: 46rpx; height: 46rpx;" src="/static/images/btn2.png"></cover-image>
-							<text class="uni-h5">报警记录</text>
-						</view>
-					</view>
-				</view>
-				<view class="card-bottom uni-row">
-					<view class="bottom-col">
-						<text class="col-title">温度</text>
-						<text class="col-v">{{item.temperature||'N/A'}}℃</text>
-					</view>
-					<view class="bottom-col">
-						<text class="col-title">湿度</text>
-						<text class="col-v">{{item.humidity||'N/A'}}%RH</text>
-					</view>
-					<view class="bottom-col">
-						<text class="col-title">锁具</text>
-						<text class="col-v">{{item.lock == 1 ? '开启':'关闭'}}</text>
-					</view>
-					<view class="bottom-col">
-						<text class="col-title">电量</text>
-						<text class="col-v">{{item.battery||'N/A'}}%</text>
-					</view>
-					<view class="bottom-col">
-						<text class="col-title">震动</text>
-						<text class="col-v">{{item.vibration||'无'}}</text>
-					</view>
-				</view>
-			</cover-view>
-
-		</map>
+		</web-view>
+		<div class="close">
+			<uni-icons type="back" size="30" color="white" @tap="back()"></uni-icons>
+		</div>
 	</view>
-</template>d_num
+</template>
 
 <script>
 	import {
 		mapGetters
 	} from "vuex";
+	import uniIcons from "@/components/uni-icons/uni-icons.vue"
+
 	export default {
+		components: {
+			uniIcons
+		},
 		computed: {
-			...mapGetters(['project']),
+			...mapGetters(["hasLogin", "token", "username"]),
+			webUrl:function (){
+				return this.url+this.token;
+			}
 		},
 		data() {
 			return {
-				showCompass:true,
-				showLocation:true,
-				scale: 5,
-				address: "正在获取地址...",
-				inputShowed: false,
-				inputVal: "",
-				amapPlugin: null,
-				key: "ba4b1b44e808bdd37a9b764089767601",
-				latitude: 30.745004611546,
-				longitude: 103.97879367404,
-				covers: [],
-				includePoints: [],
-				item: false,
-				scrollH: 256,
-				lists: [],
-				mapCtx: null,
-				mapObj: null,
-				controls: [{
-						id: 0,
-						position: {
-							left: 15,
-							top: 350,
-							width: 25,
-							height: 25
-						},
-						iconPath: '/static/images/maps/loc.png',
-						clickable: true
-					}, {
-						id: 1,
-						position: {
-							left: 15,
-							top: 390,
-							width: 25,
-							height: 25
-						},
-						iconPath: '/static/images/maps/up.png',
-						clickable: true
+				webviewStyles: {
+					progress: {
+						color: '#FF3333'
 					},
-					{
-						id: 2,
-						position: {
-							left: 15,
-							top: 420,
-							width: 25,
-							height: 25
-						},
-						iconPath: '/static/images/maps/down.png',
-						clickable: true
-					},
-					{
-						id: 3,
-						position: {
-							left: 15,
-							top: 460,
-							width: 25,
-							height: 25
-						},
-						iconPath: '/static/images/maps/min.png',
-						clickable: true
-					}
-				],
+
+				},
+				url: "http://datav.gjjc.hlwhw.com/#/token/"
 			}
 		},
 		filters: {
 
 		},
-		onLoad(options) {
-			//this.currentLocation();
-			setTimeout(() => {
-				this.getMarketsData();
-			}, 150);
+		onShow() {
+			plus.screen.lockOrientation('landscape-primary'); //锁定
+			plus.navigator.setFullscreen(true); //全屏
 		},
-		onReady() {
-
+		onLoad(options) {
+			
+			//this.currentLocation();
+		},
+		
+		onReady() {},
+		onUnload(){
+			plus.screen.lockOrientation('portrait-primary'); //锁定
 		},
 		methods: {
-			updateMap() {
+			back() {
+				uni.navigateBack({
+					delta: 1,
+					animationType: 'zoom-in',
+					animationDuration: 200
+				});
 
-			},
-			clickControl(e) {
-				var _this = this;
-				let controlId = e.detail.controlId;
-				if (controlId == 0) {
-					this.currentLocation();
-				} else if (controlId == 1 && _this.scale < 18) {
-					_this.scale = _this.scale + 1
-				} else if (controlId == 2 && _this.scale > 5) {
-					_this.scale = _this.scale - 1
-				} else if (controlId == 3) {
-					_this.scale = 5;
-				}
-			},
-			clickDevice: function() {
-				uni.navigateTo({
-					url: '/pages/device/info?dev_id=' + this.item.dev_id,
-				});
-			},
-			clickErrMessage: function() {
-				var that = this;
-				this.$store.commit("SET_DEVICE", that.item);
-				uni.switchTab({
-					url: '/pages/tabBar/message/index',
-					success: function() {
-						uni.$emit('message', {
-							device: that.item,
-							tab_index: 1
-						});
-					}
-				});
-			},
-			currentLocation() {
-				//当前位置
-				const _this = this;
-				uni.getLocation({
-					type: 'gcj02',
-					success(res) {
-						_this.longitude = Number(res.longitude);
-						_this.latitude = Number(res.latitude);
-						//that.getAddress(res.longitude, res.latitude);
-					}
-				});
-			},
-			getMarketsData() {
-				const that = this;
-				uni.showLoading({
-					title: "加载中..."
-				});
-				this.$store
-					.dispatch("GetDevices", {
-						num: false
-					})
-					.then(response => {
-						//this.loading = false;
-						that.lists = response.items;
-						that.addMarkets();
-						uni.hideLoading();
-					})
-					.catch((e) => {
-						console.log(e);
-						//this.loading = false;
-						uni.hideLoading();
-					});
-			},
-			addMarkets() {
-				//检索周边的POI
-				const that = this;
-				var data = this.lists;
-				let arr = [];
-				for (let i = 0; i < data.length; i++) {
-					arr.push({
-						id: i,
-						latitude: Number(data[i].latitude),
-						longitude: Number(data[i].longitude),
-						title: data[i].name,
-						iconPath: this.ico(data[i].status),
-						width: 25,
-						height: 25,
-						label: {
-							content: data[i].name,
-							x: 120,
-							y: 50,
-							bgColor: "rgba(0,0,0,0)"
-						},
-					});
-				}
-				that.latitude = arr[0].latitude;
-				that.longitude = arr[0].longitude;
-				//this.getAddress(that.longitude,that.latitude);
-				//this.item = this.lists[0];
-				this.covers = arr;
-				this.includePoints = arr;
-				this.currentLocation();
-				uni.hideLoading();
-			},
-			marker(e) {
-				var that = this;
-				const item = this.covers[e.detail.markerId || 0];
-				//this.covers[e.detail.markerId].iconPath = "/static/images/maps/box2x.png";
-				this.longitude = Number(item.longitude);
-				this.latitude = Number(item.latitude);
-				this.item = this.lists[e.detail.markerId || 0];
-				//this.getAddress(this.longitude,this.latitude)
-			},
-			ico(num) {
-				switch (num) {
-					case 1:
-						return '/static/images/maps/box1.png';
-						break;
-					case 2:
-						return '/static/images/maps/box2.png';
-						break;
-					case 0:
-						return '/static/images/maps/box0.png';
-						break;
-				}
-			},
-			/**
-			 * @param {Object} lng
-			 * @param {Object} lat
-			 */
-			getAddress: function(lng, lat) {
-				//根据经纬度获取地址信息
-				this.amapPlugin.getRegeo({
-					location: lng + "," + lat,
-					success: (res) => {
-						this.address = res[0].desc;
-					},
-					fail: (res) => {
-						this.address = "获取位置信息失败"
-					}
-				})
-			},
-			/**
-			 * @param {Object} e
-			 */
-			regionChange(e) {
-				// 地图发生变化的时候，获取中间点，也就是cover-image指定的位置
-				if (e.type == 'end') {
-					if (!this.mapCtx) {
-						this.mapCtx = uni.createMapContext("maps", this);
-					}
-					this.mapCtx.getCenterLocation({
-						type: 'gcj02',
-						success: (res) => {
-							//console.log(res)
-							this.latitude = res.latitude;
-							this.longitude = res.longitude;
-						}
-					})
-				}
-			},
-			clickTT($event) {
-				console.log($event);
 			}
 		}
 	}
@@ -307,6 +68,25 @@
 <style lang="scss">
 	.container {
 		flex: 1;
+		background-color: #3C3E49;
+		position: relative;
+	}
+
+	.webview {
+		display: flex;
+		flex: 1;
+	}
+
+	.close {
+		position: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		left: 0;
+		top: 0;
+		width: 50px;
+		height: 80px;
+		z-index: 99999;
 	}
 
 	.map {

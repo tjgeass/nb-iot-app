@@ -6,7 +6,7 @@
 		</view>
 		<view class="address-box" @tap="clickMap(device.dev_id)">
 			<image style="width: 25rpx;height: 29rpx;" src="/static/images/address.png" mode="aspectFit"></image>
-			<text class="address">{{construction.name}}</text>
+			<text class="address">{{device.construction + '-' + device.desc}}</text>
 		</view>
 		<view class="info-box">
 			<view class="flex-item-2 uni-bg-green">
@@ -73,8 +73,8 @@
 				</view>
 				<view class="bottom-col">
 					<text class="w-iconfont icon-dianliang icon-item"></text>
-					<text class="col-title">电压</text>
-					<text class="col-v">{{device.newData.volt/10||'N/A'}}V</text>
+					<text class="col-title">电量</text>
+					<text class="col-v">{{device.newData.volt||'N/A'}}%</text>
 				</view>
 				<view class="bottom-col">
 					<text class="w-iconfont icon-qiya icon-item"></text>

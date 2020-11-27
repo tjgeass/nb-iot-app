@@ -343,6 +343,7 @@
 		justify-content: center;
 		height: 100rpx;
 		line-height: 100rpx;
+		background-color: #FFFFFF;
 		border-bottom-color: #E9E9E9;
 		border-bottom-width: 2rpx;
 		border-bottom-style: solid;

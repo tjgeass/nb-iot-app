@@ -12,6 +12,8 @@ Object.keys(filters).forEach(key => {
 //Vue.use(MintUI);
 
 import store from './store'
+import { dianji } from './common/common'
+Vue.prototype.$dianji = dianji;
 
 Vue.config.productionTip = false;
 

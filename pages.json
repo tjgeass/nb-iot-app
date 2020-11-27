@@ -11,6 +11,12 @@
 			}
 		},
 		{
+			"path": "pages/tabBar/device/index",
+			"style": {
+				"navigationBarTitleText": "设备列表"
+			}
+		},
+		{
 			"path": "pages/tabBar/message/index",
 			"style": {
 				"navigationBarTitleText": "信息"
@@ -38,8 +44,7 @@
 			"style": {
 				"navigationBarTitleText": "地图定位",
 				"app-plus": {
-					"animationType": "zoom-fade-out",
-					"animationDuration": 300
+					"titleNView": false
 				}
 			}
 		},
@@ -49,12 +54,7 @@
 				"navigationBarTitleText": "个人信息"
 			}
 		},
-		{
-			"path": "pages/tabBar/device/index",
-			"style": {
-				"navigationBarTitleText": "设备列表"
-			}
-		},
+
 		{
 			"path": "pages/device/info",
 			"style": {
@@ -171,7 +171,7 @@
 		"current": 0, //当前激活的模式（list 的索引项）
 		"list": [{
 			"name": "index",
-			"path": "pages/tabBar/home/index",
+			"path": "pages/tabBar/device/index",
 			"query": ""
 		},
 		{
