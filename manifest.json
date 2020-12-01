@@ -8,9 +8,7 @@
     "app-plus" : {
         /* 5+App特有相关 */
         "modules" : {
-            "Push" : {},
-            "Maps" : {},
-            "Webview-x5" : {}
+            "Maps" : {}
         },
         /* 模块配置 */
         "distribute" : {

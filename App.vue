@@ -7,6 +7,20 @@
 			...mapGetters(["hasLogin","hasSkip","token", "username"]),
 		},
 		onLaunch: function () {
+			if (!this.token) {
+				uni.reLaunch({ // 关闭所有页面进行跳转
+					url: 'pages/denglu/login/login'
+				});
+				return;
+			}else{
+				this.$store
+					.dispatch("GetInfo")
+					.then(response => {
+						console.log('获取用户信息');
+					})
+				.catch(err => {
+				});
+			}
 			// #ifdef APP-PLUS
 			plus.screen.lockOrientation('portrait-primary'); //锁定
 			//生产环境热更新
@@ -40,20 +54,7 @@
 			};
 			// #endif
 
-			if (!this.token) {
-				uni.reLaunch({ // 关闭所有页面进行跳转
-					url: 'pages/denglu/login/login'
-				});
-				return;
-			}else{
-				this.$store
-					.dispatch("GetInfo")
-					.then(response => {
-						console.log('获取用户信息');
-					})
-				.catch(err => {
-				});
-			}
+			
 		},
 		onShow: function () {
 			console.log('App Show');

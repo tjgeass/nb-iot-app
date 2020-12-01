@@ -10,7 +10,7 @@
 			</refresh>
 			<cell :key="device.dev_id" v-for="(device, index) in lists" class="item-cell">
 				<uni-collapse class="my-collapse">
-					<uni-collapse-item :title="device.name" :date="device.newData.uplink_at" :animation="true" thumb="/static/images/home/btn1.png"
+					<uni-collapse-item :title="device.name" :date="device.newData.uplink_at" :animation="true"   thumb="/static/images/home/btn1.png"
 					 :open="index==0">
 						<view class="coll-content">
 							<view class="uni-row">
@@ -322,14 +322,16 @@
 	.container {
 		flex: 1;
 		background-color: #F2F2F2;
-		padding: 20rpx 20rpx 0;
+		padding: 0 20rpx;
 
 	}
-
+	.item-cell{
+		padding-top: 10rpx;
+	}
 	.my-collapse {
 		border-color: #6A988C;
 		border-width: 1rpx;
-		margin-bottom: 20rpx;
+		margin-bottom: 10rpx;
 		border-radius: 10rpx;
 		color: #666666;
 	}
@@ -344,8 +346,10 @@
 		justify-content: space-between;
 		border-bottom-width: 1rpx;
 		border-color: #DADADA;
+		
 	}
-
+	.collapse-item{
+	}
 	.cell-col {
 		flex: 1;
 		justify-content: center;

@@ -13,13 +13,27 @@
 		{
 			"path": "pages/tabBar/device/index",
 			"style": {
-				"navigationBarTitleText": "设备列表"
+				"navigationBarTitleText": "设备列表",
+				"app-plus": {
+					"titleNView":{
+						"type":"default",
+						"titleSize": "30rpx"
+					}
+					
+				}
 			}
 		},
 		{
 			"path": "pages/tabBar/message/index",
 			"style": {
-				"navigationBarTitleText": "信息"
+				"navigationBarTitleText": "信息",
+				"app-plus": {
+					"titleNView":{
+						"type":"default",
+						"titleSize": "30rpx"
+					}
+					
+				}
 			}
 		},
 		{
@@ -51,7 +65,14 @@
 		{
 			"path": "pages/tabBar/mine/mine",
 			"style": {
-				"navigationBarTitleText": "个人信息"
+				"navigationBarTitleText": "个人信息",
+				"app-plus": {
+					"titleNView":{
+						"type":"default",
+						"titleSize": "30rpx"
+					}
+					
+				}
 			}
 		},
 

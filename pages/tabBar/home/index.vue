@@ -203,9 +203,8 @@
 		background-color: linear-gradient(to bottom, #22bb69 50%,#FFFFFF 50%);
 		background-position: bottom;
 		background-size: cover;
-		padding-top: 150rpx;
+		padding-top: 100rpx;
 		width: 750rpx;
-		height: 890rpx;
 		display: flex;
 		flex-direction: column;
 	}

@@ -2,7 +2,7 @@
 	<view :class="{ 'uni-collapse-cell--disabled': disabled,'uni-collapse-cell--notdisabled': !disabled, 'uni-collapse-cell--open': isOpen,'uni-collapse-cell--hide':!isOpen }"
 	 class="uni-collapse-cell" hover-class="no" >
 		<view class="uni-collapse-cell__title" @click="onClick" hover-class="no">
-			<image v-if="thumb" :src="thumb" class="uni-collapse-cell__title-img" />
+			<image v-if="thumb" :src="thumb" mode="heightFix" class="uni-collapse-cell__title-img" />
 			<text class="uni-collapse-cell__title-text">{{ title }}</text>
 			<text class="uni-collapse-cell__title-date">{{ date }}</text>
 			<!-- #ifdef MP-ALIPAY -->
@@ -142,7 +142,7 @@
 
 
 	.uni-collapse-cell--hide {
-		height: 48px;
+		height: 60rpx;
 	}
 
 	.uni-collapse-cell--animation {
@@ -153,15 +153,15 @@
 	}
 
 	.uni-collapse-cell__title {
-		padding: 12px 12px;
+		padding: 10rpx 10rpx;
 		position: relative;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		width: 100%;
 		box-sizing: border-box;
 		/* #endif */
-		height: 48px;
-		line-height: 24px;
+		height: 60rpx;
+		line-height: 48rpx;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
