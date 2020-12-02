@@ -3,7 +3,7 @@
 		<scroll-view id="tab-bar" class="uni-row scroll-h" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
 			<view v-for="(item,index) in tabBars" :key="index" class="uni-tab-item" :class="tabIndex==index ? 'uni-tab-item-active' : ''"
 			 :data-current="index" @click="ontabtap">
-				<view class="uni-icon uni-icon-list" style="font-size: 24px;"></view>
+				<view class="uni-icon uni-icon-list" style="font-size: 24rpx;"></view>
 				<text class="uni-tab-item-title">{{item.name}}</text>
 			</view>
 		</scroll-view>
@@ -166,7 +166,7 @@
 			clickAlready(id){
 				var _self = this;
 				let IDs = [id];
-				this.$store.dispatch("UpdateDeviceMessage", IDs).then(response => {
+				this.$store.dispatch("UpdateDeviceMessage", IDs).then((response) => {
 					uni.showToast({
 						 title: '标记成功!',
 					})
@@ -378,8 +378,8 @@
 	}
 	
 	.refresh {
-		width: 750upx;
-		height: 64px;
+		width: 750rpx;
+		height: 64rpx;
 		justify-content: center;
 	}
 
