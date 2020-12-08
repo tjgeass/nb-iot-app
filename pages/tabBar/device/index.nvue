@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<list @loadmore="loadMore" loadmoreoffset="20" :show-scrollbar="false">
+		<list @loadmore="loadMore" @scroll="scroll" loadmoreoffset="20" :show-scrollbar="true" fixFreezing="true">
 			<refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="this.refreshing  ? 'show' : 'hide'">
 				<div class="refresh-view">
 					<image class="refresh-icon" :src="refreshIcon" :style="{width: (this.refreshing || pulling) ? 0: '30px'}" :class="{'refresh-icon-active': this.refreshFlag}"></image>
@@ -10,7 +10,7 @@
 			</refresh>
 			<cell :key="device.dev_id" v-for="(device, index) in lists" class="item-cell">
 				<uni-collapse class="my-collapse">
-					<uni-collapse-item :title="device.name" :date="device.newData.uplink_at" :animation="true"   thumb="/static/images/home/btn1.png"
+					<uni-collapse-item :title="device.name" :date="device.newData.uplink_at" :animation="true" thumb="/static/images/home/btn1.png"
 					 :open="index==0">
 						<view class="coll-content">
 							<view class="uni-row">
@@ -143,9 +143,9 @@
 					</uni-collapse-item>
 				</uni-collapse>
 			</cell>
-			<header class="loading-more">
+			<loading @loading="onloading" :display="loadinging ? 'show' : 'hide'" class="loading-more">
 				<text class="loadmore-text">{{this.loadingText}}</text>
-			</header>
+			</loading>
 		</list>
 	</view>
 
@@ -170,7 +170,8 @@
 				isLoading: false,
 				refreshing: false,
 				refreshText: "",
-				loadingText: '加载更多...'
+				loadingText: '加载更多...',
+				loadinging: false
 			}
 		},
 		filters: {
@@ -237,6 +238,8 @@
 				this.$store
 					.dispatch("GetDevices", query)
 					.then(response => {
+						console.log(this.pageIndex);
+
 						//this.loading = false;
 						if (response.items.length == 0) {
 							this.loadingText = "无数据";
@@ -251,7 +254,7 @@
 							this.pageIndex = response._meta.currentPage + 1;
 						} else {
 							this.loadingText = "没有更多数据";
-							return;
+							return
 						}
 					})
 					.catch(() => {
@@ -309,11 +312,19 @@
 			 * 上滑加载更多
 			 */
 			loadMore() {
+				console.log("上滑加载更多");
 				this.loadingText = "正在加载";
 				setTimeout(() => {
 					this.fetchData();
-				}, 100)
+				}, 50)
 			},
+			onloading(event) {
+				this.loadinging = true
+				setTimeout(() => {
+					this.loadinging = false
+				}, 1000)
+			},
+			scroll() {}
 		}
 	}
 </script>
@@ -325,9 +336,11 @@
 		padding: 0 20rpx;
 
 	}
-	.item-cell{
+
+	.item-cell {
 		padding-top: 10rpx;
 	}
+
 	.my-collapse {
 		border-color: #6A988C;
 		border-width: 1rpx;
@@ -346,10 +359,11 @@
 		justify-content: space-between;
 		border-bottom-width: 1rpx;
 		border-color: #DADADA;
-		
+
 	}
-	.collapse-item{
-	}
+
+	.collapse-item {}
+
 	.cell-col {
 		flex: 1;
 		justify-content: center;
@@ -456,6 +470,8 @@
 	}
 
 	.loading-more {
+		display: flex;
+		width: 750rpx;
 		align-items: center;
 		justify-content: center;
 		padding-top: 10px;
