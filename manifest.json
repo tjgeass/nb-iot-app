@@ -1,9 +1,9 @@
 {
-    "name" : "古建监测",
+    "name" : "智能监测",
     "appid" : "__UNI__AAC8BB1",
-    "description" : "古建监测",
-    "versionName" : "1.0.1",
-    "versionCode" : 101,
+    "description" : "智能监测",
+    "versionName" : "1.0.2",
+    "versionCode" : 102,
     "transformPx" : false,
     "app-plus" : {
         /* 5+App特有相关 */
@@ -44,7 +44,12 @@
                 "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
             },
             "ios" : {
-                "idfa" : true
+                "idfa" : true,
+                "privacyDescription" : {
+                    "NSPhotoLibraryUsageDescription" : "该应用需要读取你的相册，以便你编辑个人信息及a头像",
+                    "NSCameraUsageDescription" : "该应用需要你的相机，以便你扫描设备二维码查看设备信息",
+                    "NSRemindersUsageDescription" : "为了更好的体验，后面请同意授权选项"
+                }
             },
             /* ios打包配置 */
             "sdkConfigs" : {

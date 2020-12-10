@@ -17,7 +17,7 @@
 				<view class="uni-media-list uni-list-cell-navigate uni-navigate-right">
 					<image class="uni-media-list-logo" src="../../../static/saoyisao.png"></image>
 					<view class="uni-media-list-body me-list-body">
-						<view class="uni-media-list-text-top me-list-setting">扫一扫</view>
+						<view class="uni-media-list-text-top me-list-setting">扫描设备</view>
 					</view>
 				</view> 
 			</view>

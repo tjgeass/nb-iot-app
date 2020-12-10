@@ -5,7 +5,7 @@
 				<image style="width: 100%;" :src="avatar" @tap="bindChange" mode="aspectFit" />
 			</view>
 			<view style="width: 100%; text-align: center;">
-				<text>点击图片修改</text>
+				<text>点击头像修改</text>
 			</view>
 		</view>
 		
