@@ -80,7 +80,18 @@ const user = {
 				})
 			})
 		},
-
+		// 登录
+		ScanLogin({
+			commit
+		}, data) {
+			return new Promise((resolve, reject) => {
+				http.post('/user/scan-login', data).then(response => {
+					resolve()
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
 		// 获取用户信息
 		GetInfo({
 			commit,
