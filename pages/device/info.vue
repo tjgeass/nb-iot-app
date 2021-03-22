@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="uni-row uni-jc">
 			<text class="title">名称:{{device.name}}</text>
-			<text class="date">上报时间:{{device.updated_at}}</text>
+			<text class="date">上报时间:{{device.newData.uplink_at}}</text>
 		</view>
 		<view class="address-box" @tap="clickMap(device.dev_id)">
 			<image style="width: 25rpx;height: 29rpx;" src="/static/images/address.png" mode="aspectFit"></image>
@@ -171,6 +171,7 @@
 				});
 			},
 			clickMap(dev_id) {
+				return;
 				uni.navigateTo({
 					url: '/pages/device/data?tabIndex=2&dev_id=' + dev_id,
 				});

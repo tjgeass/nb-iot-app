@@ -15,11 +15,11 @@
 			"style": {
 				"navigationBarTitleText": "设备列表",
 				"app-plus": {
-					"titleNView":{
-						"type":"default",
+					"titleNView": {
+						"type": "default",
 						"titleSize": "30rpx"
 					}
-					
+
 				}
 			}
 		},
@@ -28,11 +28,11 @@
 			"style": {
 				"navigationBarTitleText": "信息",
 				"app-plus": {
-					"titleNView":{
-						"type":"default",
+					"titleNView": {
+						"type": "default",
 						"titleSize": "30rpx"
 					}
-					
+
 				}
 			}
 		},
@@ -43,13 +43,13 @@
 			}
 		},
 		{
-		    "path" : "pages/article/view",
-		    "style" : {
+			"path": "pages/article/view",
+			"style": {
 				"navigationBarTitleText": "详情",
 				"app-plus": {
-				    "titleNView": {
-				        "type": "transparent"
-				    }
+					"titleNView": {
+						"type": "transparent"
+					}
 				}
 			}
 		},
@@ -67,11 +67,11 @@
 			"style": {
 				"navigationBarTitleText": "个人信息",
 				"app-plus": {
-					"titleNView":{
-						"type":"default",
+					"titleNView": {
+						"type": "default",
 						"titleSize": "30rpx"
 					}
-					
+
 				}
 			}
 		},
@@ -94,7 +94,7 @@
 			"path": "pages/denglu/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -137,19 +137,25 @@
 				"navigationBarTitleText": "设置"
 			}
 		},
-        {
-            "path" : "pages/about/about",
-            "style" : {
+		{
+			"path": "pages/about/about",
+			"style": {
 				"navigationBarTitleText": "关于中创智能箱"
 			}
-        }
-        ,{
-            "path" : "pages/error/404",
-            "style" : {
+		},
+		{
+			"path": "pages/error/404",
+			"style": {
 				"navigationBarTitleText": "出错了"
 			}
-        }
-    ],
+		},
+		{
+			"path": "pages/mine/scan/scan",
+			"style": {
+				"navigationBarTitleText": "扫码登陆"
+			}
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "遗址检测",
@@ -191,20 +197,21 @@
 		//模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式（list 的索引项）
 		"list": [{
-			"name": "index",
-			"path": "pages/tabBar/home/index",
-			"query": ""
-		},
-		{
-			"name": "login",
-			"path": "pages/denglu/login/login",
-			"query": ""
-		},
-		{
-			"name": "info",
-			"path": "pages/device/info",
-			"query": "dev_id=524427789"
-		}]
+				"name": "index",
+				"path": "pages/tabBar/home/index",
+				"query": ""
+			},
+			{
+				"name": "login",
+				"path": "pages/denglu/login/login",
+				"query": ""
+			},
+			{
+				"name": "info",
+				"path": "pages/device/info",
+				"query": "dev_id=524427789"
+			}
+		]
 	}
-	
+
 }

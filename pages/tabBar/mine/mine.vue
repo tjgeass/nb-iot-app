@@ -19,7 +19,7 @@
 					<view class="uni-media-list-body me-list-body">
 						<view class="uni-media-list-text-top me-list-setting">扫一扫</view>
 					</view>
-				</view> 
+				</view>
 			</view>
 		</view>
 		<!-- #endif -->
@@ -37,35 +37,55 @@
 </template>
 
 <script>
-	import {mapGetters} from 'vuex';
+	import {
+		mapGetters
+	} from 'vuex';
 
 	export default {
 		data() {
-			return {				
-			};
+			return {};
 		},
 		computed: {
-			...mapGetters(['nickname', 'username',"hasLogin", "token","avatar","mobile"]),
+			...mapGetters(['nickname', 'username', "hasLogin", "token", "avatar", "mobile"]),
 		},
-		methods:{
-			bindLogo(){
+		methods: {
+			bindLogo() {
 				uni.navigateTo({
-					url:'../../mine/info/info'
+					url: '../../mine/info/info'
 				});
 			},
-			bindScan(){
+			bindScan() {
 				uni.scanCode({
-					onlyFromCamera: true,
-					success: function (res) {
+					onlyFromCamera: false,
+					success: function(res) {
+						let data = JSON.parse(res.result);
+						if (data.type == 'login') {
+							uni.showToast({
+								title: data.type,
+							})
+							if (parseInt(new Date().getTime() / 1000) > data.expired_at) {
+								uni.showToast({
+									title: '二维码已过期',
+								})
+							} else {
+								uni.navigateTo({
+									url: '/pages/mine/scan/scan?uuid=' + data.uuid
+								});
+							}
+						}
+						
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 						console.log('path内容：' + res.path);
+					},
+					complete: function(res) {
+						console.log('条码类型：' + res);
 					}
 				});
 			},
-			bindSetting(){
+			bindSetting() {
 				uni.navigateTo({
-					url:'../../mine/setting/setting'
+					url: '../../mine/setting/setting'
 				});
 			}
 		}
@@ -73,46 +93,54 @@
 </script>
 
 <style>
-	page{
+	page {
 		background-color: #efeff4;
 	}
-	.me-list{
+
+	.me-list {
 		margin-top: 40rpx;
 	}
-	.uni-list:before{
+
+	.uni-list:before {
 		height: 0rpx;
 	}
+
 	.uni-list:after {
 		height: 0rpx;
 	}
-	.uni-list-cell:after{
+
+	.uni-list-cell:after {
 		height: 0rpx;
 	}
-	.me-list-logo{
+
+	.me-list-logo {
 		width: 120rpx;
 		height: 120rpx;
 		border-radius: 15rpx;
 		margin-right: 30rpx;
 	}
-	.me-list-body{
+
+	.me-list-body {
 		height: 100rpx;
 		display: flex;
 		align-items: center;
 	}
-	.me-list-text{
+
+	.me-list-text {
 		padding-top: 8rpx;
 		font-size: 40rpx;
-		line-height:50rpx;
+		line-height: 50rpx;
 		font-weight: bold;
 	}
-	.me-list-bottom{
+
+	.me-list-bottom {
 		padding-bottom: 8rpx;
 		font-size: 36rpx;
 		line-height: 42rpx;
 	}
-	
-	.me-list-setting{
+
+	.me-list-setting {
 		line-height: 100rpx;
-		
+
 	}
 </style>
