@@ -9,15 +9,15 @@
 		data() {
 			return {
 				loading: false,
-				uuid:null
+				uuid: null
 			};
 		},
 		onLoad: function(option) {
 			var _this = this;
 			this.uuid = option.uuid;
 		},
-		methods:{
-			handleLogin(){
+		methods: {
+			handleLogin() {
 				this.loading = true;
 				var data = {
 					uuid: this.uuid,
@@ -27,15 +27,15 @@
 					.then(response => {
 						//this.loading = false;
 						uni.navigateBack({
-							delta:1
+							delta: 1
 						})
-						if(response.login){
+						if (response.login) {
 							uni.showToast({
-								title:'登录成功' 
+								title: '登录成功'
 							})
-						}else{
+						} else {
 							uni.showToast({
-								title:'登录失败' 
+								title: '登录失败'
 							})
 						}
 					})
@@ -51,7 +51,8 @@
 	button.primary {
 		background-color: #22BB69;
 	}
-.scan-login{
-	padding: 500rpx 50rpx;
-}
+
+	.scan-login {
+		padding: 500rpx 50rpx;
+	}
 </style>
